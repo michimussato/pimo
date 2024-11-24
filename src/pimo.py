@@ -5,7 +5,7 @@ import pathlib
 import os
 import time
 import random
-import datetime
+# import datetime
 from PIL import Image
 import logging
 
@@ -164,10 +164,10 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
 
-    if any([sc == args.sub_command for sc in ["compress", "c"]]):
-        pass
-    elif any([sc == args.sub_command for sc in ["extract", "e"]]):
-        pass
+    # if any([sc == args.sub_command for sc in ["compress", "c"]]):
+    #     pass
+    # elif any([sc == args.sub_command for sc in ["extract", "e"]]):
+    #     pass
 
     set_pimo()
 

@@ -9,13 +9,15 @@ authors = [
 maintainers = [
     {name = "Michael Mussato", email = "michimussato@gmail.com"},
 ]
-description = "Create/Extract encrypted zip"
+description = "TBD"
 readme = "README.md"
 name = "pimo"
 dynamic = ["version"]
 requires-python = ">= 3.9"
 dependencies = [
     "pillow",
+    "pillow-lut",
+    "inky[rpi,example-depends]"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
