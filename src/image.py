@@ -26,7 +26,7 @@ SATURATION = 0.0
 SHOW_PATH = False
 
 FORCE_ORIENTATION = True
-ORIENTATION = ['portrait', 'landscape', 'square'][0]
+ORIENTATION_ = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
 
 
 pimo_downvoted = r'/home/pi/pimo_downvoted'
@@ -325,12 +325,12 @@ def parse_args(args):
     subparser_set.add_argument(
         "--frame-orientation",
         "-o",
-        choices=["portrait", "landscape", "portrait_reverse", "landscape_reverse"],
+        choices=ORIENTATION_,
         dest="frame_orientation",
         default=None,
         type=str,
         required=True,
-        help="Frame Orientation: portrait, landscape, portrait_reverse, landscape_reverse",
+        help=f"Frame Orientation: {','.join(ORIENTATION_)}",
     )
 
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
