@@ -19,6 +19,8 @@ __author__ = "Michael Mussato"
 __copyright__ = "Michael Mussato"
 __license__ = "MIT"
 
+_logger = logging.getLogger(__name__)
+
 
 SATURATION = 0.0
 SHOW_PATH = False
@@ -37,20 +39,21 @@ pimo_history = r'/home/pi/pimo_history'
 
 def get_rand_gdrive_image(
         search_dir: pathlib.Path = pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
+        frame_orientation = ORIENTATION,
 ):
     while not pathlib.Path(search_dir).exists():
-        print(f"Google Drive ({search_dir}) connected?\nRetrying in 10 seconds...\n")
+        _logger.info(f"Google Drive ({search_dir}) connected?\nRetrying in 10 seconds...\n")
         time.sleep(10)
 
-    print(f'Google Drive found at {search_dir}.')
+    _logger.info(f'Google Drive found at {search_dir}.')
 
     with open(f'{pimo_current}') as fi:
         current = fi.read().splitlines()
 
-    print(f'current is: {current}')
+    _logger.info(f'current is: {current}')
 
     # while True:
-    print('Searching...')
+    _logger.info('Searching...')
 
     jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJ][pP][gG]"))
 
@@ -62,7 +65,7 @@ def get_rand_gdrive_image(
                 or str(choice) in current:
             choice = random.choice(jpg)
 
-    print(f"Setting image: {choice}")
+    _logger.info(f"Setting image: {choice}")
 
     with open(f'{pimo_current}', 'w') as fo:
         fo.write(f'{choice}\n')
@@ -75,6 +78,7 @@ def get_rand_gdrive_image(
 
 def get_rand_image(
         search_dir: pathlib.Path = pathlib.Path("/home/pi/images"),
+        frame_orientation=ORIENTATION,
 ) -> pathlib.Path:
 
     while not pathlib.Path(search_dir).exists():
@@ -101,24 +105,17 @@ def get_rand_image(
         else:  # square
             orientation = 'square'
 
-        print(f'Image orientation is {orientation} ({size[0]} x {size[1]})')
-        print(f'Frame orientation is {ORIENTATION}')
+        _logger.info(f'Image orientation is {orientation} ({size[0]} x {size[1]})')
+        _logger.info(f'Frame orientation is {frame_orientation}')
 
         if FORCE_ORIENTATION:
             if orientation == 'square' \
-                    or orientation == ORIENTATION:
+                    or orientation == frame_orientation:
                 break
         else:
             break
 
-        # choice = random.choice(jpg)
-
     return choice
-
-
-# bg_black = Image.new(mode='RGB', size=inky.resolution, color=(0, 0, 0))
-# bg_white = Image.new(mode='RGB', size=inky.resolution, color=(255, 255, 255))
-# backgrounds = [bg_black, bg_white]
 
 
 def bg_black() -> Image:
@@ -233,7 +230,7 @@ def set_inky_image(
         converter = ImageEnhance.Sharpness(resizedimage)
         resizedimage = converter.enhance(10.0)
 
-    # print(f'Image: {src}\n')
+    _logger.info(f'Image: {img.filename}\n')
 
     background_image.paste(im=resizedimage, box=(
     int(inky.resolution[0] / 2 - resizedimage.size[0] / 2), int(inky.resolution[1] / 2 - resizedimage.size[1] / 2)))
@@ -328,6 +325,17 @@ def parse_args(args):
         help="Burn path onto image.",
     )
 
+    # Todo: selection
+    subparser_set.add_argument(
+        "--frame-orientation",
+        "-o",
+        dest="frame_orientation",
+        default=None,
+        type=str,
+        required=True,
+        help="Frame Orientation: landscape, portrait",
+    )
+
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
         required=False,
     )
@@ -392,7 +400,8 @@ def main(args):
     setup_logging(args.loglevel)
 
     # inky = auto(ask_user=True, verbose=True)
-    frame_orientation = ['portrait', 'landscape'][0]
+    # frame_orientation = ['portrait', 'landscape'][0]
+    frame_orientation = args.frame_orientation
 
     if any([sc == args.sub_command for sc in ["set", "s"]]):
 
