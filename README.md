@@ -8,8 +8,8 @@
     * [Sub Commands](#sub-commands)
       * [`set`](#set)
   * [Examples](#examples)
-    * [MoodeOroni](#moodeoroni)
-    * [Photo Frame](#photo-frame)
+    * [moode-oroni](#moode-oroni)
+    * [frame-oroni](#frame-oroni)
 <!-- TOC -->
 
 ---
