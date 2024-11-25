@@ -3,6 +3,8 @@ import argparse
 import pathlib
 import random
 import time
+import os
+import datetime
 
 from PIL import Image, ImageOps, ImageFilter, ImageEnhance, ImageFont, ImageDraw
 # from pillow_lut import load_cube_file
@@ -21,29 +23,70 @@ __license__ = "MIT"
 SATURATION = 0.0
 SHOW_PATH = False
 
-PHOTOS = f"/home/pi/images"
-# PYTHON = "/home/pi/venvs/inky/bin/python"
-# PY = "/home/pi/git/inky/examples/7color/image.py"
-# SATURATION = 0.0
 FORCE_ORIENTATION = True
 ORIENTATION = ['portrait', 'landscape', 'square'][0]
+
+
+pimo_downvoted = r'/home/pi/pimo_downvoted'
+pimo_current = r'/home/pi/pimo_current'
+pimo_history = r'/home/pi/pimo_history'
 
 
 # ---- Python API ----
 
 
-def get_rand_image() -> pathlib.Path:
-
-    while not pathlib.Path(PHOTOS).exists():
-        print(f"No images folder found ({PHOTOS}).\nRetrying in 10 seconds...\n")
+def get_rand_gdrive_image(
+        search_dir: pathlib.Path = pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
+):
+    while not pathlib.Path(search_dir).exists():
+        print(f"Google Drive ({search_dir}) connected?\nRetrying in 10 seconds...\n")
         time.sleep(10)
 
-    print(f'Images folder found at {PHOTOS}.')
+    print(f'Google Drive found at {search_dir}.')
+
+    with open(f'{pimo_current}') as fi:
+        current = fi.read().splitlines()
+
+    print(f'current is: {current}')
 
     # while True:
     print('Searching...')
 
-    jpg = list(pathlib.Path(f"{PHOTOS}").rglob("*.[jJpP][pPnN][gG]"))
+    jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJ][pP][gG]"))
+
+    choice = None
+
+    with open(f'{pimo_downvoted}') as fi:
+        while choice is None \
+                or str(choice) in fi.read() \
+                or str(choice) in current:
+            choice = random.choice(jpg)
+
+    print(f"Setting image: {choice}")
+
+    with open(f'{pimo_current}', 'w') as fo:
+        fo.write(f'{choice}\n')
+
+    with open(f'{pimo_history}', 'a') as fo:
+        fo.write(f'{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}: {choice}\n')
+
+    return choice
+
+
+def get_rand_image(
+        search_dir: pathlib.Path = pathlib.Path("/home/pi/images"),
+) -> pathlib.Path:
+
+    while not pathlib.Path(search_dir).exists():
+        print(f"No images folder found ({search_dir}).\nRetrying in 10 seconds...\n")
+        time.sleep(10)
+
+    print(f'Images folder found at {search_dir}.')
+
+    # while True:
+    print('Searching...')
+
+    jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJpP][pPnN][gG]"))
 
     while True:
         choice = random.choice(jpg)
@@ -310,13 +353,23 @@ def parse_args(args):
     )
 
     subparser_set_group.add_argument(
-        "-r",
-        "--random",
-        dest="set_random",
+        "-g",
+        "--from-gdrive",
+        dest="from_gdrive",
         required=False,
         default=False,
         action="store_true",
         help="Set a random image from GDrive.",
+    )
+
+    subparser_set_group.add_argument(
+        "-d",
+        "--from-local-directory",
+        dest="from_local",
+        required=False,
+        default=False,
+        action="store_true",
+        help="Set a random image from local directory.",
     )
 
     return parser.parse_args(args)
@@ -351,7 +404,14 @@ def main(args):
         elif args.test_bars:
             image = test_bars()
 
-        elif args.set_random:
+        elif args.from_gdrive:
+            image_file = get_rand_gdrive_image()
+            image = get_image_from_file(
+                frame_orientation=frame_orientation,
+                from_file=image_file,
+            )
+
+        elif args.from_local:
             image_file = get_rand_image()
             image = get_image_from_file(
                 frame_orientation=frame_orientation,
