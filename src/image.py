@@ -39,8 +39,7 @@ pimo_history = r'/home/pi/pimo_history'
 
 def get_rand_gdrive_image(
         search_dir: pathlib.Path = pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
-        frame_orientation = ORIENTATION,
-):
+) -> pathlib.Path:
     while not pathlib.Path(search_dir).exists():
         _logger.info(f"Google Drive ({search_dir}) connected?\nRetrying in 10 seconds...\n")
         time.sleep(10)
@@ -77,18 +76,18 @@ def get_rand_gdrive_image(
 
 
 def get_rand_image(
+        frame_orientation: str,
         search_dir: pathlib.Path = pathlib.Path("/home/pi/images"),
-        frame_orientation=ORIENTATION,
 ) -> pathlib.Path:
 
     while not pathlib.Path(search_dir).exists():
-        print(f"No images folder found ({search_dir}).\nRetrying in 10 seconds...\n")
+        _logger.info(f"No images folder found ({search_dir}).\nRetrying in 10 seconds...\n")
         time.sleep(10)
 
-    print(f'Images folder found at {search_dir}.')
+    _logger.info(f'Images folder found at {search_dir}.')
 
     # while True:
-    print('Searching...')
+    _logger.info('Searching...')
 
     jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJpP][pPnN][gG]"))
 
@@ -197,10 +196,14 @@ def get_image_from_file(
 ) -> Image:
     img = Image.open(from_file)
 
-    if frame_orientation == 'portrait':
-        img = img.rotate(angle=270, expand=True)
+    if frame_orientation == 'landscape_reverse':
+        img = img.rotate(angle=0, expand=True)
+    elif frame_orientation == 'portrait_reverse':
+        img = img.rotate(angle=90, expand=True)
     elif frame_orientation == 'landscape':
         img = img.rotate(angle=180, expand=True)
+    elif frame_orientation == 'portrait':
+        img = img.rotate(angle=270, expand=True)
 
     return img
 
@@ -411,7 +414,9 @@ def main(args):
             )
 
         elif args.from_local:
-            image_file = get_rand_image()
+            image_file = get_rand_image(
+                frame_orientation=args.frame_orientation
+            )
             image = get_image_from_file(
                 frame_orientation=args.frame_orientation,
                 from_file=image_file,
