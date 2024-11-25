@@ -38,6 +38,8 @@ pimo_history = r'/home/pi/pimo_history'
 
 
 def get_rand_gdrive_image(
+        force_aspect: bool,
+        frame_orientation: str,
         search_dir: pathlib.Path = pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
 ) -> pathlib.Path:
     while not pathlib.Path(search_dir).exists():
@@ -76,6 +78,7 @@ def get_rand_gdrive_image(
 
 
 def get_rand_image(
+        force_aspect: bool,
         frame_orientation: str,
         search_dir: pathlib.Path = pathlib.Path("/home/pi/images"),
 ) -> pathlib.Path:
@@ -107,7 +110,7 @@ def get_rand_image(
         _logger.info(f'Image orientation is {orientation} ({size[0]} x {size[1]})')
         _logger.info(f'Frame orientation is {frame_orientation}')
 
-        if FORCE_ORIENTATION:
+        if force_aspect:
             if orientation == 'square' \
                     or orientation == frame_orientation:
                 break
@@ -333,6 +336,16 @@ def parse_args(args):
         help=f"Frame Orientation: {','.join(ORIENTATION_)}",
     )
 
+    subparser_set.add_argument(
+        "--force-aspect",
+        "-f",
+        dest="frame_orientation",
+        default=False,
+        type=bool,
+        required=False,
+        help="Force image aspect ratio to match Frame Orientation",
+    )
+
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
         required=False,
     )
@@ -407,7 +420,10 @@ def main(args):
             image = test_bars()
 
         elif args.from_gdrive:
-            image_file = get_rand_gdrive_image()
+            image_file = get_rand_gdrive_image(
+                force_aspect=False,
+                frame_orientation=args.frame_orientation,
+            )
             image = get_image_from_file(
                 frame_orientation=args.frame_orientation,
                 from_file=image_file,
@@ -415,7 +431,8 @@ def main(args):
 
         elif args.from_local:
             image_file = get_rand_image(
-                frame_orientation=args.frame_orientation
+                force_aspect=False,
+                frame_orientation=args.frame_orientation,
             )
             image = get_image_from_file(
                 frame_orientation=args.frame_orientation,
