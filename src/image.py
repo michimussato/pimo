@@ -235,12 +235,6 @@ def set_inky_image(
     background_image.paste(im=resizedimage, box=(
     int(inky.resolution[0] / 2 - resizedimage.size[0] / 2), int(inky.resolution[1] / 2 - resizedimage.size[1] / 2)))
 
-    # if len(sys.argv) > 2:
-    #     try:
-    #         saturation = float(sys.argv[2])
-    #     except ValueError:
-    #         saturation = saturation
-
     if show_path:
         font_size = 12
         with background_image.convert('RGBA') as base:
@@ -328,12 +322,12 @@ def parse_args(args):
     subparser_set.add_argument(
         "--frame-orientation",
         "-o",
-        choices=["portrait", "landscape"],
+        choices=["portrait", "landscape", "portrait_reverse", "landscape_reverse"],
         dest="frame_orientation",
         default=None,
         type=str,
         required=True,
-        help="Frame Orientation: landscape, portrait",
+        help="Frame Orientation: portrait, landscape, portrait_reverse, landscape_reverse",
     )
 
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
@@ -399,15 +393,11 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
 
-    # inky = auto(ask_user=True, verbose=True)
-    # frame_orientation = ['portrait', 'landscape'][0]
-    frame_orientation = args.frame_orientation
-
     if any([sc == args.sub_command for sc in ["set", "s"]]):
 
         if args.from_file:
             image = get_image_from_file(
-                frame_orientation=frame_orientation,
+                frame_orientation=args.frame_orientation,
                 from_file=args.from_file,
             )
         elif args.test_bars:
@@ -416,14 +406,14 @@ def main(args):
         elif args.from_gdrive:
             image_file = get_rand_gdrive_image()
             image = get_image_from_file(
-                frame_orientation=frame_orientation,
+                frame_orientation=args.frame_orientation,
                 from_file=image_file,
             )
 
         elif args.from_local:
             image_file = get_rand_image()
             image = get_image_from_file(
-                frame_orientation=frame_orientation,
+                frame_orientation=args.frame_orientation,
                 from_file=image_file,
             )
 
