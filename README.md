@@ -108,4 +108,14 @@ pimo -v s -t -o landscape_reverse
 
 https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md
 
-TBD
+#### frame-vertical
+
+```
+pimo -v s -d -o landscape -a
+```
+
+#### frame-horizontal
+
+```
+pimo -v s -d -o portrait -a
+```
