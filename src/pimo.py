@@ -40,7 +40,7 @@ pimo_history = r'/home/pi/pimo_history'
 def get_rand_gdrive_image(
         force_aspect: bool,
         frame_orientation: str,
-        search_dir: pathlib.Path = pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
+        search_dir: pathlib.Path,
 ) -> pathlib.Path:
     while not pathlib.Path(search_dir).exists():
         _logger.info(f"Google Drive ({search_dir}) connected?\nRetrying in 10 seconds...\n")
@@ -80,7 +80,7 @@ def get_rand_gdrive_image(
 def get_rand_image(
         force_aspect: bool,
         frame_orientation: str,
-        search_dir: pathlib.Path = pathlib.Path("/home/pi/images"),
+        search_dir: pathlib.Path,
 ) -> pathlib.Path:
 
     while not pathlib.Path(search_dir).exists():
@@ -421,6 +421,7 @@ def main(args):
 
         elif args.from_gdrive:
             image_file = get_rand_gdrive_image(
+                search_dir=pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
                 force_aspect=args.force_aspect,
                 frame_orientation=args.frame_orientation,
             )
@@ -431,6 +432,7 @@ def main(args):
 
         elif args.from_local:
             image_file = get_rand_image(
+                search_dir=pathlib.Path("/home/pi/images"),
                 force_aspect=args.force_aspect,
                 frame_orientation=args.frame_orientation,
             )
