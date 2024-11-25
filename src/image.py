@@ -342,7 +342,6 @@ def parse_args(args):
         dest="force_aspect",
         action="store_true",
         default=False,
-        type=bool,
         required=False,
         help="Force image aspect ratio to match Frame Orientation",
     )
@@ -367,7 +366,6 @@ def parse_args(args):
         dest="test_bars",
         required=False,
         default=False,
-        type=bool,
         action="store_true",
         help="Set a test bar image.",
     )
