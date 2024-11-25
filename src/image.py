@@ -339,7 +339,8 @@ def parse_args(args):
     subparser_set.add_argument(
         "--force-aspect",
         "-a",
-        dest="frame_orientation",
+        dest="force_aspect",
+        action="store_true",
         default=False,
         type=bool,
         required=False,
@@ -366,6 +367,7 @@ def parse_args(args):
         dest="test_bars",
         required=False,
         default=False,
+        type=bool,
         action="store_true",
         help="Set a test bar image.",
     )
@@ -421,7 +423,7 @@ def main(args):
 
         elif args.from_gdrive:
             image_file = get_rand_gdrive_image(
-                force_aspect=False,
+                force_aspect=args.force_aspect,
                 frame_orientation=args.frame_orientation,
             )
             image = get_image_from_file(
@@ -431,7 +433,7 @@ def main(args):
 
         elif args.from_local:
             image_file = get_rand_image(
-                force_aspect=False,
+                force_aspect=args.force_aspect,
                 frame_orientation=args.frame_orientation,
             )
             image = get_image_from_file(
