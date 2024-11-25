@@ -10,6 +10,8 @@
   * [Examples](#examples)
     * [moode-oroni](#moode-oroni)
     * [frame-oroni](#frame-oroni)
+      * [frame landscape (frame-vertical)](#frame-landscape-frame-vertical)
+      * [frame portrait (frame)](#frame-portrait-frame)
 <!-- TOC -->
 
 ---
@@ -90,6 +92,10 @@ optional arguments:
                         Set a random image from local directory.
 ```
 
+Todo
+
+- [ ] Fill frame
+
 ## Examples
 
 ### moode-oroni
@@ -108,13 +114,13 @@ pimo -v s -t -o landscape_reverse
 
 https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md
 
-#### frame-vertical
+#### frame landscape (frame-vertical)
 
 ```
 pimo -v s -d -o landscape -a
 ```
 
-#### frame-horizontal
+#### frame portrait (frame)
 
 ```
 pimo -v s -d -o portrait -a
