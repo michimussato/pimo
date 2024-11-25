@@ -1,7 +1,8 @@
 import sys
 import argparse
 import pathlib
-# import time
+import random
+import time
 
 from PIL import Image, ImageOps, ImageFilter, ImageEnhance, ImageFont, ImageDraw
 # from pillow_lut import load_cube_file
@@ -20,8 +21,56 @@ __license__ = "MIT"
 SATURATION = 0.0
 SHOW_PATH = False
 
+PHOTOS = f"/home/pi/images"
+# PYTHON = "/home/pi/venvs/inky/bin/python"
+# PY = "/home/pi/git/inky/examples/7color/image.py"
+# SATURATION = 0.0
+FORCE_ORIENTATION = True
+ORIENTATION = ['portrait', 'landscape', 'square'][0]
+
 
 # ---- Python API ----
+
+
+def get_rand_image() -> pathlib.Path:
+
+    while not pathlib.Path(PHOTOS).exists():
+        print(f"No images folder found ({PHOTOS}).\nRetrying in 10 seconds...\n")
+        time.sleep(10)
+
+    print(f'Images folder found at {PHOTOS}.')
+
+    # while True:
+    print('Searching...')
+
+    jpg = list(pathlib.Path(f"{PHOTOS}").rglob("*.[jJpP][pPnN][gG]"))
+
+    while True:
+        choice = random.choice(jpg)
+
+        img = Image.open(choice)
+        size = img.size
+
+        if size[0] > size[1]:  # landscape
+            orientation = 'landscape'
+        elif size[0] < size[1]:  # portrait
+            orientation = 'portrait'
+        else:  # square
+            orientation = 'square'
+
+        print(f'Image orientation is {orientation} ({size[0]} x {size[1]})')
+        print(f'Frame orientation is {ORIENTATION}')
+
+        if FORCE_ORIENTATION:
+            if orientation == 'square' \
+                    or orientation == ORIENTATION:
+                break
+        else:
+            break
+
+        # choice = random.choice(jpg)
+
+    return choice
 
 
 # bg_black = Image.new(mode='RGB', size=inky.resolution, color=(0, 0, 0))
@@ -260,6 +309,16 @@ def parse_args(args):
         help="Set a test bar image.",
     )
 
+    subparser_set.add_argument(
+        "-r",
+        "--random",
+        dest="set_random",
+        required=False,
+        default=False,
+        action="store_true",
+        help="Set a random image from GDrive.",
+    )
+
     return parser.parse_args(args)
 
 
@@ -291,6 +350,13 @@ def main(args):
             )
         elif args.test_bars:
             image = test_bars()
+
+        elif args.set_random:
+            image_file = get_rand_image()
+            image = get_image_from_file(
+                frame_orientation=frame_orientation,
+                from_file=image_file,
+            )
 
         set_inky_image(
             img=image,
