@@ -246,7 +246,7 @@ def set_inky_image(
         with background_image.convert('RGBA') as base:
             # src = src.replace('/data/GDRIVE/media/images/scan/processed/', '')
 
-            fnt = ImageFont.truetype("/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf", font_size)
+            fnt = ImageFont.truetype(pathlib.Path("data/ttf/ipag.ttf").resolve(), font_size)
             length = fnt.getlength(img.filename)
 
             # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
