@@ -338,7 +338,7 @@ def parse_args(args):
 
     subparser_set.add_argument(
         "--force-aspect",
-        "-f",
+        "-a",
         dest="frame_orientation",
         default=False,
         type=bool,
