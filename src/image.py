@@ -1,12 +1,15 @@
-# !/home/pi/venvs/inky/bin/python
-
 import sys
+import argparse
+import pathlib
 # import time
 
 from PIL import Image, ImageOps, ImageFilter, ImageEnhance, ImageFont, ImageDraw
 # from pillow_lut import load_cube_file
 
 from inky.auto import auto
+from inky import Inky7Colour
+# from inky.inky import Inky
+from inky.mock import InkyMockImpression
 import logging
 
 __author__ = "Michael Mussato"
@@ -14,124 +17,140 @@ __copyright__ = "Michael Mussato"
 __license__ = "MIT"
 
 
+SATURATION = 0.0
+SHOW_PATH = False
+
+
 # ---- Python API ----
 
 
-def func():
+# bg_black = Image.new(mode='RGB', size=inky.resolution, color=(0, 0, 0))
+# bg_white = Image.new(mode='RGB', size=inky.resolution, color=(255, 255, 255))
+# backgrounds = [bg_black, bg_white]
+
+
+def bg_black() -> Image:
     inky = auto(ask_user=True, verbose=True)
-    saturation = 0.0
-    frame_orientation = ['portrait', 'landscape'][0]
+    return Image.new(mode='RGB', size=inky.resolution, color=(0, 0, 0))
 
-    clear_inky = False
-    show_path = False
 
-    print(sys.argv)
+def bg_white() -> Image:
+    inky = auto(ask_user=True, verbose=True)
+    return Image.new(mode='RGB', size=inky.resolution, color=(255, 255, 255))
 
-    bg_black = Image.new(mode='RGB', size=inky.resolution, color=(0, 0, 0))
-    bg_white = Image.new(mode='RGB', size=inky.resolution, color=(255, 255, 255))
-    backgrounds = [bg_black, bg_white]
-    background_clear = backgrounds[0]
-    background_image = backgrounds[1]
 
-    if clear_inky:
-        inky.set_image(background_clear, saturation=saturation)
-        inky.show()
+def clear_inky(
+        saturation: float = SATURATION,
+) -> None:
+    bg = bg_black()
 
-    if len(sys.argv) == 1:
+    inky = auto(ask_user=True, verbose=True)
 
-        src = 'Test Bars'
+    inky.set_image(bg, saturation=saturation)
+    inky.show()
 
-        strip_size = int(inky.resolution[0] / 8)
 
-        strip_hight = int(inky.resolution[1])
+def test_bars(
+        inky: [Inky7Colour, InkyMockImpression] = auto(ask_user=True, verbose=True),
+        background_image: Image = bg_black(),
+) -> Image:
 
-        # bg = Image.new(mode='RGB', size=inky.resolution, color=(0, 0, 0))
+    strip_size = int(inky.resolution[0] / 8)
 
-        red = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 0, 0))
-        background_image.paste(im=red, box=(strip_size * 1, 0))
+    strip_hight = int(inky.resolution[1])
 
-        yellow = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 255, 0))
-        background_image.paste(im=yellow, box=(strip_size * 2, 0))
+    red = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 0, 0))
+    background_image.paste(im=red, box=(strip_size * 1, 0))
 
-        green = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 255, 0))
-        background_image.paste(im=green, box=(strip_size * 3, 0))
+    yellow = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 255, 0))
+    background_image.paste(im=yellow, box=(strip_size * 2, 0))
 
-        cyan = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 100, 255))
-        background_image.paste(im=cyan, box=(strip_size * 4, 0))
+    green = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 255, 0))
+    background_image.paste(im=green, box=(strip_size * 3, 0))
 
-        blue = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 0, 255))
-        background_image.paste(im=blue, box=(strip_size * 5, 0))
+    cyan = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 100, 255))
+    background_image.paste(im=cyan, box=(strip_size * 4, 0))
 
-        # magenta = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 64, 192))
-        magenta = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 0, 100))
-        background_image.paste(im=magenta, box=(strip_size * 6, 0))
+    blue = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 0, 255))
+    background_image.paste(im=blue, box=(strip_size * 5, 0))
 
-        white = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 255, 255))
-        background_image.paste(im=white, box=(strip_size * 7, 0))
+    # magenta = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 64, 192))
+    magenta = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 0, 100))
+    background_image.paste(im=magenta, box=(strip_size * 6, 0))
 
-        grey1 = Image.new(mode='RGB', size=(strip_size, 100), color=(36, 36, 36))
-        background_image.paste(im=grey1, box=(strip_size * 1, 348))
+    white = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 255, 255))
+    background_image.paste(im=white, box=(strip_size * 7, 0))
 
-        grey2 = Image.new(mode='RGB', size=(strip_size, 100), color=(72, 72, 72))
-        background_image.paste(im=grey2, box=(strip_size * 2, 348))
+    grey1 = Image.new(mode='RGB', size=(strip_size, 100), color=(36, 36, 36))
+    background_image.paste(im=grey1, box=(strip_size * 1, 348))
 
-        grey3 = Image.new(mode='RGB', size=(strip_size, 100), color=(108, 108, 108))
-        background_image.paste(im=grey3, box=(strip_size * 3, 348))
+    grey2 = Image.new(mode='RGB', size=(strip_size, 100), color=(72, 72, 72))
+    background_image.paste(im=grey2, box=(strip_size * 2, 348))
 
-        grey4 = Image.new(mode='RGB', size=(strip_size, 100), color=(144, 144, 144))
-        background_image.paste(im=grey4, box=(strip_size * 4, 348))
+    grey3 = Image.new(mode='RGB', size=(strip_size, 100), color=(108, 108, 108))
+    background_image.paste(im=grey3, box=(strip_size * 3, 348))
 
-        grey5 = Image.new(mode='RGB', size=(strip_size, 100), color=(180, 180, 180))
-        background_image.paste(im=grey5, box=(strip_size * 5, 348))
+    grey4 = Image.new(mode='RGB', size=(strip_size, 100), color=(144, 144, 144))
+    background_image.paste(im=grey4, box=(strip_size * 4, 348))
 
-        grey6 = Image.new(mode='RGB', size=(strip_size, 100), color=(216, 216, 216))
-        background_image.paste(im=grey6, box=(strip_size * 6, 348))
+    grey5 = Image.new(mode='RGB', size=(strip_size, 100), color=(180, 180, 180))
+    background_image.paste(im=grey5, box=(strip_size * 5, 348))
 
-    elif len(sys.argv) > 1:
+    grey6 = Image.new(mode='RGB', size=(strip_size, 100), color=(216, 216, 216))
+    background_image.paste(im=grey6, box=(strip_size * 6, 348))
 
-        enhance = True
+    return background_image
 
-        src = sys.argv[1]
 
-        if src == 'inky':
-            enhance = False
-            img = Image.open(f'/home/pi/git/inky/examples/7color/images/inky-7.3-ships.jpg')
-        else:
-            # ['/home/pi/git/inky/examples/7color/image.py', '/data/GDRIVE/media/images/scan/processed/reflecta_mf_5000__2022-04-17__Film_0002/jpg__2023-05-07__22-16-14/2022-04-17__Film_0002__1280__0006', '(2).jpg', '0.0']
-            # /data/GDRIVE/media/images/scan/processed/reflecta_mf_5000__2022-04-17__Film_0002/jpg__2023-05-07__22-16-14/2022-04-17__Film_0002__1280__0006 (2).jpg
-            # FileNotFoundError: [Errno 2] No such file or directory: '/data/GDRIVE/media/images/scan/processed/reflecta_mf_5000__2022-04-17__Film_0002/jpg__2023-05-07__22-16-14/2022-04-17__Film_0002__1280__0006'
-            img = Image.open(src)
+def get_image_from_file(
+        frame_orientation: str,
+        from_file: pathlib.Path,
+) -> Image:
+    img = Image.open(from_file)
 
-            if frame_orientation == 'portrait':
-                img = img.rotate(angle=270, expand=True)
-            elif frame_orientation == 'landscape':
-                img = img.rotate(angle=180, expand=True)
+    if frame_orientation == 'portrait':
+        img = img.rotate(angle=270, expand=True)
+    elif frame_orientation == 'landscape':
+        img = img.rotate(angle=180, expand=True)
 
-        resizedimage = ImageOps.contain(img, inky.resolution, method=Image.BICUBIC)
+    return img
 
-        if enhance:
-            # resizedimage = resizedimage.rotate(180)
-            # resizedimage = ImageOps.contain(resizedimage, inky.resolution)
 
-            # lut = load_cube_file(r'/home/pi/OnlineLUTCreator.CUBE')
-            # resizedimage = resizedimage.filter(lut)
+def set_inky_image(
+        img: Image,
+        inky: [Inky7Colour, InkyMockImpression] = auto(ask_user=True, verbose=True),
+        saturation: float = SATURATION,
+        clear_inky: bool = False,
+        show_path: bool = SHOW_PATH,
+        background_image: Image = bg_black(),
+        enhance: bool = True,
+) -> None:
 
-            converter = ImageEnhance.Color(resizedimage)
-            resizedimage = converter.enhance(3.0)
+    resizedimage = ImageOps.contain(img, inky.resolution, method=Image.BICUBIC)
 
-            converter = ImageEnhance.Sharpness(resizedimage)
-            resizedimage = converter.enhance(10.0)
+    if enhance:
+        # resizedimage = resizedimage.rotate(180)
+        # resizedimage = ImageOps.contain(resizedimage, inky.resolution)
 
-        print(f'Image: {src}\n')
+        # lut = load_cube_file(r'/home/pi/OnlineLUTCreator.CUBE')
+        # resizedimage = resizedimage.filter(lut)
 
-        background_image.paste(im=resizedimage, box=(
-        int(inky.resolution[0] / 2 - resizedimage.size[0] / 2), int(inky.resolution[1] / 2 - resizedimage.size[1] / 2)))
+        converter = ImageEnhance.Color(resizedimage)
+        resizedimage = converter.enhance(3.0)
 
-        if len(sys.argv) > 2:
-            try:
-                saturation = float(sys.argv[2])
-            except ValueError:
-                saturation = saturation
+        converter = ImageEnhance.Sharpness(resizedimage)
+        resizedimage = converter.enhance(10.0)
+
+    # print(f'Image: {src}\n')
+
+    background_image.paste(im=resizedimage, box=(
+    int(inky.resolution[0] / 2 - resizedimage.size[0] / 2), int(inky.resolution[1] / 2 - resizedimage.size[1] / 2)))
+
+    # if len(sys.argv) > 2:
+    #     try:
+    #         saturation = float(sys.argv[2])
+    #     except ValueError:
+    #         saturation = saturation
 
     if show_path:
         font_size = 12
@@ -139,7 +158,7 @@ def func():
             # src = src.replace('/data/GDRIVE/media/images/scan/processed/', '')
 
             fnt = ImageFont.truetype("/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf", font_size)
-            length = fnt.getlength(src)
+            length = fnt.getlength(img.filename)
 
             # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
             txt = Image.new('RGBA', size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192))
@@ -148,7 +167,7 @@ def func():
             # d.text((10, 10), src, font=fnt, fill=(255, 255, 255, 255))
             border = 12
             # d.text((round(txt.size[0] - length - border), border), src, font=fnt, fill=(255, 255, 255, 255))
-            d.text((0, 0), src, font=fnt, fill=(255, 255, 255, 255))
+            d.text((0, 0), img.filename, font=fnt, fill=(255, 255, 255, 255))
 
             txt_ = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
 
@@ -159,12 +178,6 @@ def func():
 
             background_image = Image.alpha_composite(base, txt_)
 
-    # if frame_orientation == 'portrait':
-    #    background_image = background_image.rotate(angle=270)
-    ##elif frame_orientation == 'landscape':
-    #    background_image = background_image.rotate(angle=180)
-
-    print(f'Saturation: {saturation}\n')
     inky.set_image(background_image, saturation=saturation)
     inky.show()
 
@@ -193,58 +206,59 @@ def parse_args(args):
         const=logging.DEBUG,
     )
 
-    # subparsers = parser.add_subparsers(
-    #     required=True,
-    #     dest="sub_command",
-    # )
+    subparsers = parser.add_subparsers(
+        dest="sub_command",
+        required=True,
+    )
 
-    # parser_c = subparsers.add_parser(
-    #     "compress",
-    #     aliases=["c"],
-    # )
+    subparser_set = subparsers.add_parser(
+        "set",
+        aliases=["s"],
+    )
 
-    # parser_c.add_argument(
-    #     "-src",
-    #     "--source-directory",
-    #     dest="src",
-    #     required=True,
-    #     default=None,
-    #     type=pathlib.Path,
-    #     help="The source directory to encrypt.",
-    # )
+    subparser_set.add_argument(
+        "--saturation",
+        "-sat",
+        dest="saturation",
+        default=SATURATION,
+        type=float,
+        required=False,
+        help="Saturation factor (0.0-1.0)",
+    )
 
-    # parser_c.add_argument(
-    #     "-dest",
-    #     "--destination-directory",
-    #     dest="dest",
-    #     required=True,
-    #     default=None,
-    #     type=pathlib.Path,
-    #     help="The source directory to encrypt.",
-    # )
+    subparser_set.add_argument(
+        "--show-path",
+        "-p",
+        dest="show_path",
+        default=SHOW_PATH,
+        type=bool,
+        required=False,
+        help="Burn path onto image.",
+    )
 
-    # parser_e = subparsers.add_parser(
-    #     "extract",
-    #     aliases=["e"],
-    # )
+    subparser_set.add_mutually_exclusive_group(
+        required=False,
+    )
 
-    # parser_e.add_argument(
-    #     "-i",
-    #     "--in-file",
-    #     dest="in_file",
-    #     required=True,
-    #     default=None,
-    #     type=pathlib.Path,
-    # )
+    subparser_set.add_argument(
+        "-f",
+        "--from-file",
+        dest="from_file",
+        required=False,
+        default=False,
+        type=pathlib.Path,
+        help="Set an image from file.",
+    )
 
-    # parser_e.add_argument(
-    #     "-o",
-    #     "--out-root",
-    #     dest="out_root",
-    #     required=True,
-    #     default=None,
-    #     type=pathlib.Path,
-    # )
+    subparser_set.add_argument(
+        "-t",
+        "--test-bars",
+        dest="test_bars",
+        required=False,
+        default=False,
+        action="store_true",
+        help="Set a test bar image.",
+    )
 
     return parser.parse_args(args)
 
@@ -265,12 +279,24 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
 
-    # if any([sc == args.sub_command for sc in ["compress", "c"]]):
-    #     pass
-    # elif any([sc == args.sub_command for sc in ["extract", "e"]]):
-    #     pass
+    # inky = auto(ask_user=True, verbose=True)
+    frame_orientation = ['portrait', 'landscape'][0]
 
-    func()
+    if any([sc == args.sub_command for sc in ["set", "s"]]):
+
+        if args.from_file:
+            image = get_image_from_file(
+                frame_orientation=frame_orientation,
+                from_file=args.from_file,
+            )
+        elif args.test_bars:
+            image = test_bars()
+
+        set_inky_image(
+            img=image,
+            saturation=args.saturation,
+            show_path=args.show_path,
+        )
 
     sys.exit(0)
 
@@ -281,4 +307,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-

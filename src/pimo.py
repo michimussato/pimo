@@ -26,7 +26,12 @@ ORIENTATION = ['portrait', 'landscape', 'square'][0]
 # ---- Python API ----
 
 
-def set_pimo():
+# def _get_
+
+
+def set_pimo(
+        image: pathlib.Path = None,
+):
     while not pathlib.Path(PHOTOS).exists():
         print(f"No images folder found ({PHOTOS}).\nRetrying in 10 seconds...\n")
         time.sleep(10)
@@ -102,15 +107,15 @@ def parse_args(args):
     #     aliases=["c"],
     # )
 
-    # parser_c.add_argument(
-    #     "-src",
-    #     "--source-directory",
-    #     dest="src",
-    #     required=True,
-    #     default=None,
-    #     type=pathlib.Path,
-    #     help="The source directory to encrypt.",
-    # )
+    parser.add_argument(
+        "-i",
+        "--set-image",
+        dest="set_image",
+        required=True,
+        default=None,
+        type=pathlib.Path,
+        help="Set an image.",
+    )
 
     # parser_c.add_argument(
     #     "-dest",
@@ -163,6 +168,13 @@ def setup_logging(loglevel):
 def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
+
+    if args.set_image:
+        set_image = args.set_image
+    # elif:
+    #     pass
+    else:
+        pass
 
     # if any([sc == args.sub_command for sc in ["compress", "c"]]):
     #     pass
