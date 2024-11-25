@@ -92,7 +92,9 @@ optional arguments:
 
 ## Examples
 
-### MoodeOroni
+### moode-oroni
+
+https://github.com/michimussato/moode-oroni/blob/main/README.md
 
 ```shell
 pimo -v s -g -o landscape_reverse -a
@@ -102,6 +104,8 @@ pimo -v s -g -o landscape_reverse -a
 pimo -v s -t -o landscape_reverse
 ```
 
-### Photo Frame
+### frame-oroni
+
+https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md
 
 TBD
