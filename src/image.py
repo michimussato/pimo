@@ -285,11 +285,11 @@ def parse_args(args):
         help="Burn path onto image.",
     )
 
-    subparser_set.add_mutually_exclusive_group(
+    subparser_set_group = subparser_set.add_mutually_exclusive_group(
         required=False,
     )
 
-    subparser_set.add_argument(
+    subparser_set_group.add_argument(
         "-f",
         "--from-file",
         dest="from_file",
@@ -299,7 +299,7 @@ def parse_args(args):
         help="Set an image from file.",
     )
 
-    subparser_set.add_argument(
+    subparser_set_group.add_argument(
         "-t",
         "--test-bars",
         dest="test_bars",
@@ -309,7 +309,7 @@ def parse_args(args):
         help="Set a test bar image.",
     )
 
-    subparser_set.add_argument(
+    subparser_set_group.add_argument(
         "-r",
         "--random",
         dest="set_random",
