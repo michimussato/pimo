@@ -230,7 +230,7 @@ def set_inky_image(
         converter = ImageEnhance.Sharpness(resizedimage)
         resizedimage = converter.enhance(10.0)
 
-    _logger.info(f'Image: {img.filename}\n')
+    # _logger.info(f'Image: {img.filename}\n')
 
     background_image.paste(im=resizedimage, box=(
     int(inky.resolution[0] / 2 - resizedimage.size[0] / 2), int(inky.resolution[1] / 2 - resizedimage.size[1] / 2)))
@@ -325,10 +325,10 @@ def parse_args(args):
         help="Burn path onto image.",
     )
 
-    # Todo: selection
     subparser_set.add_argument(
         "--frame-orientation",
         "-o",
+        choices=["portrait", "landscape"],
         dest="frame_orientation",
         default=None,
         type=str,
