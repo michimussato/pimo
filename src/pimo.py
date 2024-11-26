@@ -117,7 +117,7 @@ def bg_white() -> Image:
     return Image.new(mode="RGB", size=inky.resolution, color=(255, 255, 255))
 
 
-def clear_inky(
+def _clear_inky(
         saturation: float = SATURATION,
 ) -> None:
     bg = bg_black()
@@ -208,6 +208,9 @@ def set_inky_image(
         background_image: Image = bg_black(),
         enhance: bool = True,
 ) -> None:
+
+    if clear_inky:
+        _clear_inky()
 
     # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
     if expand:
