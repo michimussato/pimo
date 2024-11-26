@@ -26,6 +26,8 @@ __license__ = "MIT"
 _logger = logging.getLogger(__name__)
 
 
+BASE_DIR: pathlib.Path = pathlib.Path(__file__).parent
+RESOURCES: pathlib.Path = BASE_DIR / "data"
 ASCII_ART_COLUMNS = 80
 SATURATION = 0.0
 
@@ -270,7 +272,7 @@ def set_inky_image(
         with background_image.convert("RGBA") as base:
             # src = src.replace('/data/GDRIVE/media/images/scan/processed/', '')
 
-            fnt = ImageFont.truetype(pathlib.Path("data/ttf/ipag.ttf").resolve(), font_size)
+            fnt = ImageFont.truetype(RESOURCES / "ttf" / "ipag.ttf", font_size)
             length = fnt.getlength(img.filename)
 
             # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
