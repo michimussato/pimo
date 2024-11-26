@@ -28,7 +28,6 @@ _logger = logging.getLogger(__name__)
 
 ASCII_ART_COLUMNS = 80
 SATURATION = 0.0
-SHOW_PATH = False
 
 FORCE_ORIENTATION = True
 ORIENTATION = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
@@ -349,8 +348,8 @@ def parse_args(args):
         "--show-path",
         "-p",
         dest="show_path",
-        default=SHOW_PATH,
-        type=bool,
+        default=False,
+        action="store_true",
         required=False,
         help="Burn path onto image.",
     )
