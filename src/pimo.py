@@ -17,6 +17,7 @@ from inky.auto import auto
 from inky import Inky7Colour
 from inky.mock import InkyMockImpression
 import logging
+from ascii_magic import AsciiArt
 
 __author__ = "Michael Mussato"
 __copyright__ = "Michael Mussato"
@@ -103,6 +104,8 @@ def get_rand_image(
 
     with open(f"{pimo_history}", "a") as fo:
         fo.write(f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}: {choice}\n")
+
+    _logger.info(f"Setting image: {choice}")
 
     return choice
 
@@ -269,6 +272,10 @@ def set_inky_image(
             txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
 
             background_image = Image.alpha_composite(base, txt_)
+
+    img_ascii = AsciiArt.from_pillow_image(background_image)
+    _logger.info("Final Render:")
+    _logger.info(img_ascii.to_terminal(columns=80))
 
     inky.set_image(background_image, saturation=saturation)
     inky.show()
