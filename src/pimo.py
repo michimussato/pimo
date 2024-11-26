@@ -34,9 +34,18 @@ FORCE_ORIENTATION = True
 ORIENTATION = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
 
 
-pimo_downvoted = r"/home/pi/pimo_downvoted"
-pimo_current = r"/home/pi/pimo_current"
-pimo_history = r"/home/pi/pimo_history"
+pimo_downvoted = pathlib.Path(r"/home/pi/pimo_downvoted")
+if not pimo_downvoted.exists():
+    with open(pimo_downvoted, "w") as f:
+        pass
+pimo_current = pathlib.Path(r"/home/pi/pimo_current")
+if not pimo_current.exists():
+    with open(pimo_current, "w") as f:
+        pass
+pimo_history = pathlib.Path(r"/home/pi/pimo_history")
+if not pimo_history.exists():
+    with open(pimo_history, "w") as f:
+        pass
 
 
 # ---- Python API ----
@@ -54,7 +63,7 @@ def get_rand_image(
 
     _logger.info(f"{search_dir = } found.")
 
-    with open(f"{pimo_current}") as fi:
+    with open(f"{pimo_current}", "r") as fi:
         current = fi.read().splitlines()
 
     _logger.info(f"{current = }")
@@ -70,7 +79,7 @@ def get_rand_image(
     while True:
         choice = random.choice(jpg)
 
-        with open(f"{pimo_downvoted}") as fi:
+        with open(f"{pimo_downvoted}", "r") as fi:
             while choice is None \
                     or str(choice) in fi.read() \
                     or str(choice) in current:
