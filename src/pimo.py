@@ -55,6 +55,7 @@ def get_rand_image(
         match_aspect: bool,
         frame_orientation: str,
         search_dir: pathlib.Path,
+        ascii_art: bool,
 ) -> pathlib.Path:
 
     while not pathlib.Path(search_dir).exists():
@@ -68,8 +69,9 @@ def get_rand_image(
 
     _logger.info(f"{current = }")
     if bool(current):
-        img_ascii_current = AsciiArt.from_image(path=current[0])
-        _logger.info(f"\n{img_ascii_current.to_ascii(columns=ASCII_ART_COLUMNS)}")
+        if ascii_art:
+            img_ascii_current = AsciiArt.from_image(path=current[0])
+            _logger.info(f"\n{img_ascii_current.to_ascii(columns=ASCII_ART_COLUMNS)}")
 
     _logger.info("Searching...")
 
@@ -119,8 +121,9 @@ def get_rand_image(
         fo.write(f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}: {choice}\n")
 
     _logger.info(f"Setting image: {choice}")
-    img_ascii_choice = AsciiArt.from_image(path=choice)
-    _logger.info(f"\n{img_ascii_choice.to_ascii(columns=ASCII_ART_COLUMNS)}")
+    if ascii_art:
+        img_ascii_choice = AsciiArt.from_image(path=choice)
+        _logger.info(f"\n{img_ascii_choice.to_ascii(columns=ASCII_ART_COLUMNS)}")
 
     return choice
 
@@ -219,6 +222,7 @@ def get_image_from_file(
 def set_inky_image(
         img: Image,
         expand: bool,
+        ascii_art: bool,
         inky: [Inky7Colour, InkyMockImpression] = auto(ask_user=True, verbose=True),
         saturation: float = SATURATION,
         clear_inky: bool = False,
@@ -288,9 +292,10 @@ def set_inky_image(
 
             background_image = Image.alpha_composite(base, txt_)
 
-    img_ascii = AsciiArt.from_pillow_image(background_image)
-    _logger.info("Final Render:")
-    _logger.info(f"\n{img_ascii.to_ascii(columns=ASCII_ART_COLUMNS)}")
+    if ascii_art:
+        _logger.info("Final Render:")
+        img_ascii = AsciiArt.from_pillow_image(background_image)
+        _logger.info(f"\n{img_ascii.to_ascii(columns=ASCII_ART_COLUMNS)}")
 
     inky.set_image(background_image, saturation=saturation)
     inky.show()
@@ -348,6 +353,16 @@ def parse_args(args):
         type=bool,
         required=False,
         help="Burn path onto image.",
+    )
+
+    subparser_set.add_argument(
+        "--ascii-art",
+        "-a",
+        dest="ascii_art",
+        default=False,
+        type=bool,
+        required=False,
+        help="Log AsciiArt image previews.",
     )
 
     subparser_set.add_argument(
@@ -459,6 +474,7 @@ def main(args):
                 search_dir=pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
                 match_aspect=args.match_aspect,
                 frame_orientation=args.frame_orientation,
+                ascii_art=args.ascii_art,
             )
             image = get_image_from_file(
                 frame_orientation=args.frame_orientation,
@@ -470,6 +486,7 @@ def main(args):
                 search_dir=pathlib.Path("/home/pi/images"),
                 match_aspect=args.match_aspect,
                 frame_orientation=args.frame_orientation,
+                ascii_art=args.ascii_art,
             )
             image = get_image_from_file(
                 frame_orientation=args.frame_orientation,
@@ -478,6 +495,7 @@ def main(args):
 
         set_inky_image(
             img=image,
+            ascii_art=args.ascii_art,
             expand=args.expand,
             saturation=args.saturation,
             show_path=args.show_path,
