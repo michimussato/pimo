@@ -6,12 +6,15 @@ import time
 import os
 import datetime
 
-from PIL import Image, ImageOps, ImageFilter, ImageEnhance, ImageFont, ImageDraw
-# from pillow_lut import load_cube_file
+from PIL import (Image,
+                 ImageOps,
+                 ImageEnhance,
+                 ImageFont,
+                 ImageDraw,
+                 )
 
 from inky.auto import auto
 from inky import Inky7Colour
-# from inky.inky import Inky
 from inky.mock import InkyMockImpression
 import logging
 
@@ -37,34 +40,58 @@ pimo_history = r'/home/pi/pimo_history'
 # ---- Python API ----
 
 
-def get_rand_gdrive_image(
+def get_rand_image(
         force_aspect: bool,
         frame_orientation: str,
         search_dir: pathlib.Path,
 ) -> pathlib.Path:
+
     while not pathlib.Path(search_dir).exists():
-        _logger.info(f"Google Drive ({search_dir}) connected?\nRetrying in 10 seconds...\n")
+        _logger.info(f"{search_dir = } not found.\nRetrying in 10 seconds...\n")
         time.sleep(10)
 
-    _logger.info(f'Google Drive found at {search_dir}.')
+    _logger.info(f'{search_dir = } found.')
 
     with open(f'{pimo_current}') as fi:
         current = fi.read().splitlines()
 
-    _logger.info(f'current is: {current}')
+    _logger.info(f'{current = }')
 
     # while True:
     _logger.info('Searching...')
 
-    jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJ][pP][gG]"))
+    # Todo:
+    #  - [ ] Improve Regex
+    jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJpP][pPnN][gG]"))
 
-    choice = None
+    while True:
+        choice = random.choice(jpg)
 
-    with open(f'{pimo_downvoted}') as fi:
-        while choice is None \
-                or str(choice) in fi.read() \
-                or str(choice) in current:
-            choice = random.choice(jpg)
+        with open(f'{pimo_downvoted}') as fi:
+            while choice is None \
+                    or str(choice) in fi.read() \
+                    or str(choice) in current:
+                choice = random.choice(jpg)
+
+        img = Image.open(choice)
+        size = img.size
+
+        if size[0] > size[1]:  # landscape
+            image_orientation = 'landscape'
+        elif size[0] < size[1]:  # portrait
+            image_orientation = 'portrait'
+        else:  # square
+            image_orientation = 'square'
+
+        _logger.info(f'Image orientation is {image_orientation} ({size[0]} x {size[1]})')
+        _logger.info(f'Frame orientation is {frame_orientation}')
+
+        if not force_aspect:
+            break
+
+        if image_orientation == 'square' \
+                or image_orientation == frame_orientation:
+            break
 
     _logger.info(f"Setting image: {choice}")
 
@@ -73,49 +100,6 @@ def get_rand_gdrive_image(
 
     with open(f'{pimo_history}', 'a') as fo:
         fo.write(f'{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}: {choice}\n')
-
-    return choice
-
-
-def get_rand_image(
-        force_aspect: bool,
-        frame_orientation: str,
-        search_dir: pathlib.Path,
-) -> pathlib.Path:
-
-    while not pathlib.Path(search_dir).exists():
-        _logger.info(f"No images folder found ({search_dir}).\nRetrying in 10 seconds...\n")
-        time.sleep(10)
-
-    _logger.info(f'Images folder found at {search_dir}.')
-
-    # while True:
-    _logger.info('Searching...')
-
-    jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJpP][pPnN][gG]"))
-
-    while True:
-        choice = random.choice(jpg)
-
-        img = Image.open(choice)
-        size = img.size
-
-        if size[0] > size[1]:  # landscape
-            orientation = 'landscape'
-        elif size[0] < size[1]:  # portrait
-            orientation = 'portrait'
-        else:  # square
-            orientation = 'square'
-
-        _logger.info(f'Image orientation is {orientation} ({size[0]} x {size[1]})')
-        _logger.info(f'Frame orientation is {frame_orientation}')
-
-        if force_aspect:
-            if orientation == 'square' \
-                    or orientation == frame_orientation:
-                break
-        else:
-            break
 
     return choice
 
@@ -443,7 +427,7 @@ def main(args):
             image = test_bars()
 
         elif args.from_gdrive:
-            image_file = get_rand_gdrive_image(
+            image_file = get_rand_image(
                 search_dir=pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
                 force_aspect=args.force_aspect,
                 frame_orientation=args.frame_orientation,
