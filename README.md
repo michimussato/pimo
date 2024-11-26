@@ -73,7 +73,8 @@ Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
-usage: pimo set [-h] [--saturation SATURATION] [--show-path SHOW_PATH] --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse} [--force-aspect] [-f FROM_FILE | -t | -g | -d]
+usage: pimo set [-h] [--saturation SATURATION] [--show-path SHOW_PATH] --frame-orientation
+                {square,portrait,landscape,portrait_reverse,landscape_reverse} [--force-aspect] [--expand] [-f FROM_FILE | -t | -g | -d]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -84,6 +85,7 @@ optional arguments:
   --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse}, -o {square,portrait,landscape,portrait_reverse,landscape_reverse}
                         Frame Orientation: square,portrait,landscape,portrait_reverse,landscape_reverse
   --force-aspect, -a    Force image aspect ratio to match Frame Orientation
+  --expand, -e          Expand image to fit full frame
   -f FROM_FILE, --from-file FROM_FILE
                         Set an image from file.
   -t, --test-bars       Set a test bar image.
@@ -117,11 +119,11 @@ https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md
 #### frame landscape (frame-vertical)
 
 ```
-pimo -v s -d -o landscape -a
+pimo -v s -d -o landscape -a -e
 ```
 
 #### frame portrait (frame)
 
 ```
-pimo -v s -d -o portrait -a
+pimo -v s -d -o portrait -a -e
 ```
