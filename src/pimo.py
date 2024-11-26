@@ -360,7 +360,7 @@ def parse_args(args):
         "-a",
         dest="ascii_art",
         default=False,
-        type=bool,
+        action="store_true",
         required=False,
         help="Log AsciiArt image previews.",
     )
