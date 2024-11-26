@@ -32,9 +32,9 @@ FORCE_ORIENTATION = True
 ORIENTATION = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
 
 
-pimo_downvoted = r'/home/pi/pimo_downvoted'
-pimo_current = r'/home/pi/pimo_current'
-pimo_history = r'/home/pi/pimo_history'
+pimo_downvoted = r"/home/pi/pimo_downvoted"
+pimo_current = r"/home/pi/pimo_current"
+pimo_history = r"/home/pi/pimo_history"
 
 
 # ---- Python API ----
@@ -50,15 +50,14 @@ def get_rand_image(
         _logger.info(f"{search_dir = } not found.\nRetrying in 10 seconds...\n")
         time.sleep(10)
 
-    _logger.info(f'{search_dir = } found.')
+    _logger.info(f"{search_dir = } found.")
 
-    with open(f'{pimo_current}') as fi:
+    with open(f"{pimo_current}") as fi:
         current = fi.read().splitlines()
 
-    _logger.info(f'{current = }')
+    _logger.info(f"{current = }")
 
-    # while True:
-    _logger.info('Searching...')
+    _logger.info("Searching...")
 
     # Todo:
     #  - [ ] Improve Regex
@@ -67,7 +66,7 @@ def get_rand_image(
     while True:
         choice = random.choice(jpg)
 
-        with open(f'{pimo_downvoted}') as fi:
+        with open(f"{pimo_downvoted}") as fi:
             while choice is None \
                     or str(choice) in fi.read() \
                     or str(choice) in current:
@@ -77,41 +76,43 @@ def get_rand_image(
         size = img.size
 
         if size[0] > size[1]:  # landscape
-            image_orientation = 'landscape'
+            image_orientation = "landscape"
         elif size[0] < size[1]:  # portrait
-            image_orientation = 'portrait'
+            image_orientation = "portrait"
         else:  # square
-            image_orientation = 'square'
+            image_orientation = "square"
 
-        _logger.info(f'Image orientation is {image_orientation} ({size[0]} x {size[1]})')
-        _logger.info(f'Frame orientation is {frame_orientation}')
+        _logger.info(f"Image orientation is {image_orientation} ({size[0]} x {size[1]})")
+        _logger.info(f"Frame orientation is {frame_orientation}")
 
         if not force_aspect:
             break
 
-        if image_orientation == 'square' \
-                or image_orientation == frame_orientation:
+        # A picture is either square, landscape or portrait.
+        # No *_reverse. Hence, check if image_orientation in frame_orientation.
+        if image_orientation == "square" \
+                or image_orientation in frame_orientation:
             break
 
     _logger.info(f"Setting image: {choice}")
 
-    with open(f'{pimo_current}', 'w') as fo:
-        fo.write(f'{choice}\n')
+    with open(f"{pimo_current}", "w") as fo:
+        fo.write(f"{choice}\n")
 
-    with open(f'{pimo_history}', 'a') as fo:
-        fo.write(f'{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}: {choice}\n')
+    with open(f"{pimo_history}", "a") as fo:
+        fo.write(f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}: {choice}\n")
 
     return choice
 
 
 def bg_black() -> Image:
     inky = auto(ask_user=True, verbose=True)
-    return Image.new(mode='RGB', size=inky.resolution, color=(0, 0, 0))
+    return Image.new(mode="RGB", size=inky.resolution, color=(0, 0, 0))
 
 
 def bg_white() -> Image:
     inky = auto(ask_user=True, verbose=True)
-    return Image.new(mode='RGB', size=inky.resolution, color=(255, 255, 255))
+    return Image.new(mode="RGB", size=inky.resolution, color=(255, 255, 255))
 
 
 def clear_inky(
@@ -134,44 +135,44 @@ def test_bars(
 
     strip_hight = int(inky.resolution[1])
 
-    red = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 0, 0))
+    red = Image.new(mode="RGB", size=(strip_size, strip_hight), color=(255, 0, 0))
     background_image.paste(im=red, box=(strip_size * 1, 0))
 
-    yellow = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 255, 0))
+    yellow = Image.new(mode="RGB", size=(strip_size, strip_hight), color=(255, 255, 0))
     background_image.paste(im=yellow, box=(strip_size * 2, 0))
 
-    green = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 255, 0))
+    green = Image.new(mode="RGB", size=(strip_size, strip_hight), color=(0, 255, 0))
     background_image.paste(im=green, box=(strip_size * 3, 0))
 
-    cyan = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 100, 255))
+    cyan = Image.new(mode="RGB", size=(strip_size, strip_hight), color=(0, 100, 255))
     background_image.paste(im=cyan, box=(strip_size * 4, 0))
 
-    blue = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(0, 0, 255))
+    blue = Image.new(mode="RGB", size=(strip_size, strip_hight), color=(0, 0, 255))
     background_image.paste(im=blue, box=(strip_size * 5, 0))
 
-    # magenta = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 64, 192))
-    magenta = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 0, 100))
+    # magenta = Image.new(mode="RGB", size=(strip_size, strip_hight), color=(255, 64, 192))
+    magenta = Image.new(mode="RGB", size=(strip_size, strip_hight), color=(255, 0, 100))
     background_image.paste(im=magenta, box=(strip_size * 6, 0))
 
-    white = Image.new(mode='RGB', size=(strip_size, strip_hight), color=(255, 255, 255))
+    white = Image.new(mode="RGB", size=(strip_size, strip_hight), color=(255, 255, 255))
     background_image.paste(im=white, box=(strip_size * 7, 0))
 
-    grey1 = Image.new(mode='RGB', size=(strip_size, 100), color=(36, 36, 36))
+    grey1 = Image.new(mode="RGB", size=(strip_size, 100), color=(36, 36, 36))
     background_image.paste(im=grey1, box=(strip_size * 1, 348))
 
-    grey2 = Image.new(mode='RGB', size=(strip_size, 100), color=(72, 72, 72))
+    grey2 = Image.new(mode="RGB", size=(strip_size, 100), color=(72, 72, 72))
     background_image.paste(im=grey2, box=(strip_size * 2, 348))
 
-    grey3 = Image.new(mode='RGB', size=(strip_size, 100), color=(108, 108, 108))
+    grey3 = Image.new(mode="RGB", size=(strip_size, 100), color=(108, 108, 108))
     background_image.paste(im=grey3, box=(strip_size * 3, 348))
 
-    grey4 = Image.new(mode='RGB', size=(strip_size, 100), color=(144, 144, 144))
+    grey4 = Image.new(mode="RGB", size=(strip_size, 100), color=(144, 144, 144))
     background_image.paste(im=grey4, box=(strip_size * 4, 348))
 
-    grey5 = Image.new(mode='RGB', size=(strip_size, 100), color=(180, 180, 180))
+    grey5 = Image.new(mode="RGB", size=(strip_size, 100), color=(180, 180, 180))
     background_image.paste(im=grey5, box=(strip_size * 5, 348))
 
-    grey6 = Image.new(mode='RGB', size=(strip_size, 100), color=(216, 216, 216))
+    grey6 = Image.new(mode="RGB", size=(strip_size, 100), color=(216, 216, 216))
     background_image.paste(im=grey6, box=(strip_size * 6, 348))
 
     return background_image
@@ -183,13 +184,13 @@ def get_image_from_file(
 ) -> Image:
     img = Image.open(from_file)
 
-    if frame_orientation == 'landscape_reverse':
+    if frame_orientation == "landscape_reverse":
         img = img.rotate(angle=0, expand=True)
-    elif frame_orientation == 'portrait_reverse':
+    elif frame_orientation == "portrait_reverse":
         img = img.rotate(angle=90, expand=True)
-    elif frame_orientation == 'landscape':
+    elif frame_orientation == "landscape":
         img = img.rotate(angle=180, expand=True)
-    elif frame_orientation == 'portrait':
+    elif frame_orientation == "portrait":
         img = img.rotate(angle=270, expand=True)
 
     return img
@@ -240,22 +241,22 @@ def set_inky_image(
 
     if show_path:
         font_size = 12
-        with background_image.convert('RGBA') as base:
+        with background_image.convert("RGBA") as base:
             # src = src.replace('/data/GDRIVE/media/images/scan/processed/', '')
 
             fnt = ImageFont.truetype(pathlib.Path("data/ttf/ipag.ttf").resolve(), font_size)
             length = fnt.getlength(img.filename)
 
             # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
-            txt = Image.new('RGBA', size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192))
-            d = ImageDraw.Draw(txt, mode='RGBA')
+            txt = Image.new("RGBA", size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192))
+            d = ImageDraw.Draw(txt, mode="RGBA")
 
             # d.text((10, 10), src, font=fnt, fill=(255, 255, 255, 255))
             border = 12
             # d.text((round(txt.size[0] - length - border), border), src, font=fnt, fill=(255, 255, 255, 255))
             d.text((0, 0), img.filename, font=fnt, fill=(255, 255, 255, 255))
 
-            txt_ = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
+            txt_ = Image.new("RGBA", size=inky.resolution, color=(0, 0, 0, 0))
 
             ## top
             # txt_.paste(im=txt, box=(border, border))
