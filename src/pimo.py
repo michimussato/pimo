@@ -85,6 +85,8 @@ def get_rand_image(
         _logger.info(f"Image orientation is {image_orientation} ({size[0]} x {size[1]})")
         _logger.info(f"Frame orientation is {frame_orientation}")
 
+        # Do we want to allow portrait images on landscape frames
+        # or landscape images on portrait frames?
         if not force_aspect:
             break
 
