@@ -202,26 +202,27 @@ def test_bars(
     return background_image
 
 
-def get_image_from_file(
+def get_rotation_angle(
         frame_orientation: str,
-        from_file: pathlib.Path,
-) -> Image:
-    img = Image.open(from_file)
+) -> int:
+
+    angle = 0
 
     if frame_orientation == "landscape_reverse":
-        img = img.rotate(angle=0, expand=True)
+        angle = 0
     elif frame_orientation == "portrait_reverse":
-        img = img.rotate(angle=90, expand=True)
+        angle = 90
     elif frame_orientation == "landscape":
-        img = img.rotate(angle=180, expand=True)
+        angle = 180
     elif frame_orientation == "portrait":
-        img = img.rotate(angle=270, expand=True)
+        angle = 270
 
-    return Image(img)
+    return angle
 
 
 def set_inky_image(
         img: Image,
+        angle: int,
         expand: bool,
         ascii_art: bool,
         show_path: bool,
@@ -232,19 +233,21 @@ def set_inky_image(
         enhance: bool = True,
 ) -> None:
 
+    _img = img.rotate(angle, expand=True)
+
     if clear_inky:
         _clear_inky()
 
     # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
     if expand:
         resizedimage = ImageOps.fit(
-            image=img,
+            image=_img,
             size=inky.resolution,
             method=Image.BICUBIC
         )
     else:
         resizedimage = ImageOps.contain(
-            image=img,
+            image=_img,
             size=inky.resolution,
             method=Image.BICUBIC
         )
@@ -465,10 +468,10 @@ def main(args):
     if any([sc == args.sub_command for sc in ["set", "s"]]):
 
         if args.from_file:
-            image = get_image_from_file(
-                frame_orientation=args.frame_orientation,
-                from_file=args.from_file,
-            )
+            image_file = args.from_file
+
+            image = Image.open(image_file)
+
         elif args.test_bars:
             image = test_bars()
 
@@ -479,10 +482,8 @@ def main(args):
                 frame_orientation=args.frame_orientation,
                 ascii_art=args.ascii_art,
             )
-            image = get_image_from_file(
-                frame_orientation=args.frame_orientation,
-                from_file=image_file,
-            )
+
+            image = Image.open(image_file)
 
         elif args.from_local:
             image_file = get_rand_image(
@@ -491,13 +492,12 @@ def main(args):
                 frame_orientation=args.frame_orientation,
                 ascii_art=args.ascii_art,
             )
-            image = get_image_from_file(
-                frame_orientation=args.frame_orientation,
-                from_file=image_file,
-            )
+
+            image = Image.open(image_file)
 
         set_inky_image(
             img=image,
+            angle=get_rotation_angle(frame_orientation=args.frame_orientation),
             ascii_art=args.ascii_art,
             expand=args.expand,
             saturation=args.saturation,
