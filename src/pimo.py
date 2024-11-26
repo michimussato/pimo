@@ -222,6 +222,7 @@ def set_inky_image(
         enhance: bool = True,
 ) -> None:
 
+    # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
     if expand:
         resizedimage = ImageOps.fit(
             image=img,
