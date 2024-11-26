@@ -57,6 +57,8 @@ def get_rand_image(
         current = fi.read().splitlines()
 
     _logger.info(f"{current = }")
+    img_ascii_current = AsciiArt.from_image(path=current[0])
+    _logger.info(img_ascii_current.to_terminal(columns=80))
 
     _logger.info("Searching...")
 
@@ -106,6 +108,8 @@ def get_rand_image(
         fo.write(f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}: {choice}\n")
 
     _logger.info(f"Setting image: {choice}")
+    img_ascii_choice = AsciiArt.from_image(path=choice)
+    _logger.info(img_ascii_choice.to_terminal(columns=80))
 
     return choice
 
