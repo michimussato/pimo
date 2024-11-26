@@ -157,8 +157,7 @@ Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
-usage: pimo set [-h] [--saturation SATURATION] [--show-path SHOW_PATH] --frame-orientation
-                {square,portrait,landscape,portrait_reverse,landscape_reverse} [--force-aspect] [--expand] [-f FROM_FILE | -t | -g | -d]
+usage: pimo set [-h] [--saturation SATURATION] [--show-path SHOW_PATH] --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect] [--expand] [-f FROM_FILE | -t | -g | -d]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -168,7 +167,7 @@ optional arguments:
                         Burn path onto image.
   --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse}, -o {square,portrait,landscape,portrait_reverse,landscape_reverse}
                         Frame Orientation: square,portrait,landscape,portrait_reverse,landscape_reverse
-  --force-aspect, -a    Force image aspect ratio to match Frame Orientation
+  --match-aspect, -m    Force image aspect ratio to match Frame Orientation
   --expand, -e          Expand image to fit full frame
   -f FROM_FILE, --from-file FROM_FILE
                         Set an image from file.
