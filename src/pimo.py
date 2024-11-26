@@ -58,7 +58,7 @@ def get_rand_image(
 
     _logger.info(f"{current = }")
     img_ascii_current = AsciiArt.from_image(path=current[0])
-    _logger.info(img_ascii_current.to_terminal(columns=80))
+    _logger.info(img_ascii_current.to_ascii(columns=80))
 
     _logger.info("Searching...")
 
@@ -109,7 +109,7 @@ def get_rand_image(
 
     _logger.info(f"Setting image: {choice}")
     img_ascii_choice = AsciiArt.from_image(path=choice)
-    _logger.info(img_ascii_choice.to_terminal(columns=80))
+    _logger.info(img_ascii_choice.to_ascii(columns=80))
 
     return choice
 
@@ -279,7 +279,7 @@ def set_inky_image(
 
     img_ascii = AsciiArt.from_pillow_image(background_image)
     _logger.info("Final Render:")
-    _logger.info(img_ascii.to_terminal(columns=80))
+    _logger.info(img_ascii.to_ascii(columns=80))
 
     inky.set_image(background_image, saturation=saturation)
     inky.show()
