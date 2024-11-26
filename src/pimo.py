@@ -41,7 +41,7 @@ pimo_history = r"/home/pi/pimo_history"
 
 
 def get_rand_image(
-        force_aspect: bool,
+        match_aspect: bool,
         frame_orientation: str,
         search_dir: pathlib.Path,
 ) -> pathlib.Path:
@@ -87,7 +87,7 @@ def get_rand_image(
 
         # Do we want to allow portrait images on landscape frames
         # or landscape images on portrait frames?
-        if not force_aspect:
+        if not match_aspect:
             break
 
         # A picture is either square, landscape or portrait.
@@ -337,9 +337,9 @@ def parse_args(args):
     )
 
     subparser_set.add_argument(
-        "--force-aspect",
-        "-a",
-        dest="force_aspect",
+        "--match-aspect",
+        "-m",
+        dest="match_aspect",
         action="store_true",
         default=False,
         required=False,
@@ -432,7 +432,7 @@ def main(args):
         elif args.from_gdrive:
             image_file = get_rand_image(
                 search_dir=pathlib.Path(f"{os.environ['GDRIVE_MOUNT']}/media/images/scan/processed"),
-                force_aspect=args.force_aspect,
+                match_aspect=args.match_aspect,
                 frame_orientation=args.frame_orientation,
             )
             image = get_image_from_file(
@@ -443,7 +443,7 @@ def main(args):
         elif args.from_local:
             image_file = get_rand_image(
                 search_dir=pathlib.Path("/home/pi/images"),
-                force_aspect=args.force_aspect,
+                match_aspect=args.match_aspect,
                 frame_orientation=args.frame_orientation,
             )
             image = get_image_from_file(
