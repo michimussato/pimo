@@ -67,8 +67,9 @@ def get_rand_image(
         current = fi.read().splitlines()
 
     _logger.info(f"{current = }")
-    img_ascii_current = AsciiArt.from_image(path=current[0])
-    _logger.info(f"\n{img_ascii_current.to_ascii(columns=ASCII_ART_COLUMNS)}")
+    if bool(current):
+        img_ascii_current = AsciiArt.from_image(path=current[0])
+        _logger.info(f"\n{img_ascii_current.to_ascii(columns=ASCII_ART_COLUMNS)}")
 
     _logger.info("Searching...")
 
