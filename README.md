@@ -157,7 +157,10 @@ Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
 Detected 7-Colour (UC8159)
-usage: pimo set [-h] [--saturation SATURATION] [--show-path SHOW_PATH] --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect] [--expand] [-f FROM_FILE | -t | -g | -d]
+usage: pimo set [-h] [--saturation SATURATION] [--show-path SHOW_PATH]
+                [--ascii-art ASCII_ART] --frame-orientation
+                {square,portrait,landscape,portrait_reverse,landscape_reverse}
+                [--match-aspect] [--expand] [-f FROM_FILE | -t | -g | -d]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -165,8 +168,11 @@ optional arguments:
                         Saturation factor (0.0-1.0)
   --show-path SHOW_PATH, -p SHOW_PATH
                         Burn path onto image.
+  --ascii-art ASCII_ART, -a ASCII_ART
+                        Log AsciiArt image previews.
   --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse}, -o {square,portrait,landscape,portrait_reverse,landscape_reverse}
-                        Frame Orientation: square,portrait,landscape,portrait_reverse,landscape_reverse
+                        Frame Orientation:
+                        square,portrait,landscape,portrait_reverse,landscape_reverse
   --match-aspect, -m    Force image aspect ratio to match Frame Orientation
   --expand, -e          Expand image to fit full frame
   -f FROM_FILE, --from-file FROM_FILE
@@ -198,11 +204,11 @@ https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md
 #### frame landscape (frame-vertical)
 
 ```shell
-pimo -v s -d -o landscape -m -e
+pimo -v s -d -o landscape -m -e -a
 ```
 
 #### frame portrait (frame)
 
 ```shell
-pimo -v s -d -o portrait -m -e
+pimo -v s -d -o portrait -m -e -a
 ```
