@@ -213,6 +213,7 @@ def get_image_from_file(
 
 def set_inky_image(
         img: Image,
+        expand: bool,
         inky: [Inky7Colour, InkyMockImpression] = auto(ask_user=True, verbose=True),
         saturation: float = SATURATION,
         clear_inky: bool = False,
@@ -221,7 +222,18 @@ def set_inky_image(
         enhance: bool = True,
 ) -> None:
 
-    resizedimage = ImageOps.contain(img, inky.resolution, method=Image.BICUBIC)
+    if expand:
+        resizedimage = ImageOps.fit(
+            image=img,
+            size=inky.resolution,
+            method=Image.BICUBIC
+        )
+    else:
+        resizedimage = ImageOps.contain(
+            image=img,
+            size=inky.resolution,
+            method=Image.BICUBIC
+        )
 
     if enhance:
         # resizedimage = resizedimage.rotate(180)
@@ -346,6 +358,16 @@ def parse_args(args):
         help="Force image aspect ratio to match Frame Orientation",
     )
 
+    subparser_set.add_argument(
+        "--expand",
+        "-e",
+        dest="expand",
+        action="store_true",
+        default=False,
+        required=False,
+        help="Expand image to fit full frame",
+    )
+
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
         required=False,
     )
@@ -443,6 +465,7 @@ def main(args):
 
         set_inky_image(
             img=image,
+            expand=args.expand,
             saturation=args.saturation,
             show_path=args.show_path,
         )
