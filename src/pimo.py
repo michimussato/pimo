@@ -222,10 +222,10 @@ def set_inky_image(
         img: Image,
         expand: bool,
         ascii_art: bool,
+        show_path: bool,
         inky: [Inky7Colour, InkyMockImpression] = auto(ask_user=True, verbose=True),
         saturation: float = SATURATION,
         clear_inky: bool = False,
-        show_path: bool = SHOW_PATH,
         background_image: Image = bg_black(),
         enhance: bool = True,
 ) -> None:
