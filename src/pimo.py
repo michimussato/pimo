@@ -217,7 +217,7 @@ def get_image_from_file(
     elif frame_orientation == "portrait":
         img = img.rotate(angle=270, expand=True)
 
-    return img
+    return Image(img)
 
 
 def set_inky_image(
@@ -273,6 +273,7 @@ def set_inky_image(
             # src = src.replace('/data/GDRIVE/media/images/scan/processed/', '')
 
             fnt = ImageFont.truetype(RESOURCES / "ttf" / "ipag.ttf", font_size)
+            _logger.warning(type(img))
             _logger.warning(dir(img))
             length = fnt.getlength(img.filename)
 
