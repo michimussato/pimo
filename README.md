@@ -2,7 +2,9 @@
 * [pimo](#pimo)
   * [venv](#venv)
   * [Installation](#installation)
-    * ["setup.py" not found.](#setuppy-not-found)
+    * [Known Issues](#known-issues)
+      * ["setup.py" not found.](#setuppy-not-found)
+      * [Woah there, some pins we need are in use!](#woah-there-some-pins-we-need-are-in-use)
   * [Usage](#usage)
     * [CLI](#cli)
     * [Sub Commands](#sub-commands)
@@ -30,7 +32,17 @@ source ~/venvs/inky/bin/activate
 pip install git+https://github.com/michimussato/pimo.git
 ```
 
-### "setup.py" not found.
+or
+
+```shell
+git clone https://github.com/michimussato/pimo.git
+cd pimo
+pip install -e .
+```
+
+### Known Issues
+
+#### "setup.py" not found.
 
 ```
 $ pip install -e .
@@ -40,6 +52,78 @@ ERROR: File "setup.py" not found. Directory cannot be installed in editable mode
 
 ```shell
 pip install pip --upgrade
+```
+
+#### Woah there, some pins we need are in use!
+
+```
+$ pimo -v s -t -o landscape_reverse
+Detected 7-Colour (UC8159)
+Detected 7-Colour (UC8159)
+Detected 7-Colour (UC8159)
+Detected 7-Colour (UC8159)
+Woah there, some pins we need are in use!
+  ⚠️   Chip Select: (line 8, SPI_CE0_N) currently claimed by spi0 CS0
+```
+
+```
+gpiod==2.2.2
+gpiodevice==0.0.5
+inky==2.0.0
+numpy==2.0.2
+pillow==11.0.0
+pillow-lut==1.0.1
+pimo @ git+https://github.com/michimussato/pimo.git@5dae016860aadbdef093d91803429f54165b9dc9
+smbus2==0.5.0
+spidev==3.6
+```
+
+Happens for `inky[rpi]==2.0.0`. Temporary solution is to
+lock `inky[rpi]>=1.5.0,<1.6`.
+Mentioned [here](https://github.com/pimoroni/inky?tab=readme-ov-file#install-stable-library-from-pypi-and-configure-manually)
+
+```
+inky==1.5.0
+numpy==2.0.2
+pillow==11.0.0
+pillow-lut==1.0.1
+pimo @ git+https://github.com/michimussato/pimo.git@7afbc61518c456c0822d95cdc8b4c804dfc0b7ad
+RPi.GPIO==0.7.1
+smbus2==0.5.0
+spidev==3.6
+```
+
+Todo: Try to go through the whole setup procedure:
+https://github.com/pimoroni/inky?tab=readme-ov-file#install-stable-library-from-pypi-and-configure-manually
+
+For reference:
+```
+beautifulsoup4==4.12.3
+certifi==2024.2.2
+charset-normalizer==3.3.2
+click==8.1.7
+decorator==5.1.1
+font-fredoka-one==0.0.4
+font-hanken-grotesk==0.0.2
+font-intuitive==0.0.4
+font-source-serif-pro==0.0.1
+future==0.18.3
+geocoder==1.38.1
+idna==3.6
+inky==1.5.0
+numpy==1.26.4
+pillow==10.2.0
+pillow-lut==1.0.1
+-e git+https://github.com/michimussato/pimo.git@1d0bdff77f6ab5c3c230e63fa3650bada96f71c8#egg=pimo
+pkg_resources==0.0.0
+ratelim==0.1.6
+requests==2.31.0
+RPi.GPIO==0.7.1
+six==1.16.0
+smbus2==0.4.3
+soupsieve==2.5
+spidev==3.6
+urllib3==2.2.0
 ```
 
 ## Usage
@@ -94,10 +178,6 @@ optional arguments:
                         Set a random image from local directory.
 ```
 
-Todo
-
-- [ ] Fill frame
-
 ## Examples
 
 ### moode-oroni
@@ -118,12 +198,12 @@ https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md
 
 #### frame landscape (frame-vertical)
 
-```
+```shell
 pimo -v s -d -o landscape -a -e
 ```
 
 #### frame portrait (frame)
 
-```
+```shell
 pimo -v s -d -o portrait -a -e
 ```

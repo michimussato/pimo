@@ -14,7 +14,7 @@ readme = "README.md"
 name = "pimo"
 dynamic = ["version"]
 requires-python = ">= 3.9"
-# Todo: remove example-depends
+# https://pypi.org/project/inky/
 dependencies = [
     "pillow",
     "pillow-lut",
