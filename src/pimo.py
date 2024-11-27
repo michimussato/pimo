@@ -222,8 +222,8 @@ def get_rotation_angle(
 
 def set_inky_image(
         img: Image,
-        angle: int,
         expand: bool,
+        frame_orientation: str,
         ascii_art: bool,
         show_path: bool,
         inky: [Inky7Colour, InkyMockImpression] = auto(ask_user=True, verbose=True),
@@ -233,7 +233,10 @@ def set_inky_image(
         enhance: bool = True,
 ) -> None:
 
+    angle = get_rotation_angle(frame_orientation)
+
     # _img = img.rotate(angle, expand=True)
+
     _img = img
 
     if clear_inky:
@@ -308,6 +311,9 @@ def set_inky_image(
             # [2024-11-27 12:31:26] WARNING:pimo:border = 12
             # [2024-11-27 12:31:26] WARNING:pimo:inky.resolution = (800, 480)
             # [2024-11-27 12:31:26] WARNING:pimo:txt.size = (247, 12)
+
+            if "reverse" in frame_orientation:
+                txt_ = txt_.rotate(180)
 
             background_image = Image.alpha_composite(base, txt_)
 
@@ -510,9 +516,9 @@ def main(args):
 
         set_inky_image(
             img=image,
-            angle=get_rotation_angle(frame_orientation=args.frame_orientation),
             ascii_art=args.ascii_art,
             expand=args.expand,
+            frame_orientation=args.frame_orientation,
             saturation=args.saturation,
             show_path=args.show_path,
         )
