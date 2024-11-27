@@ -290,8 +290,10 @@ def set_inky_image(
 
             txt_ = Image.new("RGBA", size=inky.resolution, color=(0, 0, 0, 0))
 
+            passe_partout = 10
+
             ## top
-            txt_.paste(im=txt, box=(inky.resolution[0] - txt.size[0] - border, border))
+            txt_.paste(im=txt, box=(inky.resolution[0] - txt.size[0] - border - passe_partout, border))
             ## bottom
             # # txt_rotated = txt.rotate(angle, expand=False)
             # # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
