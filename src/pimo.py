@@ -233,6 +233,8 @@ def set_inky_image(
         enhance: bool = True,
 ) -> None:
 
+    _logger.debug(f"{inky.resolution = }")
+
     angle = get_rotation_angle(frame_orientation)
 
     _img = img.rotate(angle, expand=True)
@@ -267,15 +269,17 @@ def set_inky_image(
         converter = ImageEnhance.Sharpness(resizedimage)
         resizedimage = converter.enhance(10.0)
 
-    # _logger.info(f'Image: {img.filename}\n')
-
-    background_image.paste(im=resizedimage, box=(
-    int(inky.resolution[0] / 2 - resizedimage.size[0] / 2), int(inky.resolution[1] / 2 - resizedimage.size[1] / 2)))
+    background_image.paste(
+        im=resizedimage,
+        box=(
+            int(inky.resolution[0] / 2 - resizedimage.size[0] / 2),
+            int(inky.resolution[1] / 2 - resizedimage.size[1] / 2),
+        )
+    )
 
     if show_path:
         font_size = 12
         with background_image.convert("RGBA") as base:
-            # src = src.replace('/data/GDRIVE/media/images/scan/processed/', '')
 
             fnt = ImageFont.truetype(RESOURCES / "ttf" / "ipag.ttf", font_size)
             length = fnt.getlength(img.filename)
@@ -297,18 +301,11 @@ def set_inky_image(
             ## top
             txt_.paste(im=txt, box=(inky.resolution[0] - txt.size[0] - border - passe_partout_long_edges, border))
             ## bottom
-            # # txt_rotated = txt.rotate(angle, expand=False)
-            # # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
             # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
 
-            _logger.warning(f"{txt_.size = }")
-            _logger.warning(f"{border = }")
-            _logger.warning(f"{inky.resolution = }")
-            _logger.warning(f"{txt.size = }")
-            # [2024-11-27 12:31:26] WARNING:pimo:txt_.size = (800, 480)
-            # [2024-11-27 12:31:26] WARNING:pimo:border = 12
-            # [2024-11-27 12:31:26] WARNING:pimo:inky.resolution = (800, 480)
-            # [2024-11-27 12:31:26] WARNING:pimo:txt.size = (247, 12)
+            _logger.debug(f"{txt_.size = }")
+            _logger.debug(f"{border = }")
+            _logger.debug(f"{txt.size = }")
 
             if "landscape_reverse" == frame_orientation:
                 pass
