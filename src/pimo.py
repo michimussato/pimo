@@ -233,34 +233,8 @@ def set_inky_image(
         enhance: bool = True,
 ) -> None:
 
-    if show_path:
-        font_size = 12
-        with img.convert("RGBA") as base:
-            # src = src.replace('/data/GDRIVE/media/images/scan/processed/', '')
-
-            fnt = ImageFont.truetype(RESOURCES / "ttf" / "ipag.ttf", font_size)
-            length = fnt.getlength(img.filename)
-
-            # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
-            txt = Image.new("RGBA", size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192))
-            d = ImageDraw.Draw(txt, mode="RGBA")
-
-            # d.text((10, 10), src, font=fnt, fill=(255, 255, 255, 255))
-            border = 12
-            # d.text((round(txt.size[0] - length - border), border), src, font=fnt, fill=(255, 255, 255, 255))
-            d.text((0, 0), img.filename, font=fnt, fill=(255, 255, 255, 255))
-
-            txt_ = Image.new("RGBA", size=inky.resolution, color=(0, 0, 0, 0))
-
-            ## top
-            # txt_.paste(im=txt, box=(border, border))
-            ## bottom
-            txt_rotated = txt.rotate(angle, expand=False)
-            txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
-
-            img = Image.alpha_composite(base, txt_)
-
-    _img = img.rotate(angle, expand=True)
+    # _img = img.rotate(angle, expand=True)
+    _img = img
 
     if clear_inky:
         _clear_inky()
@@ -296,6 +270,33 @@ def set_inky_image(
 
     background_image.paste(im=resizedimage, box=(
     int(inky.resolution[0] / 2 - resizedimage.size[0] / 2), int(inky.resolution[1] / 2 - resizedimage.size[1] / 2)))
+
+    if show_path:
+        font_size = 12
+        with background_image.convert("RGBA") as base:
+            # src = src.replace('/data/GDRIVE/media/images/scan/processed/', '')
+
+            fnt = ImageFont.truetype(RESOURCES / "ttf" / "ipag.ttf", font_size)
+            length = fnt.getlength(img.filename)
+
+            # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
+            txt = Image.new("RGBA", size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192))
+            d = ImageDraw.Draw(txt, mode="RGBA")
+
+            # d.text((10, 10), src, font=fnt, fill=(255, 255, 255, 255))
+            border = 12
+            # d.text((round(txt.size[0] - length - border), border), src, font=fnt, fill=(255, 255, 255, 255))
+            d.text((0, 0), img.filename, font=fnt, fill=(255, 255, 255, 255))
+
+            txt_ = Image.new("RGBA", size=inky.resolution, color=(0, 0, 0, 0))
+
+            ## top
+            # txt_.paste(im=txt, box=(border, border))
+            ## bottom
+            txt_rotated = txt.rotate(angle, expand=False)
+            txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
+
+            background_image = Image.alpha_composite(base, txt_)
 
     if ascii_art:
         _logger.info("Final Render:")
