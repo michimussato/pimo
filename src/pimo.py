@@ -279,7 +279,7 @@ def set_inky_image(
             length = fnt.getlength(img.filename)
 
             # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
-            txt = Image.new("RGBA", size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192))
+            txt = Image.new("RGBA", size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192)).rotate(angle, expand=False)
             d = ImageDraw.Draw(txt, mode="RGBA")
 
             # d.text((10, 10), src, font=fnt, fill=(255, 255, 255, 255))
