@@ -237,8 +237,6 @@ def set_inky_image(
 
     _img = img.rotate(angle, expand=True)
 
-    # _img = img
-
     if clear_inky:
         _clear_inky()
 
@@ -312,7 +310,13 @@ def set_inky_image(
             # [2024-11-27 12:31:26] WARNING:pimo:inky.resolution = (800, 480)
             # [2024-11-27 12:31:26] WARNING:pimo:txt.size = (247, 12)
 
-            if "reverse" in frame_orientation:
+            if "landscape_reverse" == frame_orientation:
+                pass
+            elif "landscape" == frame_orientation:
+                txt_ = txt_.rotate(180)
+            elif "portrait" == frame_orientation:
+                pass
+            elif "portrait_reverse" == frame_orientation:
                 txt_ = txt_.rotate(180)
 
             background_image = Image.alpha_composite(base, txt_)
