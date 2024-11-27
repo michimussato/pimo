@@ -291,7 +291,7 @@ def set_inky_image(
             txt_ = Image.new("RGBA", size=inky.resolution, color=(0, 0, 0, 0))
 
             ## top
-            txt_.paste(im=txt, box=(border, border))
+            txt_.paste(im=txt, box=(border, border + txt_.size[1]))
             ## bottom
             # # txt_rotated = txt.rotate(angle, expand=False)
             # # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
