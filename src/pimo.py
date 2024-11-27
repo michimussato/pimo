@@ -295,12 +295,16 @@ def set_inky_image(
             ## bottom
             # txt_rotated = txt.rotate(angle, expand=False)
             # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
-            txt_.paste(im=txt, box=(border, inky.resolution[0] - txt.size[0] - 2))
+            txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
 
             _logger.warning(f"{txt_.size = }")
             _logger.warning(f"{border = }")
             _logger.warning(f"{inky.resolution = }")
             _logger.warning(f"{txt.size = }")
+            # [2024-11-27 12:31:26] WARNING:pimo:txt_.size = (800, 480)
+            # [2024-11-27 12:31:26] WARNING:pimo:border = 12
+            # [2024-11-27 12:31:26] WARNING:pimo:inky.resolution = (800, 480)
+            # [2024-11-27 12:31:26] WARNING:pimo:txt.size = (247, 12)
 
             background_image = Image.alpha_composite(base, txt_)
 
