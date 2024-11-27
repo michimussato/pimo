@@ -293,8 +293,14 @@ def set_inky_image(
             ## top
             # txt_.paste(im=txt, box=(border, border))
             ## bottom
-            txt_rotated = txt.rotate(angle, expand=False)
-            txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
+            # txt_rotated = txt.rotate(angle, expand=False)
+            # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
+            txt_.paste(im=txt, box=(border, inky.resolution[0] - txt.size[0] - 2))
+
+            _logger.warning(f"{txt_.size = }")
+            _logger.warning(f"{border = }")
+            _logger.warning(f"{inky.resolution = }")
+            _logger.warning(f"{txt.size = }")
 
             background_image = Image.alpha_composite(base, txt_)
 
