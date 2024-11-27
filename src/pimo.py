@@ -235,7 +235,7 @@ def set_inky_image(
 
     angle = get_rotation_angle(frame_orientation)
 
-    # _img = img.rotate(angle, expand=True)
+    _img = img.rotate(angle, expand=True)
 
     _img = img
 
