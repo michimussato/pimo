@@ -237,7 +237,7 @@ def set_inky_image(
 
     _img = img.rotate(angle, expand=True)
 
-    _img = img
+    # _img = img
 
     if clear_inky:
         _clear_inky()
