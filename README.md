@@ -185,7 +185,7 @@ optional arguments:
 https://github.com/michimussato/moode-oroni/blob/main/README.md
 
 ```shell
-pimo -v s -g -o landscape_reverse -m
+pimo -v s -g -o landscape_reverse -m -e -a -p
 ```
 
 ```shell
@@ -199,11 +199,11 @@ https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md
 #### frame landscape (frame-vertical)
 
 ```shell
-pimo -v s -d -o landscape -m -e -a
+pimo -v s -d -o landscape -m -e -a -p
 ```
 
 #### frame portrait (frame)
 
 ```shell
-pimo -v s -d -o portrait -m -e -a
+pimo -v s -d -o portrait -m -e -a -p
 ```
