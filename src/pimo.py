@@ -299,10 +299,11 @@ def set_inky_image(
                 passe_partout_long_edges = 0
             elif inky.resolution == (800, 480):
                 passe_partout_long_edges = 25
+            _logger.debug(f"{passe_partout_long_edges = }")
 
-            ## top
+            ## landscape/landscape_reverse: top-right
             txt_.paste(im=txt, box=(inky.resolution[0] - txt.size[0] - border - passe_partout_long_edges, border))
-            ## bottom
+            ## portrait/portrait_reverse:
             # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
 
             _logger.debug(f"{txt_.size = }")
