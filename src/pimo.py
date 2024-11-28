@@ -295,8 +295,10 @@ def set_inky_image(
 
             txt_ = Image.new("RGBA", size=inky.resolution, color=(0, 0, 0, 0))
 
-            # this will be different for 5 inch
-            passe_partout_long_edges = 25
+            if inky.resolution == (600, 448):
+                passe_partout_long_edges = 0
+            elif inky.resolution == (800, 480):
+                passe_partout_long_edges = 25
 
             ## top
             txt_.paste(im=txt, box=(inky.resolution[0] - txt.size[0] - border - passe_partout_long_edges, border))
