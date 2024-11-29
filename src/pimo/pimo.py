@@ -35,21 +35,23 @@ FORCE_ORIENTATION = True
 ORIENTATION = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
 
 PIMO_FILES = pathlib.Path(pathlib.Path.home() / ".pimo")
-PIMO_FILES.mkdir(parents=True, exist_ok=True)
-
-
-pimo_downvoted = pathlib.Path(PIMO_FILES / "pimo_downvoted")
-if not pimo_downvoted.exists():
-    open(pimo_downvoted, "w").close()
-pimo_current = pathlib.Path(PIMO_FILES / "pimo_current")
-if not pimo_current.exists():
-    open(pimo_current, "w").close()
-pimo_history = pathlib.Path(PIMO_FILES / "pimo_history")
-if not pimo_history.exists():
-    open(pimo_history, "w").close()
 
 
 # ---- Python API ----
+
+
+def init_files() -> None:
+    PIMO_FILES.mkdir(parents=True, exist_ok=True)
+
+    pimo_downvoted = pathlib.Path(PIMO_FILES / "pimo_downvoted")
+    if not pimo_downvoted.exists():
+        open(pimo_downvoted, "w").close()
+    pimo_current = pathlib.Path(PIMO_FILES / "pimo_current")
+    if not pimo_current.exists():
+        open(pimo_current, "w").close()
+    pimo_history = pathlib.Path(PIMO_FILES / "pimo_history")
+    if not pimo_history.exists():
+        open(pimo_history, "w").close()
 
 
 def get_rand_image(
@@ -121,7 +123,6 @@ def get_rand_image(
     with open(f"{pimo_history}", "a") as fo:
         fo.write(f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}: {choice}\n")
 
-    _logger.info(f"Setting image: {choice}")
     if ascii_art:
         img_ascii_choice = AsciiArt.from_image(path=choice)
         _logger.info(f"\n{img_ascii_choice.to_ascii(columns=ASCII_ART_COLUMNS)}")
@@ -490,6 +491,8 @@ def setup_logging(loglevel):
 def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
+
+    init_files()
 
     inky: Inky = auto(ask_user=True, verbose=True)
 
