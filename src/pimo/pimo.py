@@ -13,6 +13,8 @@ from PIL import (Image,
                  ImageDraw,
                  )
 
+from moon_clock import MoonClock
+
 from inky.inky import Inky
 from inky.auto import auto
 
@@ -478,6 +480,16 @@ def parse_args(args):
     )
 
     subparser_set_group.add_argument(
+        "--moon-clock",
+        "-m",
+        dest="moon_clock",
+        default=None,
+        type=str,
+        required=False,
+        help="Display moon-clock based on location",
+    )
+
+    subparser_set_group.add_argument(
         "-g",
         "--from-gdrive",
         dest="from_gdrive",
@@ -531,6 +543,12 @@ def main(args):
 
         elif args.test_bars:
             image = test_bars(inky=inky)
+
+        elif args.moon_clock:
+            image = MoonClock().get_clock(
+                address=args.moon_clock,
+                size=min(inky.resolution),
+            )
 
         elif args.from_gdrive:
             image_file = get_rand_image(

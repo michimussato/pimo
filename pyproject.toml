@@ -20,6 +20,7 @@ dependencies = [
     "pillow-lut",
     "inky[rpi]>=1.5.0,<1.6",
     "ascii-magic",
+    "moon_clock @ git+https://github.com/michimussato/moon-clock.git",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
