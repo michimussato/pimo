@@ -131,7 +131,7 @@ urllib3==2.2.0
 ### CLI
 
 ```
-$ pimo --help
+$ pimo -h
 usage: pimo [-h] [-v] [-vv] {set,s} ...
 
 positional arguments:
@@ -148,9 +148,10 @@ optional arguments:
 #### `set`
 
 ```
-$ pimo set --help
-usage: pimo set [-h] [--saturation SATURATION] [--show-path] [--ascii-art] --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect] [--expand]
-                [-f FROM_FILE | -t | -g | -d]
+$ pimo set -h
+usage: pimo set [-h] [--saturation SATURATION] [--show-path] [--ascii-art] --frame-orientation
+                {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect] [--expand]
+                [-f FROM_FILE | -t | --moon-clock MOON_CLOCK | -g | -d]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -165,6 +166,8 @@ optional arguments:
   -f FROM_FILE, --from-file FROM_FILE
                         Set an image from file.
   -t, --test-bars       Set a test bar image.
+  --moon-clock MOON_CLOCK, -c MOON_CLOCK
+                        Display moon-clock based on location
   -g, --from-gdrive     Set a random image from GDrive. Defaults to /data/GDRIVE/media/images/scan/processed
   -d, --from-local-directory
                         Set a random image from local directory. Defaults to /home/pi/images
@@ -176,8 +179,16 @@ optional arguments:
 
 https://github.com/michimussato/moode-oroni/blob/main/README.md
 
+From Google Drive
+
 ```shell
 pimo -v s -g -o landscape_reverse -m -e -a -p
+```
+
+Set a `moon-clock`
+
+```shell
+pimo -v s -c "Sydney" -o landscape_reverse
 ```
 
 ### frame-oroni

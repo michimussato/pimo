@@ -545,9 +545,10 @@ def main(args):
             image = test_bars(inky=inky)
 
         elif args.moon_clock:
+            border = 10
             image = MoonClock().get_clock(
                 address=args.moon_clock,
-                size=min(inky.resolution),
+                size=min(inky.resolution) - border,
             )
 
         elif args.from_gdrive:
