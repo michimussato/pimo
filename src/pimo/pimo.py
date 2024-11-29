@@ -34,6 +34,9 @@ SATURATION = 0.0
 FORCE_ORIENTATION = True
 ORIENTATION = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
 
+PIMO_FILES = pathlib.Path(pathlib.Path.home() / ".pimo")
+PIMO_FILES.mkdir(parents=True, exist_ok=True)
+
 
 pimo_downvoted = pathlib.Path(f"{pathlib.Path.home()}/pimo_downvoted")
 if not pimo_downvoted.exists():
