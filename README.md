@@ -132,10 +132,6 @@ urllib3==2.2.0
 
 ```
 $ pimo --help
-Detected 7-Colour (UC8159)
-Detected 7-Colour (UC8159)
-Detected 7-Colour (UC8159)
-Detected 7-Colour (UC8159)
 usage: pimo [-h] [-v] [-vv] {set,s} ...
 
 positional arguments:
@@ -152,11 +148,7 @@ optional arguments:
 #### `set`
 
 ```
-$ pimo s --help
-Detected 7-Colour (UC8159)
-Detected 7-Colour (UC8159)
-Detected 7-Colour (UC8159)
-Detected 7-Colour (UC8159)
+$ pimo set --help
 usage: pimo set [-h] [--saturation SATURATION] [--show-path] [--ascii-art] --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect] [--expand]
                 [-f FROM_FILE | -t | -g | -d]
 
