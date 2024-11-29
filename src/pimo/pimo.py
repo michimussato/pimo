@@ -40,14 +40,14 @@ ORIENTATION = [
     "landscape_reverse"
 ]
 
-PIMO_FILES = pathlib.Path.home() / ".pimo"
-PIMO_DOWNVOTED = PIMO_FILES / "pimo_downvoted"
-PIMO_UPVOTED = PIMO_FILES / "pimo_upvoted"
-PIMO_CURRENT = PIMO_FILES / "pimo_current"
-PIMO_HISTORY = PIMO_FILES / "pimo_history"
+PIMO_FILES: pathlib.Path = pathlib.Path.home() / ".pimo"
+PIMO_DOWNVOTED: pathlib.Path = PIMO_FILES / "pimo_downvoted"
+PIMO_UPVOTED: pathlib.Path = PIMO_FILES / "pimo_upvoted"
+PIMO_CURRENT: pathlib.Path = PIMO_FILES / "pimo_current"
+PIMO_HISTORY: pathlib.Path = PIMO_FILES / "pimo_history"
 
-PIMO_LOCAL_SEARCH_DIR = pathlib.Path.home() / "images"
-PIMO_GDRIVE_SEARCH_DIR = pathlib.Path(os.environ["GDRIVE_MOUNT"]) / "media" / "images" / "scan" / "processed"
+PIMO_LOCAL_SEARCH_DIR: pathlib.Path = pathlib.Path.home() / "images"
+PIMO_GDRIVE_SEARCH_DIR: pathlib.Path = pathlib.Path(os.environ["GDRIVE_MOUNT"]) / "media" / "images" / "scan" / "processed"
 
 
 # ---- Python API ----
