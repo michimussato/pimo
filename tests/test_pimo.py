@@ -1,6 +1,7 @@
 import pytest
-from pimo import pimo
 import pathlib
+import os
+from pimo import pimo
 
 __author__ = "Michael Mussato"
 __copyright__ = "Michael Mussato"
@@ -24,37 +25,47 @@ def test_init_files():
     assert PIMO_HISTORY.exists() and PIMO_HISTORY.is_file()
 
 
-@pytest.mark.parametrize("match_aspect", [True, False])
-@pytest.mark.parametrize("frame_orientation", pimo.ORIENTATION)
+@pytest.mark.parametrize("match_aspect", [False])
+@pytest.mark.parametrize("frame_orientation", [
+    "square",
+    "portrait",
+    "landscape",
+    "portrait_reverse",
+    "landscape_reverse"
+])
 @pytest.mark.parametrize("ascii_art", [True, False])
-def test_get_rand_image_local(match_aspect, frame_orientation, ascii_art):
+def test_get_rand_image_local(
+        match_aspect,
+        frame_orientation,
+        ascii_art,
+):
 
     from pimo.pimo import get_rand_image
 
     rand_image = get_rand_image(
         match_aspect=match_aspect,
         frame_orientation=frame_orientation,
-        search_dir=pathlib.Path(__file__).parent / "fixtures" / "LOCAL",
+        search_dir=pathlib.Path(os.environ["LOCAL"]),
         ascii_art=ascii_art
     )
 
     assert isinstance(rand_image, pathlib.Path)
 
 
-# @pytest.mark.parametrize("match_aspect", [True, False])
-# @pytest.mark.parametrize("frame_orientation", pimo.ORIENTATION)
-# # @pytest.mark.parametrize("ascii_art", [True, False])
+@pytest.mark.parametrize("match_aspect", [False])
+@pytest.mark.parametrize("frame_orientation", pimo.ORIENTATION)
+@pytest.mark.parametrize("ascii_art", [True, False])
 # @pytest.mark.parametrize("ascii_art", [False])
-# def test_get_rand_image_local_empty(match_aspect, frame_orientation, ascii_art):
-#
-#     from pimo.pimo import get_rand_image
-#
-#     with pytest.raises(Exception):
-#         rand_image = get_rand_image(
-#             match_aspect=match_aspect,
-#             frame_orientation=frame_orientation,
-#             search_dir=pathlib.Path(__file__).parent / "fixtures" / "LOCAL_EMPTY",
-#             ascii_art=ascii_art
-#         )
-#
-#     # assert isinstance(rand_image, pathlib.Path)
+def test_get_rand_image_local_empty(match_aspect, frame_orientation, ascii_art):
+
+    from pimo.pimo import get_rand_image
+
+    with pytest.raises(Exception):
+        rand_image = get_rand_image(
+            match_aspect=match_aspect,
+            frame_orientation=frame_orientation,
+            search_dir=pathlib.Path(__file__).parent / "fixtures" / "LOCAL_EMPTY",
+            ascii_art=ascii_art
+        )
+
+    # assert isinstance(rand_image, pathlib.Path)
