@@ -545,7 +545,7 @@ def main(args):
             image = test_bars(inky=inky)
 
         elif args.moon_clock:
-            border = 10
+            border = 20
             image = MoonClock().get_clock(
                 address=args.moon_clock,
                 size=min(inky.resolution) - 2*border,
