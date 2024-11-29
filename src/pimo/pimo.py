@@ -46,6 +46,8 @@ PIMO_UPVOTED = PIMO_FILES / "pimo_upvoted"
 PIMO_CURRENT = PIMO_FILES / "pimo_current"
 PIMO_HISTORY = PIMO_FILES / "pimo_history"
 
+PIMO_LOCAL_SEARCH_DIR = pathlib.Path(pathlib.Path.home() / "images")
+
 
 # ---- Python API ----
 
@@ -488,7 +490,8 @@ def parse_args(args):
         required=False,
         default=False,
         action="store_true",
-        help="Set a random image from local directory.",
+        help=f"Set a random image from local directory. "
+             f"Defaults to {PIMO_LOCAL_SEARCH_DIR}",
     )
 
     return parser.parse_args(args)
@@ -536,7 +539,7 @@ def main(args):
 
         elif args.from_local:
             image_file = get_rand_image(
-                search_dir=pathlib.Path("/home/pi/images"),
+                search_dir=PIMO_LOCAL_SEARCH_DIR,
                 match_aspect=args.match_aspect,
                 frame_orientation=args.frame_orientation,
                 ascii_art=args.ascii_art,
