@@ -40,7 +40,7 @@ ORIENTATION = [
     "landscape_reverse"
 ]
 
-PIMO_FILES = pathlib.Path(pathlib.Path.home() / ".pimo")
+PIMO_FILES = pathlib.Path.home() / ".pimo"
 PIMO_DOWNVOTED = PIMO_FILES / "pimo_downvoted"
 PIMO_UPVOTED = PIMO_FILES / "pimo_upvoted"
 PIMO_CURRENT = PIMO_FILES / "pimo_current"
