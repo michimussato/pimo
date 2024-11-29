@@ -35,6 +35,10 @@ FORCE_ORIENTATION = True
 ORIENTATION = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
 
 PIMO_FILES = pathlib.Path(pathlib.Path.home() / ".pimo")
+PIMO_DOWNVOTED = PIMO_FILES / "pimo_downvoted"
+PIMO_UPVOTED = PIMO_FILES / "pimo_upvoted"
+PIMO_CURRENT = PIMO_FILES / "pimo_current"
+PIMO_HISTORY = PIMO_FILES / "pimo_history"
 
 
 # ---- Python API ----
@@ -43,33 +47,29 @@ PIMO_FILES = pathlib.Path(pathlib.Path.home() / ".pimo")
 def init_files() -> None:
     PIMO_FILES.mkdir(parents=True, exist_ok=True)
 
-    pimo_downvoted = PIMO_FILES / "pimo_downvoted"
-    if pimo_downvoted.exists():
-        _logger.info(f"Existing {pimo_downvoted} was found.")
+    if PIMO_DOWNVOTED.exists():
+        _logger.info(f"Existing {PIMO_DOWNVOTED} was found.")
     else:
-        open(pimo_downvoted, "w").close()
-        _logger.info(f"{pimo_downvoted} was created.")
+        open(PIMO_DOWNVOTED, "w").close()
+        _logger.info(f"{PIMO_DOWNVOTED} was created.")
 
-    pimo_upvoted = PIMO_FILES / "pimo_upvoted"
-    if pimo_upvoted.exists():
-        _logger.info(f"Existing {pimo_upvoted} was found.")
+    if PIMO_UPVOTED.exists():
+        _logger.info(f"Existing {PIMO_UPVOTED} was found.")
     else:
-        open(pimo_upvoted, "w").close()
-        _logger.info(f"{pimo_upvoted} was created.")
+        open(PIMO_UPVOTED, "w").close()
+        _logger.info(f"{PIMO_UPVOTED} was created.")
 
-    pimo_current = PIMO_FILES / "pimo_current"
-    if pimo_current.exists():
-        _logger.info(f"Existing {pimo_downvoted} was found.")
+    if PIMO_CURRENT.exists():
+        _logger.info(f"Existing {PIMO_DOWNVOTED} was found.")
     else:
-        open(pimo_current, "w").close()
-        _logger.info(f"{pimo_downvoted} was created.")
+        open(PIMO_CURRENT, "w").close()
+        _logger.info(f"{PIMO_DOWNVOTED} was created.")
 
-    pimo_history = PIMO_FILES / "pimo_history"
-    if pimo_history.exists():
-        _logger.info(f"Existing {pimo_history} was found.")
+    if PIMO_HISTORY.exists():
+        _logger.info(f"Existing {PIMO_HISTORY} was found.")
     else:
-        open(pimo_history, "w").close()
-        _logger.info(f"{pimo_history} was created.")
+        open(PIMO_HISTORY, "w").close()
+        _logger.info(f"{PIMO_HISTORY} was created.")
 
 
 def get_rand_image(
@@ -85,7 +85,7 @@ def get_rand_image(
 
     _logger.info(f"{search_dir = } found.")
 
-    with open(f"{pimo_current}", "r") as fi:
+    with open(f"{PIMO_CURRENT}", "r") as fi:
         current = fi.read().splitlines()
 
     _logger.info(f"{current = }")
@@ -103,7 +103,7 @@ def get_rand_image(
     while True:
         choice = random.choice(jpg)
 
-        with open(f"{pimo_downvoted}", "r") as fi:
+        with open(f"{PIMO_DOWNVOTED}", "r") as fi:
             while choice is None \
                     or str(choice) in fi.read() \
                     or str(choice) in current:
@@ -135,10 +135,10 @@ def get_rand_image(
 
     _logger.info(f"Setting image: {choice}")
 
-    with open(f"{pimo_current}", "w") as fo:
+    with open(f"{PIMO_CURRENT}", "w") as fo:
         fo.write(f"{choice}\n")
 
-    with open(f"{pimo_history}", "a") as fo:
+    with open(f"{PIMO_HISTORY}", "a") as fo:
         fo.write(f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}: {choice}\n")
 
     if ascii_art:
