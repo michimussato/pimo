@@ -348,10 +348,6 @@ def set_inky_image(
         img_ascii = AsciiArt.from_pillow_image(background_image)
         _logger.info(f"\n{img_ascii.to_ascii(columns=ASCII_ART_COLUMNS)}")
 
-        img_ascii.to_html_file("/var/www/images/pimo.html")
-
-        background_image.save("/var/www/images/pimo.png")
-
     inky.set_image(background_image, saturation=saturation)
     inky.show()
 
