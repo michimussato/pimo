@@ -481,7 +481,7 @@ def parse_args(args):
 
     subparser_set_group.add_argument(
         "--moon-clock",
-        "-m",
+        "-c",
         dest="moon_clock",
         default=None,
         type=str,
