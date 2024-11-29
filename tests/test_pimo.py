@@ -27,7 +27,6 @@ def test_init_files():
 @pytest.mark.parametrize("match_aspect", [True, False])
 @pytest.mark.parametrize("frame_orientation", pimo.ORIENTATION)
 @pytest.mark.parametrize("ascii_art", [True, False])
-@pytest.mark.parametrize("ascii_art", [False])
 def test_get_rand_image_local(match_aspect, frame_orientation, ascii_art):
 
     from pimo.pimo import get_rand_image
