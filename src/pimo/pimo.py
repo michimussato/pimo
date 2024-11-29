@@ -548,7 +548,7 @@ def main(args):
             border = 10
             image = MoonClock().get_clock(
                 address=args.moon_clock,
-                size=min(inky.resolution) - border,
+                size=min(inky.resolution) - 2*border,
             )
 
         elif args.from_gdrive:
