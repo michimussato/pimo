@@ -53,29 +53,13 @@ PIMO_HISTORY = PIMO_FILES / "pimo_history"
 def init_files() -> None:
     PIMO_FILES.mkdir(parents=True, exist_ok=True)
 
-    if PIMO_DOWNVOTED.exists():
-        _logger.info(f"Existing {PIMO_DOWNVOTED} was found.")
-    else:
-        open(PIMO_DOWNVOTED, "w").close()
-        _logger.info(f"{PIMO_DOWNVOTED} was created.")
+    for i in [PIMO_UPVOTED, PIMO_CURRENT, PIMO_DOWNVOTED, PIMO_HISTORY]:
 
-    if PIMO_UPVOTED.exists():
-        _logger.info(f"Existing {PIMO_UPVOTED} was found.")
-    else:
-        open(PIMO_UPVOTED, "w").close()
-        _logger.info(f"{PIMO_UPVOTED} was created.")
-
-    if PIMO_CURRENT.exists():
-        _logger.info(f"Existing {PIMO_DOWNVOTED} was found.")
-    else:
-        open(PIMO_CURRENT, "w").close()
-        _logger.info(f"{PIMO_DOWNVOTED} was created.")
-
-    if PIMO_HISTORY.exists():
-        _logger.info(f"Existing {PIMO_HISTORY} was found.")
-    else:
-        open(PIMO_HISTORY, "w").close()
-        _logger.info(f"{PIMO_HISTORY} was created.")
+        if i.exists():
+            _logger.info(f"Existing {i} was found.")
+        else:
+            open(i, "w").close()
+            _logger.info(f"{i} was created.")
 
 
 def get_rand_image(
