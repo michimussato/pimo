@@ -38,13 +38,13 @@ PIMO_FILES = pathlib.Path(pathlib.Path.home() / ".pimo")
 PIMO_FILES.mkdir(parents=True, exist_ok=True)
 
 
-pimo_downvoted = pathlib.Path(f"{pathlib.Path.home()}/pimo_downvoted")
+pimo_downvoted = pathlib.Path(PIMO_FILES / "pimo_downvoted")
 if not pimo_downvoted.exists():
     open(pimo_downvoted, "w").close()
-pimo_current = pathlib.Path(f"{pathlib.Path.home()}/pimo_current")
+pimo_current = pathlib.Path(PIMO_FILES / "pimo_current")
 if not pimo_current.exists():
     open(pimo_current, "w").close()
-pimo_history = pathlib.Path(f"{pathlib.Path.home()}/pimo_history")
+pimo_history = pathlib.Path(PIMO_FILES / "pimo_history")
 if not pimo_history.exists():
     open(pimo_history, "w").close()
 
