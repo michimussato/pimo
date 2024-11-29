@@ -254,6 +254,7 @@ def set_inky_image(
     background_image: Image = bg_black(inky=inky)
 
     _logger.debug(f"{inky.resolution = }")
+    _logger.debug(f"{img.size = }")
 
     angle = get_rotation_angle(frame_orientation)
 
@@ -545,12 +546,13 @@ def main(args):
             image = test_bars(inky=inky)
 
         elif args.moon_clock:
-            border = 20  # Todo: hardcoded for now
-            size = min(inky.resolution) - 2*border
-            _logger.info(f"Getting MoonClock with {size = }")
+            border = 0.9  # Todo: hardcoded for now
+            size = min(inky.resolution)
+            # _logger.info(f"Getting MoonClock with {border = }")
             image = MoonClock().get_clock(
                 address=args.moon_clock,
                 size=size,
+                scale=border,
             )
 
         elif args.from_gdrive:
