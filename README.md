@@ -180,10 +180,6 @@ https://github.com/michimussato/moode-oroni/blob/main/README.md
 pimo -v s -g -o landscape_reverse -m -e -a -p
 ```
 
-```shell
-pimo -v s -t -o landscape_reverse
-```
-
 ### frame-oroni
 
 https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md
