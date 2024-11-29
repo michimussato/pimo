@@ -32,7 +32,13 @@ ASCII_ART_COLUMNS = 80
 SATURATION = 0.0
 
 FORCE_ORIENTATION = True
-ORIENTATION = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
+ORIENTATION = [
+    "square",
+    "portrait",
+    "landscape",
+    "portrait_reverse",
+    "landscape_reverse"
+]
 
 PIMO_FILES = pathlib.Path(pathlib.Path.home() / ".pimo")
 PIMO_DOWNVOTED = PIMO_FILES / "pimo_downvoted"
@@ -307,7 +313,11 @@ def set_inky_image(
             length = fnt.getlength(img.filename)
 
             # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
-            txt = Image.new("RGBA", size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192))
+            txt = Image.new(
+                "RGBA",
+                size=(int(length // 1 + 1), font_size),
+                color=(0, 0, 0, 192)
+            )
             d = ImageDraw.Draw(txt, mode="RGBA")
 
             # d.text((10, 10), src, font=fnt, fill=(255, 255, 255, 255))
@@ -324,7 +334,13 @@ def set_inky_image(
             _logger.debug(f"{passe_partout_long_edges = }")
 
             ## landscape/landscape_reverse: top-right
-            txt_.paste(im=txt, box=(inky.resolution[0] - txt.size[0] - border - passe_partout_long_edges, border))
+            txt_.paste(
+                im=txt,
+                box=(
+                    inky.resolution[0] - txt.size[0] - border - passe_partout_long_edges,
+                    border
+                )
+            )
             ## portrait/portrait_reverse:
             # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
 
