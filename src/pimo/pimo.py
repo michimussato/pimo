@@ -93,6 +93,9 @@ def get_rand_image(
     #  - [ ] Improve Regex
     jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJpP][pPnN][gG]"))
 
+    if not bool(jpg):
+        raise Exception(f"No images found in {search_dir}.")
+
     while True:
         choice = random.choice(jpg)
 
