@@ -35,18 +35,15 @@ FORCE_ORIENTATION = True
 ORIENTATION = ["square", "portrait", "landscape", "portrait_reverse", "landscape_reverse"]
 
 
-pimo_downvoted = pathlib.Path(r"/home/pi/pimo_downvoted")
+pimo_downvoted = pathlib.Path(f"{pathlib.Path.home()}/pimo_downvoted")
 if not pimo_downvoted.exists():
-    with open(pimo_downvoted, "w") as f:
-        pass
-pimo_current = pathlib.Path(r"/home/pi/pimo_current")
+    open(pimo_downvoted, "w").close()
+pimo_current = pathlib.Path(f"{pathlib.Path.home()}/pimo_current")
 if not pimo_current.exists():
-    with open(pimo_current, "w") as f:
-        pass
-pimo_history = pathlib.Path(r"/home/pi/pimo_history")
+    open(pimo_current, "w").close()
+pimo_history = pathlib.Path(f"{pathlib.Path.home()}/pimo_history")
 if not pimo_history.exists():
-    with open(pimo_history, "w") as f:
-        pass
+    open(pimo_history, "w").close()
 
 
 # ---- Python API ----
