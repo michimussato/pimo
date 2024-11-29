@@ -43,15 +43,33 @@ PIMO_FILES = pathlib.Path(pathlib.Path.home() / ".pimo")
 def init_files() -> None:
     PIMO_FILES.mkdir(parents=True, exist_ok=True)
 
-    pimo_downvoted = pathlib.Path(PIMO_FILES / "pimo_downvoted")
-    if not pimo_downvoted.exists():
+    pimo_downvoted = PIMO_FILES / "pimo_downvoted"
+    if pimo_downvoted.exists():
+        _logger.info(f"Existing {pimo_downvoted} was found.")
+    else:
         open(pimo_downvoted, "w").close()
-    pimo_current = pathlib.Path(PIMO_FILES / "pimo_current")
-    if not pimo_current.exists():
+        _logger.info(f"{pimo_downvoted} was created.")
+
+    pimo_upvoted = PIMO_FILES / "pimo_upvoted"
+    if pimo_upvoted.exists():
+        _logger.info(f"Existing {pimo_upvoted} was found.")
+    else:
+        open(pimo_upvoted, "w").close()
+        _logger.info(f"{pimo_upvoted} was created.")
+
+    pimo_current = PIMO_FILES / "pimo_current"
+    if pimo_current.exists():
+        _logger.info(f"Existing {pimo_downvoted} was found.")
+    else:
         open(pimo_current, "w").close()
-    pimo_history = pathlib.Path(PIMO_FILES / "pimo_history")
-    if not pimo_history.exists():
+        _logger.info(f"{pimo_downvoted} was created.")
+
+    pimo_history = PIMO_FILES / "pimo_history"
+    if pimo_history.exists():
+        _logger.info(f"Existing {pimo_history} was found.")
+    else:
         open(pimo_history, "w").close()
+        _logger.info(f"{pimo_history} was created.")
 
 
 def get_rand_image(
