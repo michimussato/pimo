@@ -31,7 +31,7 @@ classifiers = [
 Repository = "https://github.com/michimussato/pimo.git"
 
 [project.scripts]
-pimo = "pimo:run"
+pimo = "pimo.pimo:run"
 
 [tool.setuptools]
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
