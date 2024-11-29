@@ -32,7 +32,7 @@ ASCII_ART_COLUMNS = 80
 SATURATION = 0.0
 
 FORCE_ORIENTATION = True
-ORIENTATION = [
+ORIENTATION: list[str] = [
     "square",
     "portrait",
     "landscape",
