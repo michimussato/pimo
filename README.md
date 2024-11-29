@@ -165,9 +165,9 @@ optional arguments:
   -f FROM_FILE, --from-file FROM_FILE
                         Set an image from file.
   -t, --test-bars       Set a test bar image.
-  -g, --from-gdrive     Set a random image from GDrive.
+  -g, --from-gdrive     Set a random image from GDrive. Defaults to /data/GDRIVE/media/images/scan/processed
   -d, --from-local-directory
-                        Set a random image from local directory.
+                        Set a random image from local directory. Defaults to /home/pi/images
 ```
 
 ## Examples
