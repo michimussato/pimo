@@ -13,9 +13,9 @@ from PIL import (Image,
                  ImageDraw,
                  )
 
+from inky.inky import Inky
 from inky.auto import auto
-from inky import Inky7Colour
-from inky.mock import InkyMockImpression
+
 import logging
 from ascii_magic import AsciiArt
 
@@ -126,31 +126,33 @@ def get_rand_image(
     return choice
 
 
-def bg_black() -> Image:
-    inky = auto(ask_user=True, verbose=True)
+def bg_black(
+        inky: Inky,
+) -> Image:
     return Image.new(mode="RGB", size=inky.resolution, color=(0, 0, 0))
 
 
-def bg_white() -> Image:
-    inky = auto(ask_user=True, verbose=True)
+def bg_white(
+        inky: Inky,
+) -> Image:
     return Image.new(mode="RGB", size=inky.resolution, color=(255, 255, 255))
 
 
 def _clear_inky(
+        inky: Inky,
         saturation: float = SATURATION,
 ) -> None:
-    bg = bg_black()
-
-    inky = auto(ask_user=True, verbose=True)
+    bg = bg_black(inky=inky)
 
     inky.set_image(bg, saturation=saturation)
     inky.show()
 
 
 def test_bars(
-        inky: [Inky7Colour, InkyMockImpression] = auto(ask_user=True, verbose=True),
-        background_image: Image = bg_black(),
+        inky: Inky,
 ) -> Image:
+
+    background_image: Image = bg_black(inky=inky)
 
     strip_size = int(inky.resolution[0] / 8)
 
@@ -223,12 +225,13 @@ def set_inky_image(
         frame_orientation: str,
         ascii_art: bool,
         show_path: bool,
-        inky: [Inky7Colour, InkyMockImpression] = auto(ask_user=True, verbose=True),
+        inky: Inky,
         saturation: float = SATURATION,
         clear_inky: bool = False,
-        background_image: Image = bg_black(),
         enhance: bool = True,
 ) -> None:
+
+    background_image: Image = bg_black(inky=inky)
 
     _logger.debug(f"{inky.resolution = }")
 
@@ -237,7 +240,7 @@ def set_inky_image(
     _img = img.rotate(angle, expand=True)
 
     if clear_inky:
-        _clear_inky()
+        _clear_inky(inky=inky)
 
     # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
     if expand:
@@ -485,6 +488,8 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
 
+    inky: Inky = auto(ask_user=True, verbose=True)
+
     if any([sc == args.sub_command for sc in ["set", "s"]]):
 
         if args.from_file:
@@ -493,7 +498,7 @@ def main(args):
             image = Image.open(image_file)
 
         elif args.test_bars:
-            image = test_bars()
+            image = test_bars(inky=inky)
 
         elif args.from_gdrive:
             image_file = get_rand_image(
@@ -519,6 +524,7 @@ def main(args):
             img=image,
             ascii_art=args.ascii_art,
             expand=args.expand,
+            inky=inky,
             frame_orientation=args.frame_orientation,
             saturation=args.saturation,
             show_path=args.show_path,
