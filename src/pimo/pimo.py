@@ -331,26 +331,16 @@ def set_inky_image(
         converter = ImageEnhance.Sharpness(resizedimage)
         resizedimage = converter.enhance(10.0)
 
-    # conform resizedimage to match backtround_image resolution
-    resizedimage_for_bg = Image.new(
-        mode="RGBA",
-        size=inky.resolution,
-        color=(0, 0, 0, 0),
-    )
-
-    resizedimage_for_bg.paste(
-        im=resizedimage,
-        box=(
-            int(resizedimage_for_bg.size[0] / 2 - resizedimage.size[0] / 2),
-            int(resizedimage_for_bg.size[1] / 2 - resizedimage.size[1] / 2),
-        )
-    )
-
     _logger.debug(f"{background_image.size = }")
     _logger.debug(f"{resizedimage.size = }")
-    _logger.debug(f"{resizedimage_for_bg.size = }")
-    _logger.info(f"Image matches Background Image: {resizedimage.size == background_image.size}")
-    background_image = Image.alpha_composite(background_image, resizedimage_for_bg)
+    background_image = Image.alpha_composite(
+        background_image,
+        ImageOps.pad(
+            image=resizedimage,
+            size=background_image.size,
+            color=(0, 0, 0, 0),
+        ),
+    )
 
     if show_path:
         font_size = 12
