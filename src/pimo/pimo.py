@@ -227,8 +227,6 @@ def get_rotation_angle(
         frame_orientation: str,
 ) -> int:
 
-    angle = 0
-
     if frame_orientation == "landscape_reverse":
         angle = 0
     elif frame_orientation == "portrait_reverse":
@@ -237,6 +235,8 @@ def get_rotation_angle(
         angle = 180
     elif frame_orientation == "portrait":
         angle = 270
+    else:
+        raise Exception("Invalid orientation")
 
     return angle
 
