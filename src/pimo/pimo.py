@@ -460,7 +460,7 @@ def parse_args(args):
     )
 
     subparser_set.add_argument(
-        "--upscale",
+        "--no-upscale",
         "-u",
         dest="no_upscale",
         action="store_true",
@@ -595,7 +595,7 @@ def main(args):
             frame_orientation=args.frame_orientation,
             saturation=args.saturation,
             show_path=args.show_path,
-            upscale_to_fill_frame=not args.upscale,
+            upscale_to_fill_frame=not args.no_upscale,
         )
 
     sys.exit(0)
