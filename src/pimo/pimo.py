@@ -310,10 +310,10 @@ def set_inky_image(
                 size=new_size,
                 color=border_color
             ),
-            # box=(
-            #     border,
-            #     border
-            # ),
+            box=(
+                inky.resolution[0]/2 - new_size[0]/2,
+                inky.resolution[1]/2 - new_size[1]/2,
+            ),
         )
 
         _img = _img_bg
