@@ -267,6 +267,10 @@ def set_inky_image(
 
     _img = img.rotate(angle, expand=True)
 
+    _logger.info(f"{img.mode = }")
+    _logger.info(f"{_img.mode = }")
+    _logger.info(f"{background_image.mode = }")
+
     if clear_inky:
         _clear_inky(inky=inky)
 
