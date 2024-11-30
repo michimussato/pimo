@@ -149,8 +149,9 @@ def get_rand_image(
 def inky_bg(
         inky: Inky,
         color: tuple[int, int, int],
+        alpha: int = 255,
 ) -> Image:
-    return Image.new(mode="RGB", size=inky.resolution, color=color)
+    return Image.new(mode="RGBA", size=inky.resolution, color=(color[0], color[1], color[2], alpha))
 
 
 def _clear_inky(
@@ -249,7 +250,7 @@ def set_inky_image(
         inky: Inky,
         border: int,
         border_color: tuple[int, int, int, int] = (255, 0, 0, 255),
-        background_color: tuple[int, int, int] = (255, 0, 0),
+        background_color: tuple[int, int, int, int] = (255, 0, 0, 255),
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
@@ -258,9 +259,10 @@ def set_inky_image(
     background_image: Image = inky_bg(
         inky=inky,
         color=background_color,
+        alpha=255,
     )
 
-    background_image = background_image.convert(mode="RGBA")
+    # background_image = background_image.convert(mode="RGBA")
 
     # img = img.convert("RGBA")
 
