@@ -559,13 +559,12 @@ def main(args):
             image = test_bars(inky=inky)
 
         elif args.moon_clock:
-            border = 0.9  # Todo: hardcoded for now
-            size = min(inky.resolution)
+            border = 20  # Todo: hardcoded for now
+            size = min(inky.resolution) - 2*border
             # _logger.info(f"Getting MoonClock with {border = }")
             image = MoonClock().get_clock(
                 address=args.moon_clock,
                 size=size,
-                scale=border,
             )
 
         elif args.from_gdrive:
