@@ -249,7 +249,7 @@ def set_inky_image(
         inky: Inky,
         border: int,
         border_color: tuple[int, int, int, int] = (255, 0, 0, 255),
-        background_color: tuple[int, int, int] = (255, 0, 0, 255),
+        background_color: tuple[int, int, int] = (255, 0, 0),
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
