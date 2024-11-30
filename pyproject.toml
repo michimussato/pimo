@@ -30,12 +30,13 @@ classifiers = [
 
 # https://stackoverflow.com/questions/75490231/pip-pyproject-toml-can-optional-dependency-groups-require-other-optional-depend#75503961
 [project.optional-dependencies]
-dev = [
-    "pre-commit"
-]
 tests = [
     "nox",
     "pytest",
+]
+dev = [
+    "pre-commit",
+    "pimo[tests]"
 ]
 sbom = [
     "graphviz",
