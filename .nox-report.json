@@ -22,8 +22,8 @@
     {
       "args": {},
       "name": "tests_no_cov",
-      "result": "skipped",
-      "result_code": 2,
+      "result": "success",
+      "result_code": 1,
       "signatures": [
         "tests_no_cov-3.11"
       ]
