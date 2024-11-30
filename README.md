@@ -14,6 +14,7 @@
     * [frame-oroni](#frame-oroni)
       * [frame landscape (frame-vertical)](#frame-landscape-frame-vertical)
       * [frame portrait (frame)](#frame-portrait-frame)
+  * [nox](#nox)
   * [SBOM](#sbom)
 <!-- TOC -->
 
@@ -211,6 +212,12 @@ pimo -v s -d -o landscape -m -e -a -p
 
 ```shell
 pimo -v s -d -o portrait -m -e -a -p
+```
+
+## nox
+
+```shell
+nox --no-error-on-missing-interpreters --report .nox-report.json
 ```
 
 ## SBOM
