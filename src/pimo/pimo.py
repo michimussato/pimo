@@ -284,8 +284,8 @@ def set_inky_image(
     if border:
         size = _img.size
         new_size = (
-            size[0] + border * 2,
-            size[1] + border * 2,
+            size[0] - border * 2,
+            size[1] - border * 2,
         )
 
         _img = ImageOps.pad(
