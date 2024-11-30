@@ -28,7 +28,7 @@ def tests_no_cov(session):
     )
 
 
-@nox.session
+@nox.session(python=VERSIONS, tags=["lint"])
 def lint(session):
     """ Runs linters and fixers """
     # session.run("poetry", "install", external=True)
