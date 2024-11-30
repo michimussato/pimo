@@ -214,6 +214,11 @@ pimo -v s -d -o landscape -m -e -a -p
 pimo -v s -d -o portrait -m -e -a -p
 ```
 
+## pre-commit
+
+- https://pre-commit.com/
+- https://pre-commit.com/hooks.html
+
 ## nox
 
 ```shell
