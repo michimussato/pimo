@@ -288,16 +288,6 @@ def set_inky_image(
             size[1] - border * 2,
         )
 
-        # _img = Image.alpha_composite(
-        #     _img,
-        #     # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
-        #     ImageOps.pad(
-        #         image=_img,
-        #         size=background_image.size,
-        #         color=border_color,
-        #     ),
-        # )
-
         _img_bg: Image = inky_bg(
             inky=inky,
             color=background_color,
@@ -311,18 +301,12 @@ def set_inky_image(
                 color=border_color
             ),
             box=(
-                inky.resolution[0]/2 - new_size[0]/2,
-                inky.resolution[1]/2 - new_size[1]/2,
+                int(inky.resolution[0]/2 - new_size[0]/2),
+                int(inky.resolution[1]/2 - new_size[1]/2),
             ),
         )
 
         _img = _img_bg
-
-        # _img = ImageOps.pad(
-        #     image=_img,
-        #     size=new_size,
-        #     color=border_color
-        # )
 
     # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
     if expand:
