@@ -256,6 +256,9 @@ def set_inky_image(
         enhance: bool = True,
 ) -> None:
 
+    assert all([0 <= i <= 255 for i in background_color])
+    assert all([0 <= i <= 255 for i in border_color])
+
     background_image: Image = inky_bg(
         inky=inky,
         color=background_color,
@@ -335,6 +338,7 @@ def set_inky_image(
     _logger.debug(f"{resizedimage.size = }")
     background_image = Image.alpha_composite(
         background_image,
+        # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
         ImageOps.pad(
             image=resizedimage,
             size=background_image.size,
