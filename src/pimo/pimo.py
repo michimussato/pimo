@@ -249,8 +249,8 @@ def set_inky_image(
         show_path: bool,
         inky: Inky,
         border: int,
+        background_color: tuple[int, int, int],
         border_color: tuple[int, int, int, int] = (255, 0, 0, 255),
-        background_color: tuple[int, int, int] = (255, 0, 0),
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
@@ -266,6 +266,7 @@ def set_inky_image(
 
     # img = img.convert("RGBA")
 
+    _logger.debug(f"{background_image.size = }")
     _logger.debug(f"{inky.resolution = }")
     _logger.debug(f"{img.size = }")
 
@@ -327,6 +328,8 @@ def set_inky_image(
         resizedimage = converter.enhance(10.0)
 
     # comp = Image.alpha_composite(background_image, resizedimage)
+    _logger.debug(f"{background_image.size = }")
+    _logger.debug(f"{resizedimage.size = }")
     background_image = Image.alpha_composite(background_image, resizedimage)
 
     # background_image.paste(
@@ -652,7 +655,8 @@ def main(args):
             saturation=args.saturation,
             show_path=args.show_path,
             border=args.border,
-            border_color=args.border_color
+            border_color=args.border_color,
+            background_color=args.background_color,
         )
 
     sys.exit(0)
