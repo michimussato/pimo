@@ -1,25 +1,17 @@
-import sys
 import argparse
+import datetime
+import logging
+import os
 import pathlib
 import random
+import sys
 import time
-import os
-import datetime
 
-from PIL import (Image,
-                 ImageOps,
-                 ImageEnhance,
-                 ImageFont,
-                 ImageDraw,
-                 )
-
-from moon_clock import MoonClock
-
-from inky.inky import Inky
-from inky.auto import auto
-
-import logging
 from ascii_magic import AsciiArt
+from inky.auto import auto
+from inky.inky import Inky
+from moon_clock import MoonClock
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
 
 __author__ = "Michael Mussato"
 __copyright__ = "Michael Mussato"
@@ -39,7 +31,7 @@ ORIENTATION: list[str] = [
     "portrait",
     "landscape",
     "portrait_reverse",
-    "landscape_reverse"
+    "landscape_reverse",
 ]
 
 PIMO_FILES: pathlib.Path = pathlib.Path.home() / ".pimo"
@@ -49,7 +41,9 @@ PIMO_CURRENT: pathlib.Path = PIMO_FILES / "pimo_current"
 PIMO_HISTORY: pathlib.Path = PIMO_FILES / "pimo_history"
 
 PIMO_LOCAL_SEARCH_DIR: pathlib.Path = pathlib.Path.home() / "images"
-PIMO_GDRIVE_SEARCH_DIR: pathlib.Path = pathlib.Path(os.environ["GDRIVE_MOUNT"]) / "media" / "images" / "scan" / "processed"
+PIMO_GDRIVE_SEARCH_DIR: pathlib.Path = (
+    pathlib.Path(os.environ["GDRIVE_MOUNT"]) / "media" / "images" / "scan" / "processed"
+)
 
 
 # ---- Python API ----
@@ -68,10 +62,10 @@ def init_files() -> None:
 
 
 def get_rand_image(
-        match_aspect: bool,
-        frame_orientation: str,
-        search_dir: pathlib.Path,
-        ascii_art: bool,
+    match_aspect: bool,
+    frame_orientation: str,
+    search_dir: pathlib.Path,
+    ascii_art: bool,
 ) -> pathlib.Path:
 
     tried = 0
@@ -106,9 +100,7 @@ def get_rand_image(
         choice = random.choice(jpg)
 
         with open(f"{PIMO_DOWNVOTED}", "r") as fi:
-            while choice is None \
-                    or str(choice) in fi.read() \
-                    or str(choice) in current:
+            while choice is None or str(choice) in fi.read() or str(choice) in current:
                 choice = random.choice(jpg)
 
         img = Image.open(choice)
@@ -121,7 +113,9 @@ def get_rand_image(
         else:  # square
             image_orientation = "square"
 
-        _logger.info(f"Image orientation is {image_orientation} ({size[0]} x {size[1]})")
+        _logger.info(
+            f"Image orientation is {image_orientation} ({size[0]} x {size[1]})"
+        )
         _logger.info(f"Frame orientation is {frame_orientation}")
 
         # Do we want to allow portrait images on landscape frames
@@ -131,8 +125,7 @@ def get_rand_image(
 
         # A picture is either square, landscape or portrait.
         # No *_reverse. Hence, check if image_orientation in frame_orientation.
-        if image_orientation == "square" \
-                or image_orientation in frame_orientation:
+        if image_orientation == "square" or image_orientation in frame_orientation:
             break
 
     _logger.info(f"Setting image: {choice}")
@@ -151,16 +144,18 @@ def get_rand_image(
 
 
 def inky_bg(
-        inky: Inky,
-        color: tuple[int, int, int],
-        alpha: int = 255,
+    inky: Inky,
+    color: tuple[int, int, int],
+    alpha: int = 255,
 ) -> Image:
-    return Image.new(mode="RGBA", size=inky.resolution, color=(color[0], color[1], color[2], alpha))
+    return Image.new(
+        mode="RGBA", size=inky.resolution, color=(color[0], color[1], color[2], alpha)
+    )
 
 
 def _clear_inky(
-        inky: Inky,
-        saturation: float = SATURATION,
+    inky: Inky,
+    saturation: float = SATURATION,
 ) -> None:
     bg = inky_bg(
         inky=inky,
@@ -172,7 +167,7 @@ def _clear_inky(
 
 
 def test_bars(
-        inky: Inky,
+    inky: Inky,
 ) -> Image:
 
     background_image: Image = inky_bg(
@@ -228,7 +223,7 @@ def test_bars(
 
 
 def get_rotation_angle(
-        frame_orientation: str,
+    frame_orientation: str,
 ) -> int:
 
     if frame_orientation == "landscape_reverse":
@@ -246,23 +241,25 @@ def get_rotation_angle(
 
 
 def set_inky_image(
-        img: Image,
-        expand: bool,
-        frame_orientation: str,
-        ascii_art: bool,
-        show_path: bool,
-        inky: Inky,
-        border: int,
-        background_color: tuple[int, int, int],
-        border_color: tuple[int, int, int, int],
-        saturation: float = SATURATION,
-        clear_inky: bool = False,
-        enhance: bool = True,
+    img: Image,
+    expand: bool,
+    frame_orientation: str,
+    ascii_art: bool,
+    show_path: bool,
+    inky: Inky,
+    border: int,
+    background_color: tuple[int, int, int],
+    border_color: tuple[int, int, int, int],
+    saturation: float = SATURATION,
+    clear_inky: bool = False,
+    enhance: bool = True,
 ) -> None:
 
     _max_border_value = int(min(inky.resolution) / 2) - 1
 
-    assert border <= _max_border_value, f"Max border value for {inky.resolution} is {_max_border_value}."
+    assert (
+        border <= _max_border_value
+    ), f"Max border value for {inky.resolution} is {_max_border_value}."
     assert all([0 <= i <= 255 for i in background_color])
     assert all([0 <= i <= 255 for i in border_color])
 
@@ -301,14 +298,10 @@ def set_inky_image(
         )
 
         _img_bg.paste(
-            ImageOps.pad(
-                image=_img,
-                size=new_size,
-                color=border_color
-            ),
+            ImageOps.pad(image=_img, size=new_size, color=border_color),
             box=(
-                int(inky.resolution[0]/2 - new_size[0]/2),
-                int(inky.resolution[1]/2 - new_size[1]/2),
+                int(inky.resolution[0] / 2 - new_size[0] / 2),
+                int(inky.resolution[1] / 2 - new_size[1] / 2),
             ),
         )
 
@@ -362,9 +355,7 @@ def set_inky_image(
 
             # txt = Image.new('RGBA', size=inky.resolution, color=(0, 0, 0, 0))
             txt = Image.new(
-                "RGBA",
-                size=(int(length // 1 + 1), font_size),
-                color=(0, 0, 0, 192)
+                "RGBA", size=(int(length // 1 + 1), font_size), color=(0, 0, 0, 192)
             )
             d = ImageDraw.Draw(txt, mode="RGBA")
 
@@ -385,9 +376,12 @@ def set_inky_image(
             txt_.paste(
                 im=txt,
                 box=(
-                    inky.resolution[0] - txt.size[0] - border - passe_partout_long_edges,
-                    border
-                )
+                    inky.resolution[0]
+                    - txt.size[0]
+                    - border
+                    - passe_partout_long_edges,
+                    border,
+                ),
             )
             ## portrait/portrait_reverse:
             # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
@@ -585,7 +579,7 @@ def parse_args(args):
         default=False,
         action="store_true",
         help=f"Set a random image from GDrive. "
-             f"Defaults to {PIMO_GDRIVE_SEARCH_DIR}",
+        f"Defaults to {PIMO_GDRIVE_SEARCH_DIR}",
     )
 
     subparser_set_group.add_argument(
@@ -596,7 +590,7 @@ def parse_args(args):
         default=False,
         action="store_true",
         help=f"Set a random image from local directory. "
-             f"Defaults to {PIMO_LOCAL_SEARCH_DIR}",
+        f"Defaults to {PIMO_LOCAL_SEARCH_DIR}",
     )
 
     return parser.parse_args(args)
