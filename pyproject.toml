@@ -28,6 +28,16 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 
+# https://stackoverflow.com/questions/75490231/pip-pyproject-toml-can-optional-dependency-groups-require-other-optional-depend#75503961
+[project.optional-dependencies]
+tests = [
+    "nox",
+    "pytest",
+    "graphviz",
+    "pipdeptree",
+    "cyclonedx-bom",
+]
+
 [project.urls]
 Repository = "https://github.com/michimussato/pimo.git"
 
@@ -36,7 +46,7 @@ pimo = "pimo.pimo:run"
 
 [tool.setuptools]
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
-platforms = ["Linux", "Windows"]
+platforms = ["Linux"]
 include-package-data = true
 zip-safe = false  # This just means it's safe to zip up the bdist
 

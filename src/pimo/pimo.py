@@ -74,9 +74,13 @@ def get_rand_image(
         ascii_art: bool,
 ) -> pathlib.Path:
 
+    tried = 0
     while not pathlib.Path(search_dir).exists():
+        if tried > 3:
+            raise Exception(f"Search directory {search_dir} was not found.")
         _logger.info(f"{search_dir = } not found.\nRetrying in 10 seconds...\n")
-        time.sleep(10)
+        time.sleep(5)
+        tried += 1
 
     _logger.info(f"{search_dir = } found.")
 
