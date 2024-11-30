@@ -523,7 +523,6 @@ def parse_args(args):
         dest="border_color",
         nargs=4,
         default=[0, 0, 0, 255],
-        # action="store",
         type=int,
         required=False,
         help="Set border color (RGBA tuple).",
@@ -536,7 +535,6 @@ def parse_args(args):
         nargs=3,
         default=[0, 0, 0],
         type=int,
-        # action="store",
         required=False,
         help="Set background color (RGB tuple).",
     )
