@@ -288,21 +288,32 @@ def set_inky_image(
 
     if border:
         size = _img.size
-        img_with_border = Image.new(
-            mode="RGBA",
-            size=(size[0] + 2*border, size[1] + 2*border),
+        new_size = (
+            min(size) + border * 2,
+            min(size) + border * 2,
+        )
+
+        _img = ImageOps.pad(
+            image=_img,
+            size=new_size,
             color=border_color
         )
 
-        img_with_border.paste(
-            im=_img,
-            box=(
-                int(img_with_border.size[0] / 2 - size[0] / 2),
-                int(img_with_border.size[1] / 2 - size[1] / 2),
-            )
-        )
+        # img_with_border = Image.new(
+        #     mode="RGBA",
+        #     size=(size[0] + 2*border, size[1] + 2*border),
+        #     color=border_color
+        # )
+        #
+        # img_with_border.paste(
+        #     im=_img,
+        #     box=(
+        #         int(img_with_border.size[0] / 2 - size[0] / 2),
+        #         int(img_with_border.size[1] / 2 - size[1] / 2),
+        #     )
+        # )
 
-        _img = img_with_border
+        # _img = img_with_border
 
     # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
     if expand:
