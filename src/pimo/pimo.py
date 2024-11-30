@@ -266,7 +266,7 @@ def set_inky_image(
         _clear_inky(inky=inky)
 
     if border:
-        s = _img.size()
+        s = _img.size
         img_with_border = Image.new(
             mode="RGBA",
             size=(s[0] + 2*border, s[1] + 2*border),
@@ -276,8 +276,8 @@ def set_inky_image(
         img_with_border.paste(
             im=_img,
             box=(
-                int(img_with_border.size[0] / 2 - _img.size[0] / 2),
-                int(img_with_border.size[1] / 2 - _img.size[1] / 2),
+                int(img_with_border.size[0] / 2 - s[0] / 2),
+                int(img_with_border.size[1] / 2 - s[1] / 2),
             )
         )
 
