@@ -149,9 +149,8 @@ optional arguments:
 
 ```
 $ pimo set -h
-usage: pimo set [-h] [--saturation SATURATION] [--show-path] [--ascii-art] --frame-orientation
-                {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect] [--expand]
-                [-f FROM_FILE | -t | --moon-clock MOON_CLOCK | -g | -d]
+usage: pimo set [-h] [--saturation SATURATION] [--show-path] [--ascii-art] --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect] [--expand] [--border BORDER]
+                [--border-color BORDER_COLOR BORDER_COLOR BORDER_COLOR BORDER_COLOR] [--background-color BACKGROUND_COLOR BACKGROUND_COLOR BACKGROUND_COLOR] [-f FROM_FILE | -t | --moon-clock MOON_CLOCK | -g | -d]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -162,7 +161,13 @@ optional arguments:
   --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse}, -o {square,portrait,landscape,portrait_reverse,landscape_reverse}
                         Frame Orientation: square,portrait,landscape,portrait_reverse,landscape_reverse
   --match-aspect, -m    Force image aspect ratio to match Frame Orientation
-  --expand, -e          Expand image to fit full frame
+  --expand, -e          Expand image to cover full frame
+  --border BORDER, -b BORDER
+                        Add border around image
+  --border-color BORDER_COLOR BORDER_COLOR BORDER_COLOR BORDER_COLOR, -bc BORDER_COLOR BORDER_COLOR BORDER_COLOR BORDER_COLOR
+                        Set border color (RGBA tuple).
+  --background-color BACKGROUND_COLOR BACKGROUND_COLOR BACKGROUND_COLOR, -bg BACKGROUND_COLOR BACKGROUND_COLOR BACKGROUND_COLOR
+                        Set background color (RGB tuple).
   -f FROM_FILE, --from-file FROM_FILE
                         Set an image from file.
   -t, --test-bars       Set a test bar image.
@@ -188,7 +193,7 @@ pimo -v s -g -o landscape_reverse -m -e -a -p
 Set a `moon-clock`
 
 ```shell
-pimo -v s -c "Sydney" -o landscape_reverse
+pimo -v s -c "Sydney" -o landscape_reverse -b 40 -bc 255 0 0 255 -bg 255 0 0
 ```
 
 ### frame-oroni
