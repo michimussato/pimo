@@ -38,3 +38,14 @@ def lint(session):
     session.run("black", "src")
     session.run("isort", "--profile", "black", "src")
     session.run("pylint", "src")
+
+
+@nox.session(python=VERSIONS, tags=["tests"])
+def tests_no_cov_after_lint(session):
+    session.install(".[tests]")
+
+    session.run(
+        "pytest",
+        *session.posargs,
+        env=ENV,
+    )
