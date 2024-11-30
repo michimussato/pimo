@@ -298,7 +298,13 @@ def set_inky_image(
         #     ),
         # )
 
-        _img = background_image.paste(
+        _img_bg: Image = inky_bg(
+            inky=inky,
+            color=background_color,
+            alpha=255,
+        )
+
+        _img_bg.paste(
             ImageOps.pad(
                 image=_img,
                 size=new_size,
@@ -309,6 +315,8 @@ def set_inky_image(
             #     border
             # ),
         )
+
+        _img = _img_bg
 
         # _img = ImageOps.pad(
         #     image=_img,
