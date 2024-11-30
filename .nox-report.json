@@ -1,0 +1,50 @@
+{
+  "result": 1,
+  "sessions": [
+    {
+      "args": {},
+      "name": "tests_no_cov",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "tests_no_cov-3.9"
+      ]
+    },
+    {
+      "args": {},
+      "name": "tests_no_cov",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "tests_no_cov-3.10"
+      ]
+    },
+    {
+      "args": {},
+      "name": "tests_no_cov",
+      "result": "skipped",
+      "result_code": 2,
+      "signatures": [
+        "tests_no_cov-3.11"
+      ]
+    },
+    {
+      "args": {},
+      "name": "tests_no_cov",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "tests_no_cov-3.12"
+      ]
+    },
+    {
+      "args": {},
+      "name": "tests_no_cov",
+      "result": "skipped",
+      "result_code": 2,
+      "signatures": [
+        "tests_no_cov-3.13"
+      ]
+    }
+  ]
+}
