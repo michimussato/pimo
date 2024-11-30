@@ -250,7 +250,7 @@ def set_inky_image(
         inky: Inky,
         border: int,
         background_color: tuple[int, int, int],
-        border_color: tuple[int, int, int, int] = (255, 0, 0, 255),
+        border_color: tuple[int, int, int, int],
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
@@ -346,19 +346,11 @@ def set_inky_image(
         )
     )
 
-    # comp = Image.alpha_composite(background_image, resizedimage)
     _logger.debug(f"{background_image.size = }")
     _logger.debug(f"{resizedimage.size = }")
     _logger.debug(f"{resizedimage_for_bg.size = }")
+    _logger.info(f"Image matches Background Image: {resizedimage.size == background_image.size}")
     background_image = Image.alpha_composite(background_image, resizedimage_for_bg)
-
-    # background_image.paste(
-    #     im=resizedimage,
-    #     box=(
-    #         int(inky.resolution[0] / 2 - resizedimage.size[0] / 2),
-    #         int(inky.resolution[1] / 2 - resizedimage.size[1] / 2),
-    #     )
-    # )
 
     if show_path:
         font_size = 12
@@ -532,8 +524,10 @@ def parse_args(args):
         "--border-color",
         "-bc",
         dest="border_color",
-        default=(255, 0, 0, 255),
-        type=tuple[int, int, int, int],
+        nargs="4",
+        default=[255, 0, 0, 255],
+        # action="store",
+        type=int,
         required=False,
         help="Set border color (RGBA tuple).",
     )
@@ -542,8 +536,10 @@ def parse_args(args):
         "--background-color",
         "-bg",
         dest="background_color",
-        default=(255, 0, 0),
-        type=tuple[int, int, int],
+        nargs="3",
+        default=[255, 0, 0],
+        type=int,
+        # action="store",
         required=False,
         help="Set background color (RGB tuple).",
     )
@@ -675,8 +671,17 @@ def main(args):
             saturation=args.saturation,
             show_path=args.show_path,
             border=args.border,
-            border_color=args.border_color,
-            background_color=args.background_color,
+            border_color=(
+                int(args.border_color[0]),
+                int(args.border_color[1]),
+                int(args.border_color[2]),
+                int(args.border_color[3]),
+            ),
+            background_color=(
+                int(args.background_color[0]),
+                int(args.background_color[1]),
+                int(args.background_color[2]),
+            ),
         )
 
     sys.exit(0)
