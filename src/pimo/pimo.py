@@ -462,11 +462,11 @@ def parse_args(args):
     subparser_set.add_argument(
         "--upscale",
         "-u",
-        dest="upscale",
+        dest="no_upscale",
         action="store_true",
-        default=True,
+        default=False,
         required=False,
-        help="Upscale small image to fit frame.",
+        help="Don't upscale small image to fit frame.",
     )
 
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
@@ -595,7 +595,7 @@ def main(args):
             frame_orientation=args.frame_orientation,
             saturation=args.saturation,
             show_path=args.show_path,
-            upscale_to_fill_frame=args.upscale,
+            upscale_to_fill_frame=not args.upscale,
         )
 
     sys.exit(0)
