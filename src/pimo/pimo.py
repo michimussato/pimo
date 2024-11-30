@@ -146,23 +146,21 @@ def get_rand_image(
     return choice
 
 
-def bg_black(
+def inky_bg(
         inky: Inky,
+        color: tuple[int, int, int],
 ) -> Image:
-    return Image.new(mode="RGB", size=inky.resolution, color=(0, 0, 0))
-
-
-def bg_white(
-        inky: Inky,
-) -> Image:
-    return Image.new(mode="RGB", size=inky.resolution, color=(255, 255, 255))
+    return Image.new(mode="RGB", size=inky.resolution, color=color)
 
 
 def _clear_inky(
         inky: Inky,
         saturation: float = SATURATION,
 ) -> None:
-    bg = bg_black(inky=inky)
+    bg = inky_bg(
+        inky=inky,
+        color=(0, 0, 0),
+    )
 
     inky.set_image(bg, saturation=saturation)
     inky.show()
@@ -172,7 +170,10 @@ def test_bars(
         inky: Inky,
 ) -> Image:
 
-    background_image: Image = bg_black(inky=inky)
+    background_image: Image = inky_bg(
+        inky=inky,
+        color=(0, 0, 0),
+    )
 
     strip_size = int(inky.resolution[0] / 8)
 
@@ -247,13 +248,18 @@ def set_inky_image(
         show_path: bool,
         inky: Inky,
         border: int,
+        border_color: tuple[int, int, int, int] = (255, 0, 0, 255),
+        background_color: tuple[int, int, int] = (255, 0, 0),
         # upscale_to_fill_frame: bool = True,
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
 ) -> None:
 
-    background_image: Image = bg_black(inky=inky)
+    background_image: Image = inky_bg(
+        inky=inky,
+        color=background_color,
+    )
 
     _logger.debug(f"{inky.resolution = }")
     _logger.debug(f"{img.size = }")
@@ -266,18 +272,18 @@ def set_inky_image(
         _clear_inky(inky=inky)
 
     if border:
-        s = _img.size
+        size = _img.size
         img_with_border = Image.new(
             mode="RGBA",
-            size=(s[0] + 2*border, s[1] + 2*border),
-            color=(255, 0, 0, 255)
+            size=(size[0] + 2*border, size[1] + 2*border),
+            color=border_color
         )
 
         img_with_border.paste(
             im=_img,
             box=(
-                int(img_with_border.size[0] / 2 - s[0] / 2),
-                int(img_with_border.size[1] / 2 - s[1] / 2),
+                int(img_with_border.size[0] / 2 - size[0] / 2),
+                int(img_with_border.size[1] / 2 - size[1] / 2),
             )
         )
 
@@ -486,6 +492,26 @@ def parse_args(args):
         help="Add border around image",
     )
 
+    subparser_set.add_argument(
+        "--border-color",
+        "-bc",
+        dest="border_color",
+        default=(255, 0, 0, 255),
+        type=tuple[int, int, int, int],
+        required=False,
+        help="Set border color (RGBA tuple).",
+    )
+
+    subparser_set.add_argument(
+        "--background-color",
+        "-bg",
+        dest="background_color",
+        default=(255, 0, 0),
+        type=tuple[int, int, int],
+        required=False,
+        help="Set background color (RGB tuple).",
+    )
+
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
         required=False,
     )
@@ -576,8 +602,8 @@ def main(args):
             image = test_bars(inky=inky)
 
         elif args.moon_clock:
-            border = 20  # Todo: hardcoded for now
-            size = min(inky.resolution) - 2*border
+            # border = 20  # Todo: hardcoded for now
+            size = min(inky.resolution)
             # _logger.info(f"Getting MoonClock with {border = }")
             image = MoonClock().get_clock(
                 address=args.moon_clock,
@@ -613,6 +639,7 @@ def main(args):
             saturation=args.saturation,
             show_path=args.show_path,
             border=args.border,
+            border_color=args.border_color
         )
 
     sys.exit(0)
