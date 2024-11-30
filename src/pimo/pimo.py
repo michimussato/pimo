@@ -250,7 +250,6 @@ def set_inky_image(
         border: int,
         border_color: tuple[int, int, int, int] = (255, 0, 0, 255),
         background_color: tuple[int, int, int] = (255, 0, 0),
-        # upscale_to_fill_frame: bool = True,
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
@@ -316,13 +315,16 @@ def set_inky_image(
         converter = ImageEnhance.Sharpness(resizedimage)
         resizedimage = converter.enhance(10.0)
 
-    background_image.paste(
-        im=resizedimage,
-        box=(
-            int(inky.resolution[0] / 2 - resizedimage.size[0] / 2),
-            int(inky.resolution[1] / 2 - resizedimage.size[1] / 2),
-        )
-    )
+    # comp = Image.alpha_composite(background_image, resizedimage)
+    background_image = Image.alpha_composite(background_image, resizedimage)
+
+    # background_image.paste(
+    #     im=resizedimage,
+    #     box=(
+    #         int(inky.resolution[0] / 2 - resizedimage.size[0] / 2),
+    #         int(inky.resolution[1] / 2 - resizedimage.size[1] / 2),
+    #     )
+    # )
 
     if show_path:
         font_size = 12
