@@ -44,6 +44,12 @@ lint = [
     "isort",
     "pylint",
 ]
+coverage = [
+    "coverage",
+    "pytest"
+]
+release = [
+]
 
 [project.urls]
 Repository = "https://github.com/michimussato/pimo.git"
