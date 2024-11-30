@@ -266,10 +266,6 @@ def set_inky_image(
         alpha=255,
     )
 
-    # background_image = background_image.convert(mode="RGBA")
-
-    # img = img.convert("RGBA")
-
     _logger.debug(f"{background_image.size = }")
     _logger.debug(f"{inky.resolution = }")
     _logger.debug(f"{img.size = }")
@@ -277,7 +273,6 @@ def set_inky_image(
     angle = get_rotation_angle(frame_orientation)
 
     _img = img.rotate(angle, expand=True)
-    # _img = _img.convert("RGBA")
 
     _logger.info(f"{img.mode = }")
     _logger.info(f"{_img.mode = }")
@@ -289,8 +284,8 @@ def set_inky_image(
     if border:
         size = _img.size
         new_size = (
-            min(size) + border * 2,
-            min(size) + border * 2,
+            size[0] + border * 2,
+            size[1] + border * 2,
         )
 
         _img = ImageOps.pad(
@@ -298,22 +293,6 @@ def set_inky_image(
             size=new_size,
             color=border_color
         )
-
-        # img_with_border = Image.new(
-        #     mode="RGBA",
-        #     size=(size[0] + 2*border, size[1] + 2*border),
-        #     color=border_color
-        # )
-        #
-        # img_with_border.paste(
-        #     im=_img,
-        #     box=(
-        #         int(img_with_border.size[0] / 2 - size[0] / 2),
-        #         int(img_with_border.size[1] / 2 - size[1] / 2),
-        #     )
-        # )
-
-        # _img = img_with_border
 
     # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
     if expand:
@@ -328,10 +307,6 @@ def set_inky_image(
             size=inky.resolution,
             method=Image.BICUBIC,
         )
-
-    # resizedimage = resizedimage.resize(
-    #     inky.resolution,
-    # )
 
     if enhance:
         # resizedimage = resizedimage.rotate(180)
