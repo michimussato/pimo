@@ -33,9 +33,16 @@ classifiers = [
 tests = [
     "nox",
     "pytest",
+]
+sbom = [
     "graphviz",
     "pipdeptree",
     "cyclonedx-bom",
+]
+lint = [
+    "black",
+    "isort",
+    "pylint",
 ]
 
 [project.urls]

@@ -26,3 +26,15 @@ def tests_no_cov(session):
         *session.posargs,
         env=ENV,
     )
+
+
+@nox.session
+def lint(session):
+    """ Runs linters and fixers """
+    # session.run("poetry", "install", external=True)
+
+    session.install(".[lint]")
+
+    session.run("black", "src")
+    session.run("isort", "--profile", "black", "src")
+    session.run("pylint", "src")
