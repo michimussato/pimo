@@ -4,8 +4,8 @@
     {
       "args": {},
       "name": "coverage",
-      "result": "success",
-      "result_code": 1,
+      "result": "failed",
+      "result_code": 0,
       "signatures": [
         "coverage-3.9"
       ]
