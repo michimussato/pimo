@@ -249,7 +249,7 @@ def set_inky_image(
         inky: Inky,
         border: int,
         border_color: tuple[int, int, int, int] = (255, 0, 0, 255),
-        background_color: tuple[int, int, int] = (255, 0, 0),
+        background_color: tuple[int, int, int] = (255, 0, 0, 255),
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
@@ -260,12 +260,17 @@ def set_inky_image(
         color=background_color,
     )
 
+    background_image = background_image.convert(mode="RGBA")
+
+    # img = img.convert("RGBA")
+
     _logger.debug(f"{inky.resolution = }")
     _logger.debug(f"{img.size = }")
 
     angle = get_rotation_angle(frame_orientation)
 
     _img = img.rotate(angle, expand=True)
+    # _img = _img.convert("RGBA")
 
     _logger.info(f"{img.mode = }")
     _logger.info(f"{_img.mode = }")
