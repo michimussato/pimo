@@ -1,58 +1,49 @@
 {
-  "result": 0,
+  "result": 1,
   "sessions": [
     {
       "args": {},
-      "name": "tests_no_cov",
+      "name": "coverage",
       "result": "success",
       "result_code": 1,
       "signatures": [
-        "tests_no_cov-3.9"
+        "coverage-3.9"
       ]
     },
     {
       "args": {},
-      "name": "tests_no_cov",
+      "name": "coverage",
       "result": "success",
       "result_code": 1,
       "signatures": [
-        "tests_no_cov-3.10"
+        "coverage-3.10"
       ]
     },
     {
       "args": {},
-      "name": "tests_no_cov",
+      "name": "coverage",
       "result": "success",
       "result_code": 1,
       "signatures": [
-        "tests_no_cov-3.11"
+        "coverage-3.11"
       ]
     },
     {
       "args": {},
-      "name": "tests_no_cov",
+      "name": "coverage",
       "result": "success",
       "result_code": 1,
       "signatures": [
-        "tests_no_cov-3.12"
+        "coverage-3.12"
       ]
     },
     {
       "args": {},
-      "name": "tests_no_cov",
+      "name": "coverage",
       "result": "skipped",
       "result_code": 2,
       "signatures": [
-        "tests_no_cov-3.13"
-      ]
-    },
-    {
-      "args": {},
-      "name": "lint",
-      "result": "failed",
-      "result_code": 0,
-      "signatures": [
-        "lint"
+        "coverage-3.13"
       ]
     }
   ]
