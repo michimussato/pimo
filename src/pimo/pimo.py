@@ -256,7 +256,9 @@ def set_inky_image(
         enhance: bool = True,
 ) -> None:
 
-    assert border < inky.resolution[0]/2 and border < inky.resolution[1]/2, f"Max border value for {inky.resolution} is {int(min(inky.resolution) / 2)}."
+    _max_border_value = int(min(inky.resolution) / 2) - 1
+
+    assert border < inky.resolution[0]/2 and border < inky.resolution[1]/2, f"Max border value for {inky.resolution} is {_max_border_value}."
     assert all([0 <= i <= 255 for i in background_color])
     assert all([0 <= i <= 255 for i in border_color])
 
