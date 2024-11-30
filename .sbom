@@ -1107,7 +1107,7 @@
       "version": "1.0.1"
     },
     {
-      "bom-ref": "pimo==0.0.post1.dev146+g93e02a7.d20241130",
+      "bom-ref": "pimo==0.0.post1.dev149+g684e2f6.d20241130",
       "description": "TBD",
       "externalReferences": [
         {
@@ -1115,11 +1115,11 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "64ef2d5a7a0061f6fb718d186027f23962270903c4f9a67af4247078d3152a6e"
+              "content": "85adf90c466817036d083e93b634a2fe3152bd960d0572a983a9008fa121c7e2"
             }
           ],
           "type": "distribution",
-          "url": "file:///home/michael/git/repos/pimo/.tox/.tmp/package/64/pimo-0.0.post1.dev146%2Bg93e02a7.d20241130.tar.gz"
+          "url": "file:///home/michael/git/repos/pimo/.tox/.tmp/package/65/pimo-0.0.post1.dev149%2Bg684e2f6.d20241130.tar.gz"
         },
         {
           "comment": "from packaging metadata Project-URL: Repository",
@@ -1136,7 +1136,7 @@
       ],
       "name": "pimo",
       "type": "library",
-      "version": "0.0.post1.dev146+g93e02a7.d20241130"
+      "version": "0.0.post1.dev149+g684e2f6.d20241130"
     },
     {
       "bom-ref": "pip==24.3.1",
@@ -2000,7 +2000,7 @@
         "pillow==11.0.0",
         "pillow_lut==1.0.1"
       ],
-      "ref": "pimo==0.0.post1.dev146+g93e02a7.d20241130"
+      "ref": "pimo==0.0.post1.dev149+g684e2f6.d20241130"
     },
     {
       "dependsOn": [
@@ -2091,7 +2091,7 @@
     }
   ],
   "metadata": {
-    "timestamp": "2024-11-30T05:03:32.528175+00:00",
+    "timestamp": "2024-11-30T05:08:09.424685+00:00",
     "tools": {
       "components": [
         {
@@ -2193,7 +2193,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:00fdcef6-cb7a-4021-b1b2-077aff381d48",
+  "serialNumber": "urn:uuid:73a1ee87-b0fb-4baf-ba62-e5b9bad92f43",
   "version": 1,
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
