@@ -305,14 +305,18 @@ def set_inky_image(
         resizedimage = ImageOps.fit(
             image=_img,
             size=inky.resolution,
-            method=Image.BICUBIC
+            method=Image.BICUBIC,
         )
     else:
         resizedimage = ImageOps.contain(
             image=_img,
             size=inky.resolution,
-            method=Image.BICUBIC
+            method=Image.BICUBIC,
         )
+
+    # resizedimage = resizedimage.resize(
+    #     inky.resolution,
+    # )
 
     if enhance:
         # resizedimage = resizedimage.rotate(180)
@@ -327,10 +331,26 @@ def set_inky_image(
         converter = ImageEnhance.Sharpness(resizedimage)
         resizedimage = converter.enhance(10.0)
 
+    # conform resizedimage to match backtround_image resolution
+    resizedimage_for_bg = Image.new(
+        mode="RGBA",
+        size=inky.resolution,
+        color=(0, 0, 0, 0),
+    )
+
+    resizedimage_for_bg.paste(
+        im=resizedimage,
+        box=(
+            int(resizedimage_for_bg.size[0] / 2 - resizedimage.size[0] / 2),
+            int(resizedimage_for_bg.size[1] / 2 - resizedimage.size[1] / 2),
+        )
+    )
+
     # comp = Image.alpha_composite(background_image, resizedimage)
     _logger.debug(f"{background_image.size = }")
     _logger.debug(f"{resizedimage.size = }")
-    background_image = Image.alpha_composite(background_image, resizedimage)
+    _logger.debug(f"{resizedimage_for_bg.size = }")
+    background_image = Image.alpha_composite(background_image, resizedimage_for_bg)
 
     # background_image.paste(
     #     im=resizedimage,
