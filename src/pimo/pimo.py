@@ -246,6 +246,7 @@ def set_inky_image(
         ascii_art: bool,
         show_path: bool,
         inky: Inky,
+        upscale_to_fill_frame: bool = True,
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
@@ -270,12 +271,14 @@ def set_inky_image(
             size=inky.resolution,
             method=Image.BICUBIC
         )
-    else:
+    elif upscale_to_fill_frame:
         resizedimage = ImageOps.contain(
             image=_img,
             size=inky.resolution,
             method=Image.BICUBIC
         )
+    else:
+        resizedimage = _img
 
     if enhance:
         # resizedimage = resizedimage.rotate(180)
@@ -453,7 +456,17 @@ def parse_args(args):
         action="store_true",
         default=False,
         required=False,
-        help="Expand image to fit full frame",
+        help="Expand image to cover full frame",
+    )
+
+    subparser_set.add_argument(
+        "--upscale",
+        "-u",
+        dest="upscale",
+        action="store_true",
+        default=True,
+        required=False,
+        help="Upscale small image to fit frame.",
     )
 
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
@@ -583,6 +596,7 @@ def main(args):
             frame_orientation=args.frame_orientation,
             saturation=args.saturation,
             show_path=args.show_path,
+            upscale_to_fill_frame=args.upscale,
         )
 
     sys.exit(0)
