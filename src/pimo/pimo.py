@@ -246,7 +246,8 @@ def set_inky_image(
         ascii_art: bool,
         show_path: bool,
         inky: Inky,
-        upscale_to_fill_frame: bool = True,
+        border: int,
+        # upscale_to_fill_frame: bool = True,
         saturation: float = SATURATION,
         clear_inky: bool = False,
         enhance: bool = True,
@@ -264,6 +265,24 @@ def set_inky_image(
     if clear_inky:
         _clear_inky(inky=inky)
 
+    if border:
+        s = _img.size()
+        img_with_border = Image.new(
+            mode="RGBA",
+            size=(s[0] + 2*border, s[1] + 2*border),
+            color=(255, 0, 0, 255)
+        )
+
+        img_with_border.paste(
+            im=_img,
+            box=(
+                int(img_with_border.size[0] / 2 - _img.size[0] / 2),
+                int(img_with_border.size[1] / 2 - _img.size[1] / 2),
+            )
+        )
+
+        _img = img_with_border
+
     # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
     if expand:
         resizedimage = ImageOps.fit(
@@ -271,14 +290,12 @@ def set_inky_image(
             size=inky.resolution,
             method=Image.BICUBIC
         )
-    elif upscale_to_fill_frame:
+    else:
         resizedimage = ImageOps.contain(
             image=_img,
             size=inky.resolution,
             method=Image.BICUBIC
         )
-    else:
-        resizedimage = _img
 
     if enhance:
         # resizedimage = resizedimage.rotate(180)
@@ -460,13 +477,13 @@ def parse_args(args):
     )
 
     subparser_set.add_argument(
-        "--no-upscale",
-        "-u",
-        dest="no_upscale",
-        action="store_true",
-        default=False,
+        "--border",
+        "-b",
+        dest="border",
+        default=0,
+        type=int,
         required=False,
-        help="Don't upscale small image to fit frame.",
+        help="Add border around image",
     )
 
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
@@ -595,7 +612,7 @@ def main(args):
             frame_orientation=args.frame_orientation,
             saturation=args.saturation,
             show_path=args.show_path,
-            upscale_to_fill_frame=not args.no_upscale,
+            border=args.border,
         )
 
     sys.exit(0)
