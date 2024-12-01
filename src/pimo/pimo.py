@@ -589,7 +589,6 @@ def parse_args(args):
         action="store_true",
         help=f"Set a random image from GDrive. "
         f"Defaults to {PIMO_GDRIVE_SEARCH_DIR}."
-        f""
         if PIMO_GDRIVE_SEARCH_DIR is not None
         else argparse.SUPPRESS,
     )
