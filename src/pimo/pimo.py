@@ -580,7 +580,9 @@ def parse_args(args):
         help="Display moon-clock based on location",
     )
 
-    if PIMO_GDRIVE_SEARCH_DIR is not None:
+    if PIMO_GDRIVE_SEARCH_DIR is None:
+        setattr(subparser_set_group, "from_gdrive", False)
+    else:
         subparser_set_group.add_argument(
             "-g",
             "--from-gdrive",
