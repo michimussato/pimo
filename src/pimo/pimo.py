@@ -342,7 +342,9 @@ def set_inky_image(
         resizedimage = converter.enhance(10.0)
 
     _logger.debug("background_image.size = %s", background_image.size)
+    _logger.debug("background_image.mode = %s", background_image.mode)
     _logger.debug("resizedimage.size = %s", resizedimage.size)
+    _logger.debug("resizedimage.mode = %s", resizedimage.mode)
     background_image = Image.alpha_composite(
         background_image,
         # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
