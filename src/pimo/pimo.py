@@ -364,6 +364,8 @@ def set_inky_image(
         font_size = 12
         with background_image.convert("RGBA") as base:
 
+            _logger.debug("TTF from %s", RESOURCES / "ttf" / "ipag.ttf")
+
             fnt = ImageFont.truetype(RESOURCES / "ttf" / "ipag.ttf", font_size)
             length = fnt.getlength(img.filename)
 
