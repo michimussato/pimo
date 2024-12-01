@@ -20,7 +20,7 @@ __license__ = "MIT"
 _logger = logging.getLogger(__name__)
 
 
-BASE_DIR: pathlib.Path = pathlib.Path(__file__)
+BASE_DIR: pathlib.Path = pathlib.Path(__file__).parent
 RESOURCES: pathlib.Path = BASE_DIR / "data"
 ASCII_ART_COLUMNS = 80
 SATURATION = 0.0
