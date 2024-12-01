@@ -41,9 +41,14 @@ PIMO_CURRENT: pathlib.Path = PIMO_FILES / "pimo_current"
 PIMO_HISTORY: pathlib.Path = PIMO_FILES / "pimo_history"
 
 PIMO_LOCAL_SEARCH_DIR: pathlib.Path = pathlib.Path.home() / "images"
-PIMO_GDRIVE_SEARCH_DIR: pathlib.Path = (
-    pathlib.Path(os.environ["GDRIVE_MOUNT"]) / "media" / "images" / "scan" / "processed"
-)
+PIMO_DRIVE_MOUNT_DIR = os.environ.get("GDRIVE_MOUNT", None)
+if PIMO_DRIVE_MOUNT_DIR is None:
+    PIMO_GDRIVE_SEARCH_DIR = None
+    _logger.warning("GDRIVE_MOUNT not set")
+else:
+    PIMO_GDRIVE_SEARCH_DIR: pathlib.Path = (
+        pathlib.Path() / "media" / "images" / "scan" / "processed"
+    )
 
 
 # ---- Python API ----
@@ -575,16 +580,17 @@ def parse_args(args):
         help="Display moon-clock based on location",
     )
 
-    subparser_set_group.add_argument(
-        "-g",
-        "--from-gdrive",
-        dest="from_gdrive",
-        required=False,
-        default=False,
-        action="store_true",
-        help=f"Set a random image from GDrive. "
-        f"Defaults to {PIMO_GDRIVE_SEARCH_DIR}",
-    )
+    if PIMO_GDRIVE_SEARCH_DIR is not None:
+        subparser_set_group.add_argument(
+            "-g",
+            "--from-gdrive",
+            dest="from_gdrive",
+            required=False,
+            default=False,
+            action="store_true",
+            help=f"Set a random image from GDrive. "
+            f"Defaults to {PIMO_GDRIVE_SEARCH_DIR}",
+        )
 
     subparser_set_group.add_argument(
         "-d",
