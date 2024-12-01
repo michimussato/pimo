@@ -75,6 +75,11 @@ zip-safe = false  # This just means it's safe to zip up the bdist
 where = ["src"]
 exclude = ["docs*", "tests*"]
 
+[tool.setuptools.package-data]
+pimo = [
+    "*.ttf",
+]
+
 [tool.setuptools_scm]
 # For smarter version schemes and other configuration options,
 # check out https://github.com/pypa/setuptools_scm
