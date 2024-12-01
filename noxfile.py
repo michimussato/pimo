@@ -81,7 +81,7 @@ def sbom(session):
         "--output-format",
         "JSON",
         "--outfile",
-        target_dir / f".cyclonedx-py.{session.name}.sbom",
+        target_dir / f".cyclonedx-py.{session.name}.json",
         env=ENV,
     )
     # session.run("bash", "-c", f"pipdeptree --json-tree > .sbom_{session.name}.json", env=ENV)
@@ -93,13 +93,13 @@ def sbom(session):
         env=ENV,
         external=True,
     )
-    session.run(
-        "bash",
-        "-c",
-        f"pipdeptree --graph-output png > {target_dir}/.pipdeptree.{session.name}.png",
-        env=ENV,
-        external=True,
-    )
+    # session.run(
+    #     "bash",
+    #     "-c",
+    #     f"pipdeptree --graph-output png > {target_dir}/.pipdeptree.{session.name}.png",
+    #     env=ENV,
+    #     external=True,
+    # )
     # # session.run("coverage", "report")  # report to console
     # # session.run("coverage", "xml")  # ./coverage.xml
     # # session.run("coverage", "html")  # ./htmlcov/

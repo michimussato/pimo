@@ -1,0 +1,104 @@
+flowchart TD
+    classDef missing stroke-dasharray: 5
+    arrow["arrow\n1.3.0"]
+    ascii-magic["ascii-magic\n2.3.0"]
+    attrs["attrs\n24.2.0"]
+    boolean-py["boolean.py\n4.0"]
+    cffi["cffi\n1.17.1"]
+    chardet["chardet\n5.2.0"]
+    colorama["colorama\n0.4.6"]
+    cyclonedx-bom["cyclonedx-bom\n5.1.1"]
+    cyclonedx-python-lib["cyclonedx-python-lib\n8.5.0"]
+    defusedxml["defusedxml\n0.7.1"]
+    fqdn["fqdn\n1.5.1"]
+    geographiclib["geographiclib\n2.0"]
+    geopy["geopy\n2.4.1"]
+    graphviz["graphviz\n0.20.3"]
+    h3["h3\n4.1.2"]
+    idna["idna\n3.10"]
+    inky["inky\n1.5.0"]
+    isoduration["isoduration\n20.11.0"]
+    jsonpointer["jsonpointer\n3.0.0"]
+    jsonschema-specifications["jsonschema-specifications\n2024.10.1"]
+    jsonschema["jsonschema\n4.23.0"]
+    license-expression["license-expression\n30.4.0"]
+    lxml["lxml\n5.3.0"]
+    moon-clock["moon-clock\n0.0.post1.dev21+g6ce36de"]
+    numpy["numpy\n2.1.3"]
+    packageurl-python["packageurl-python\n0.16.0"]
+    packaging["packaging\n24.2"]
+    pillow-lut["pillow_lut\n1.0.1"]
+    pillow["pillow\n11.0.0"]
+    pimo["pimo\n0.0.post1.dev167+g436a1e5.d20241201"]
+    pip-requirements-parser["pip-requirements-parser\n32.0.1"]
+    pip["pip\n24.3.1"]
+    pipdeptree["pipdeptree\n2.24.0"]
+    py-serializable["py-serializable\n1.1.2"]
+    pycparser["pycparser\n2.22"]
+    pyparsing["pyparsing\n3.2.0"]
+    python-dateutil["python-dateutil\n2.9.0.post0"]
+    referencing["referencing\n0.35.1"]
+    rfc3339-validator["rfc3339-validator\n0.1.4"]
+    rfc3987["rfc3987\n1.3.8"]
+    rpds-py["rpds-py\n0.21.0"]
+    rpi-gpio["RPi.GPIO\n0.7.1"]
+    setuptools["setuptools\n75.6.0"]
+    six["six\n1.16.0"]
+    smbus2["smbus2\n0.5.0"]
+    sortedcontainers["sortedcontainers\n2.4.0"]
+    spidev["spidev\n3.6"]
+    suncalcpy["suncalcPy\n0.0.0"]
+    timezonefinder["timezonefinder\n6.5.5"]
+    tomli["tomli\n2.2.1"]
+    types-python-dateutil["types-python-dateutil\n2.9.0.20241003"]
+    uri-template["uri-template\n1.3.0"]
+    webcolors["webcolors\n24.11.1"]
+    wheel["wheel\n0.45.1"]
+    arrow -- ">=2.7.0" --> python-dateutil
+    arrow -- ">=2.8.10" --> types-python-dateutil
+    ascii-magic -- "any" --> colorama
+    ascii-magic -- "any" --> pillow
+    cffi -- "any" --> pycparser
+    cyclonedx-bom -- ">=0.11,<2" --> packageurl-python
+    cyclonedx-bom -- ">=2.0.1,<3.0.0" --> tomli
+    cyclonedx-bom -- ">=22,<25" --> packaging
+    cyclonedx-bom -- ">=32.0,<33.0" --> pip-requirements-parser
+    cyclonedx-bom -- ">=5.1,<6.0" --> chardet
+    cyclonedx-bom -- ">=8.0,<9.0" --> cyclonedx-python-lib
+    cyclonedx-python-lib -- ">=0.11,<2" --> packageurl-python
+    cyclonedx-python-lib -- ">=1.1.1,<2.0.0" --> py-serializable
+    cyclonedx-python-lib -- ">=2.4.0,<3.0.0" --> sortedcontainers
+    cyclonedx-python-lib -- ">=30,<31" --> license-expression
+    geopy -- ">=1.52,<3" --> geographiclib
+    inky -- "any" --> numpy
+    inky -- "any" --> smbus2
+    inky -- "any" --> spidev
+    isoduration -- ">=0.15.0" --> arrow
+    jsonschema -- ">=0.28.4" --> referencing
+    jsonschema -- ">=0.7.1" --> rpds-py
+    jsonschema -- ">=2023.03.6" --> jsonschema-specifications
+    jsonschema -- ">=22.2.0" --> attrs
+    jsonschema-specifications -- ">=0.31.0" --> referencing
+    license-expression -- ">=4.0" --> boolean-py
+    moon-clock -- "any" --> geopy
+    moon-clock -- "any" --> numpy
+    moon-clock -- "any" --> pillow
+    moon-clock -- "any" --> suncalcpy
+    moon-clock -- "any" --> timezonefinder
+    pimo -- ">=1.5.0,<1.6" --> inky
+    pimo -- "any" --> ascii-magic
+    pimo -- "any" --> moon-clock
+    pimo -- "any" --> pillow
+    pimo -- "any" --> pillow-lut
+    pip-requirements-parser -- "any" --> packaging
+    pip-requirements-parser -- "any" --> pyparsing
+    pipdeptree -- ">=24.1" --> packaging
+    pipdeptree -- ">=24.2" --> pip
+    py-serializable -- ">=0.7.1,<0.8.0" --> defusedxml
+    python-dateutil -- ">=1.5" --> six
+    referencing -- ">=0.7.0" --> rpds-py
+    referencing -- ">=22.2.0" --> attrs
+    rfc3339-validator -- "any" --> six
+    timezonefinder -- ">4" --> h3
+    timezonefinder -- ">=1.15.1,<2" --> cffi
+    timezonefinder -- ">=1.23,<3" --> numpy
