@@ -1,56 +1,11 @@
 {
-  "result": 0,
+  "result": 1,
   "sessions": [
     {
       "args": {},
-      "name": "coverage",
-      "result": "failed",
-      "result_code": 0,
-      "signatures": [
-        "coverage-3.9"
-      ]
-    },
-    {
-      "args": {},
-      "name": "coverage",
-      "result": "success",
-      "result_code": 1,
-      "signatures": [
-        "coverage-3.10"
-      ]
-    },
-    {
-      "args": {},
-      "name": "coverage",
-      "result": "success",
-      "result_code": 1,
-      "signatures": [
-        "coverage-3.11"
-      ]
-    },
-    {
-      "args": {},
-      "name": "coverage",
-      "result": "success",
-      "result_code": 1,
-      "signatures": [
-        "coverage-3.12"
-      ]
-    },
-    {
-      "args": {},
-      "name": "coverage",
-      "result": "skipped",
-      "result_code": 2,
-      "signatures": [
-        "coverage-3.13"
-      ]
-    },
-    {
-      "args": {},
       "name": "lint",
-      "result": "failed",
-      "result_code": 0,
+      "result": "success",
+      "result_code": 1,
       "signatures": [
         "lint-3.9"
       ]
@@ -58,8 +13,8 @@
     {
       "args": {},
       "name": "lint",
-      "result": "failed",
-      "result_code": 0,
+      "result": "success",
+      "result_code": 1,
       "signatures": [
         "lint-3.10"
       ]
@@ -67,8 +22,8 @@
     {
       "args": {},
       "name": "lint",
-      "result": "failed",
-      "result_code": 0,
+      "result": "success",
+      "result_code": 1,
       "signatures": [
         "lint-3.11"
       ]
@@ -76,109 +31,10 @@
     {
       "args": {},
       "name": "lint",
-      "result": "failed",
-      "result_code": 0,
+      "result": "success",
+      "result_code": 1,
       "signatures": [
         "lint-3.12"
-      ]
-    },
-    {
-      "args": {},
-      "name": "lint",
-      "result": "skipped",
-      "result_code": 2,
-      "signatures": [
-        "lint-3.13"
-      ]
-    },
-    {
-      "args": {},
-      "name": "tests_no_cov",
-      "result": "success",
-      "result_code": 1,
-      "signatures": [
-        "tests_no_cov-3.9"
-      ]
-    },
-    {
-      "args": {},
-      "name": "tests_no_cov",
-      "result": "success",
-      "result_code": 1,
-      "signatures": [
-        "tests_no_cov-3.10"
-      ]
-    },
-    {
-      "args": {},
-      "name": "tests_no_cov",
-      "result": "success",
-      "result_code": 1,
-      "signatures": [
-        "tests_no_cov-3.11"
-      ]
-    },
-    {
-      "args": {},
-      "name": "tests_no_cov",
-      "result": "success",
-      "result_code": 1,
-      "signatures": [
-        "tests_no_cov-3.12"
-      ]
-    },
-    {
-      "args": {},
-      "name": "tests_no_cov",
-      "result": "skipped",
-      "result_code": 2,
-      "signatures": [
-        "tests_no_cov-3.13"
-      ]
-    },
-    {
-      "args": {},
-      "name": "release",
-      "result": "skipped",
-      "result_code": 2,
-      "signatures": [
-        "release-3.9"
-      ]
-    },
-    {
-      "args": {},
-      "name": "release",
-      "result": "skipped",
-      "result_code": 2,
-      "signatures": [
-        "release-3.10"
-      ]
-    },
-    {
-      "args": {},
-      "name": "release",
-      "result": "skipped",
-      "result_code": 2,
-      "signatures": [
-        "release-3.11"
-      ]
-    },
-    {
-      "args": {},
-      "name": "release",
-      "result": "skipped",
-      "result_code": 2,
-      "signatures": [
-        "release-3.12"
-      ]
-    },
-    {
-      "args": {},
-      "name": "release",
-      "result": "skipped",
-      "result_code": 2,
-      "signatures": [
-        "release-3.13"
       ]
     }
   ]

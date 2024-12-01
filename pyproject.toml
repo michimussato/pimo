@@ -43,13 +43,10 @@ sbom = [
     "pipdeptree",
     "cyclonedx-bom",
 ]
-#precommit = [
-#    "pre-commit",
+#readthedocs = [
 #]
-readthedocs = [
-]
-sphinx = [
-]
+#sphinx = [
+#]
 lint = [
     "black",
     "isort",

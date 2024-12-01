@@ -55,10 +55,10 @@ def init_files() -> None:
     for i in [PIMO_UPVOTED, PIMO_CURRENT, PIMO_DOWNVOTED, PIMO_HISTORY]:
 
         if i.exists():
-            _logger.info(f"Existing {i} was found.")
+            _logger.info("Existing %s was found.", i)
         else:
-            open(i, "w").close()
-            _logger.info(f"{i} was created.")
+            open(i, "w", encoding="utf-8").close()
+            _logger.info("%s was created.", i)
 
 
 def get_rand_image(
@@ -71,21 +71,23 @@ def get_rand_image(
     tried = 0
     while not pathlib.Path(search_dir).exists():
         if tried > 3:
-            raise Exception(f"Search directory {search_dir} was not found.")
-        _logger.info(f"{search_dir = } not found.\nRetrying in 10 seconds...\n")
+            raise FileNotFoundError(f"Search directory {search_dir} was not found.")
+        _logger.info(
+            "search_dir %s not found.\nRetrying in 10 seconds...\n", search_dir
+        )
         time.sleep(5)
         tried += 1
 
-    _logger.info(f"{search_dir = } found.")
+    _logger.info("search_dir %s found.", search_dir)
 
-    with open(f"{PIMO_CURRENT}", "r") as fi:
+    with open(f"{PIMO_CURRENT}", "r", encoding="utf-8") as fi:
         current = fi.read().splitlines()
 
-    _logger.info(f"{current = }")
+    _logger.info("current = %s", current)
     if bool(current):
         if ascii_art:
             img_ascii_current = AsciiArt.from_image(path=current[0])
-            _logger.info(f"\n{img_ascii_current.to_ascii(columns=ASCII_ART_COLUMNS)}")
+            _logger.info("\n%s", img_ascii_current.to_ascii(columns=ASCII_ART_COLUMNS))
 
     _logger.info("Searching...")
 
@@ -94,12 +96,12 @@ def get_rand_image(
     jpg = list(pathlib.Path(f"{search_dir}").rglob("*.[jJpP][pPnN][gG]"))
 
     if not bool(jpg):
-        raise Exception(f"No images found in {search_dir}.")
+        raise FileNotFoundError(f"No images found in {search_dir}.")
 
     while True:
         choice = random.choice(jpg)
 
-        with open(f"{PIMO_DOWNVOTED}", "r") as fi:
+        with open(f"{PIMO_DOWNVOTED}", "r", encoding="utf-8") as fi:
             while choice is None or str(choice) in fi.read() or str(choice) in current:
                 choice = random.choice(jpg)
 
@@ -114,9 +116,9 @@ def get_rand_image(
             image_orientation = "square"
 
         _logger.info(
-            f"Image orientation is {image_orientation} ({size[0]} x {size[1]})"
+            "Image orientation is %s (%i x %i)", image_orientation, size[0], size[1]
         )
-        _logger.info(f"Frame orientation is {frame_orientation}")
+        _logger.info("Frame orientation is %s", frame_orientation)
 
         # Do we want to allow portrait images on landscape frames
         # or landscape images on portrait frames?
@@ -128,17 +130,17 @@ def get_rand_image(
         if image_orientation == "square" or image_orientation in frame_orientation:
             break
 
-    _logger.info(f"Setting image: {choice}")
+    _logger.info("Setting image: %s", choice)
 
-    with open(f"{PIMO_CURRENT}", "w") as fo:
+    with open(f"{PIMO_CURRENT}", "w", encoding="utf-8") as fo:
         fo.write(f"{choice}\n")
 
-    with open(f"{PIMO_HISTORY}", "a") as fo:
+    with open(f"{PIMO_HISTORY}", "a", encoding="utf-8") as fo:
         fo.write(f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}: {choice}\n")
 
     if ascii_art:
         img_ascii_choice = AsciiArt.from_image(path=choice)
-        _logger.info(f"\n{img_ascii_choice.to_ascii(columns=ASCII_ART_COLUMNS)}")
+        _logger.info("\n%s", img_ascii_choice.to_ascii(columns=ASCII_ART_COLUMNS))
 
     return choice
 
@@ -235,7 +237,7 @@ def get_rotation_angle(
     elif frame_orientation == "portrait":
         angle = 270
     else:
-        raise Exception("Invalid orientation")
+        raise NotImplementedError("Invalid orientation")
 
     return angle
 
@@ -260,8 +262,8 @@ def set_inky_image(
     assert (
         border <= _max_border_value
     ), f"Max border value for {inky.resolution} is {_max_border_value}."
-    assert all([0 <= i <= 255 for i in background_color])
-    assert all([0 <= i <= 255 for i in border_color])
+    assert all(0 <= i <= 255 for i in background_color)
+    assert all(0 <= i <= 255 for i in border_color)
 
     background_image: Image = inky_bg(
         inky=inky,
@@ -269,17 +271,17 @@ def set_inky_image(
         alpha=255,
     )
 
-    _logger.debug(f"{background_image.size = }")
-    _logger.debug(f"{inky.resolution = }")
-    _logger.debug(f"{img.size = }")
+    _logger.debug("background_image.size = %s", background_image.size)
+    _logger.debug("inky.resolution = %s", inky.resolution)
+    _logger.debug("img.size = %s", img.size)
 
     angle = get_rotation_angle(frame_orientation)
 
     _img = img.rotate(angle, expand=True)
 
-    _logger.info(f"{img.mode = }")
-    _logger.info(f"{_img.mode = }")
-    _logger.info(f"{background_image.mode = }")
+    _logger.info("img.mode = %s", img.mode)
+    _logger.info("_img.mode = %s", _img.mode)
+    _logger.info("background_image.mode = %s", background_image.mode)
 
     if clear_inky:
         _clear_inky(inky=inky)
@@ -334,8 +336,8 @@ def set_inky_image(
         converter = ImageEnhance.Sharpness(resizedimage)
         resizedimage = converter.enhance(10.0)
 
-    _logger.debug(f"{background_image.size = }")
-    _logger.debug(f"{resizedimage.size = }")
+    _logger.debug("background_image.size = %s", background_image.size)
+    _logger.debug("resizedimage.size = %s", resizedimage.size)
     background_image = Image.alpha_composite(
         background_image,
         # https://pillow.readthedocs.io/en/stable/reference/ImageOps.html#resize-relative-to-a-given-size
@@ -370,7 +372,9 @@ def set_inky_image(
                 passe_partout_long_edges = 0
             elif inky.resolution == (800, 480):
                 passe_partout_long_edges = 25
-            _logger.debug(f"{passe_partout_long_edges = }")
+            else:
+                raise NotImplementedError("Resolution not supported.")
+            _logger.debug("passe_partout_long_edges = %i", passe_partout_long_edges)
 
             ## landscape/landscape_reverse: top-right
             txt_.paste(
@@ -386,9 +390,9 @@ def set_inky_image(
             ## portrait/portrait_reverse:
             # txt_.paste(im=txt, box=(border, inky.resolution[1] - txt.size[1] - 2))
 
-            _logger.debug(f"{txt_.size = }")
-            _logger.debug(f"{border = }")
-            _logger.debug(f"{txt.size = }")
+            _logger.debug("txt_.size = %s", txt_.size)
+            _logger.debug("border = %i", border)
+            _logger.debug("txt.size = %s", txt.size)
 
             if "landscape_reverse" == frame_orientation:
                 pass
@@ -404,7 +408,7 @@ def set_inky_image(
     if ascii_art:
         _logger.info("Final Render:")
         img_ascii = AsciiArt.from_pillow_image(background_image)
-        _logger.info(f"\n{img_ascii.to_ascii(columns=ASCII_ART_COLUMNS)}")
+        _logger.info("\n%s", img_ascii.to_ascii(columns=ASCII_ART_COLUMNS))
 
     inky.set_image(background_image, saturation=saturation)
     inky.show()
@@ -616,7 +620,7 @@ def main(args):
 
     inky: Inky = auto(ask_user=True, verbose=True)
 
-    if any([sc == args.sub_command for sc in ["set", "s"]]):
+    if any(sc == args.sub_command for sc in ["set", "s"]):
 
         if args.from_file:
             image_file = args.from_file
