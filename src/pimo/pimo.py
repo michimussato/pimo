@@ -279,10 +279,15 @@ def set_inky_image(
     _logger.debug("background_image.size = %s", background_image.size)
     _logger.debug("inky.resolution = %s", inky.resolution)
     _logger.debug("img.size = %s", img.size)
+    _logger.debug("img.mode = %s", img.mode)
 
     angle = get_rotation_angle(frame_orientation)
 
     _img = img.rotate(angle, expand=True)
+
+    # Make sure we have an alpha channel if not present
+    if not _img.mode == "RGBA":
+        _img = _img.convert("RGBA")
 
     _logger.info("img.mode = %s", img.mode)
     _logger.info("_img.mode = %s", _img.mode)
