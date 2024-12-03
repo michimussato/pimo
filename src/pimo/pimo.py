@@ -47,7 +47,7 @@ if PIMO_DRIVE_MOUNT_DIR is None:
     _logger.warning("GDRIVE_MOUNT not set")
 else:
     PIMO_GDRIVE_SEARCH_DIR: pathlib.Path = (
-        pathlib.Path() / "media" / "images" / "scan" / "processed"
+        pathlib.Path(PIMO_DRIVE_MOUNT_DIR) / "media" / "images" / "scan" / "processed"
     )
 
 

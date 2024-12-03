@@ -150,9 +150,11 @@ optional arguments:
 #### `set`
 
 ```
-$ pimo set -h
-usage: pimo set [-h] [--saturation SATURATION] [--show-path] [--ascii-art] --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect] [--expand] [--border BORDER]
-                [--border-color BORDER_COLOR BORDER_COLOR BORDER_COLOR BORDER_COLOR] [--background-color BACKGROUND_COLOR BACKGROUND_COLOR BACKGROUND_COLOR] [-f FROM_FILE | -t | --moon-clock MOON_CLOCK | -g | -d]
+$ pimo set --help
+usage: pimo set [-h] [--saturation SATURATION] [--show-path] [--ascii-art] --frame-orientation {square,portrait,landscape,portrait_reverse,landscape_reverse} [--match-aspect]
+                [--expand] [--border BORDER] [--border-color BORDER_COLOR BORDER_COLOR BORDER_COLOR BORDER_COLOR]
+                [--background-color BACKGROUND_COLOR BACKGROUND_COLOR BACKGROUND_COLOR] [--moon-shadow-opacity MOON_SHADOW_OPACITY]
+                [-f FROM_FILE | -t | --moon-clock MOON_CLOCK | -g | -d]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -167,9 +169,11 @@ optional arguments:
   --border BORDER, -b BORDER
                         Add border around image
   --border-color BORDER_COLOR BORDER_COLOR BORDER_COLOR BORDER_COLOR, -bc BORDER_COLOR BORDER_COLOR BORDER_COLOR BORDER_COLOR
-                        Set border color (RGBA tuple).
+                        Set border color (RGBA tuple). Default is transparent.
   --background-color BACKGROUND_COLOR BACKGROUND_COLOR BACKGROUND_COLOR, -bg BACKGROUND_COLOR BACKGROUND_COLOR BACKGROUND_COLOR
                         Set background color (RGB tuple).
+  --moon-shadow-opacity MOON_SHADOW_OPACITY, -s MOON_SHADOW_OPACITY
+                        Black dial background or transparent. (0<=moon-shadow<=255).
   -f FROM_FILE, --from-file FROM_FILE
                         Set an image from file.
   -t, --test-bars       Set a test bar image.
