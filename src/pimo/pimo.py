@@ -256,7 +256,6 @@ def set_inky_image(
     inky: Inky,
     border: int,
     background_color: tuple[int, int, int],
-    dial_shadow_opacity: int,
     border_color: tuple[int, int, int, int],
     saturation: float = SATURATION,
     clear_inky: bool = False,
@@ -664,7 +663,7 @@ def main(args):
             image = MoonClock().get_clock(
                 address=args.moon_clock,
                 size=size,
-                moon_shadow_opacity=args.moon_shadow_opacity,
+                dial_shadow_opacity=args.moon_shadow_opacity,
             )
 
         elif args.from_gdrive:
@@ -707,7 +706,6 @@ def main(args):
                 int(args.background_color[1]),
                 int(args.background_color[2]),
             ),
-            dial_shadow_opacity=args.moon_shadow_opacity,
         )
 
     sys.exit(0)
