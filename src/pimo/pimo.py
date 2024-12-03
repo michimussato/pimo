@@ -256,6 +256,7 @@ def set_inky_image(
     inky: Inky,
     border: int,
     background_color: tuple[int, int, int],
+    dial_shadow_opacity: int,
     border_color: tuple[int, int, int, int],
     saturation: float = SATURATION,
     clear_inky: bool = False,
@@ -538,10 +539,10 @@ def parse_args(args):
         "-bc",
         dest="border_color",
         nargs=4,
-        default=[0, 0, 0, 255],
+        default=[0, 0, 0, 0],
         type=int,
         required=False,
-        help="Set border color (RGBA tuple).",
+        help="Set border color (RGBA tuple). " "Default is transparent.",
     )
 
     subparser_set.add_argument(
@@ -553,6 +554,16 @@ def parse_args(args):
         type=int,
         required=False,
         help="Set background color (RGB tuple).",
+    )
+
+    subparser_set.add_argument(
+        "--moon-shadow-opacity",
+        "-s",
+        dest="moon_shadow_opacity",
+        default=127,
+        type=int,
+        required=False,
+        help="Black dial background or transparent. " "(0<=moon-shadow<=255).",
     )
 
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
@@ -653,6 +664,7 @@ def main(args):
             image = MoonClock().get_clock(
                 address=args.moon_clock,
                 size=size,
+                moon_shadow_opacity=args.moon_shadow_opacity,
             )
 
         elif args.from_gdrive:
@@ -695,6 +707,7 @@ def main(args):
                 int(args.background_color[1]),
                 int(args.background_color[2]),
             ),
+            dial_shadow_opacity=args.moon_shadow_opacity,
         )
 
     sys.exit(0)
