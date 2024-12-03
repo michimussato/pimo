@@ -14,6 +14,7 @@
     * [frame-oroni](#frame-oroni)
       * [frame landscape (frame-vertical)](#frame-landscape-frame-vertical)
       * [frame portrait (frame)](#frame-portrait-frame)
+  * [pre-commit](#pre-commit)
   * [nox](#nox)
   * [SBOM](#sbom)
 <!-- TOC -->
