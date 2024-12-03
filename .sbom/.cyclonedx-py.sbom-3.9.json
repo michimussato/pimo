@@ -885,7 +885,7 @@
       "version": "5.3.0"
     },
     {
-      "bom-ref": "moon-clock==0.0.post1.dev21+g6ce36de",
+      "bom-ref": "moon-clock==0.0.post1.dev25+gd4e58d4",
       "description": "Create/Extract encrypted zip",
       "externalReferences": [
         {
@@ -896,7 +896,7 @@
         {
           "comment": "PackageSource: VCS 'git'",
           "type": "vcs",
-          "url": "https://github.com/michimussato/moon-clock.git#6ce36deffe598578a876cfd3bfe7ba84ed0673d0"
+          "url": "https://github.com/michimussato/moon-clock.git#d4e58d4f351e83f81547ff24793eea31ff1edacb"
         }
       ],
       "licenses": [
@@ -910,12 +910,12 @@
       "properties": [
         {
           "name": "cdx:python:package:source:vcs:commit_id",
-          "value": "6ce36deffe598578a876cfd3bfe7ba84ed0673d0"
+          "value": "d4e58d4f351e83f81547ff24793eea31ff1edacb"
         }
       ],
-      "purl": "pkg:pypi/moon-clock@0.0.post1.dev21%2Bg6ce36de?vcs_url=git%2Bhttps://github.com/michimussato/moon-clock.git%406ce36deffe598578a876cfd3bfe7ba84ed0673d0",
+      "purl": "pkg:pypi/moon-clock@0.0.post1.dev25%2Bgd4e58d4?vcs_url=git%2Bhttps://github.com/michimussato/moon-clock.git%40d4e58d4f351e83f81547ff24793eea31ff1edacb",
       "type": "library",
-      "version": "0.0.post1.dev21+g6ce36de"
+      "version": "0.0.post1.dev25+gd4e58d4"
     },
     {
       "bom-ref": "numpy==2.0.2",
@@ -1112,7 +1112,7 @@
       "version": "1.0.1"
     },
     {
-      "bom-ref": "pimo==0.0.post1.dev167+g436a1e5.d20241201",
+      "bom-ref": "pimo==0.0.post1.dev182+gafac717.d20241203",
       "description": "TBD",
       "externalReferences": [
         {
@@ -1135,7 +1135,7 @@
       ],
       "name": "pimo",
       "type": "library",
-      "version": "0.0.post1.dev167+g436a1e5.d20241201"
+      "version": "0.0.post1.dev182+gafac717.d20241203"
     },
     {
       "bom-ref": "pip==24.3.1",
@@ -2070,7 +2070,7 @@
         "suncalcPy==0.0.0",
         "timezonefinder==6.5.5"
       ],
-      "ref": "moon-clock==0.0.post1.dev21+g6ce36de"
+      "ref": "moon-clock==0.0.post1.dev25+gd4e58d4"
     },
     {
       "ref": "numpy==2.0.2"
@@ -2101,12 +2101,12 @@
         "cyclonedx-bom==5.1.1",
         "graphviz==0.20.3",
         "inky==1.5.0",
-        "moon-clock==0.0.post1.dev21+g6ce36de",
+        "moon-clock==0.0.post1.dev25+gd4e58d4",
         "pillow==11.0.0",
         "pillow_lut==1.0.1",
         "pipdeptree==2.24.0"
       ],
-      "ref": "pimo==0.0.post1.dev167+g436a1e5.d20241201"
+      "ref": "pimo==0.0.post1.dev182+gafac717.d20241203"
     },
     {
       "dependsOn": [
@@ -2215,7 +2215,7 @@
     }
   ],
   "metadata": {
-    "timestamp": "2024-12-01T11:25:16.440111+00:00",
+    "timestamp": "2024-12-03T09:54:52.577851+00:00",
     "tools": {
       "components": [
         {
@@ -2317,7 +2317,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:00b898c1-9e23-4614-8e6a-1978cf85b324",
+  "serialNumber": "urn:uuid:74c9e237-ae32-4168-b2e8-d0a56877e619",
   "version": 1,
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
