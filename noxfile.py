@@ -7,10 +7,21 @@ import pathlib
 
 
 nox.options.reuse_existing_virtualenvs = True
-# nox.options.sessions = ["lint", "tests"]
+nox.options.sessions = [
+    "sbom",
+    "coverage",
+    "lint",
+    "tests_no_cov",
+    # "release",
+]
 
 
-VERSIONS = ["3.9", "3.10", "3.11", "3.12"]
+VERSIONS = [
+    "3.9",
+    "3.10",
+    "3.11",
+    "3.12",
+]
 
 ENV = {
     "GDRIVE_MOUNT": "tests/fixtures/GDRIVE",

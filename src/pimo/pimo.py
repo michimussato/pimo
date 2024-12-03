@@ -1,3 +1,10 @@
+"""
+pimo is a little module that turns a
+Raspberry Pi with a Pimoroni Inky
+color e-ink display into a foto frame
+or (using moon-clock) into a clock.
+"""
+
 import argparse
 import datetime
 import logging
@@ -10,6 +17,7 @@ import time
 from ascii_magic import AsciiArt
 from inky.auto import auto
 from inky.inky import Inky
+from inky.inky_uc8159 import Inky as InkyUC8159
 from moon_clock import MoonClock
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
 
@@ -151,7 +159,7 @@ def get_rand_image(
 
 
 def inky_bg(
-    inky: Inky,
+    inky: [Inky, InkyUC8159],
     color: tuple[int, int, int],
     alpha: int = 255,
 ) -> Image:
@@ -161,7 +169,7 @@ def inky_bg(
 
 
 def _clear_inky(
-    inky: Inky,
+    inky: [Inky, Inky],
     saturation: float = SATURATION,
 ) -> None:
     bg = inky_bg(
@@ -253,7 +261,7 @@ def set_inky_image(
     frame_orientation: str,
     ascii_art: bool,
     show_path: bool,
-    inky: Inky,
+    inky: [Inky, InkyUC8159],
     border: int,
     background_color: tuple[int, int, int],
     border_color: tuple[int, int, int, int],
@@ -324,13 +332,13 @@ def set_inky_image(
         resizedimage = ImageOps.fit(
             image=_img,
             size=inky.resolution,
-            method=Image.BICUBIC,
+            method=Image.Resampling.BICUBIC,
         )
     else:
         resizedimage = ImageOps.contain(
             image=_img,
             size=inky.resolution,
-            method=Image.BICUBIC,
+            method=Image.Resampling.BICUBIC,
         )
 
     if enhance:
@@ -375,9 +383,7 @@ def set_inky_image(
             )
             d = ImageDraw.Draw(txt, mode="RGBA")
 
-            # d.text((10, 10), src, font=fnt, fill=(255, 255, 255, 255))
             border = 12
-            # d.text((round(txt.size[0] - length - border), border), src, font=fnt, fill=(255, 255, 255, 255))
             d.text((0, 0), img.filename, font=fnt, fill=(255, 255, 255, 255))
 
             txt_ = Image.new("RGBA", size=inky.resolution, color=(0, 0, 0, 0))
@@ -606,10 +612,11 @@ def parse_args(args):
         required=False,
         default=False,
         action="store_true",
-        help=f"Set a random image from GDrive. "
-        f"Defaults to {PIMO_GDRIVE_SEARCH_DIR}."
-        if PIMO_GDRIVE_SEARCH_DIR is not None
-        else argparse.SUPPRESS,
+        help=(
+            f"Set a random image from GDrive. " f"Defaults to {PIMO_GDRIVE_SEARCH_DIR}."
+            if PIMO_GDRIVE_SEARCH_DIR is not None
+            else argparse.SUPPRESS
+        ),
     )
 
     subparser_set_group.add_argument(
@@ -646,6 +653,8 @@ def main(args):
 
     inky: Inky = auto(ask_user=True, verbose=True)
 
+    image = None
+
     if any(sc == args.sub_command for sc in ["set", "s"]):
 
         if args.from_file:
@@ -657,9 +666,7 @@ def main(args):
             image = test_bars(inky=inky)
 
         elif args.moon_clock:
-            # border = 20  # Todo: hardcoded for now
             size = min(inky.resolution)
-            # _logger.info(f"Getting MoonClock with {border = }")
             image = MoonClock().get_clock(
                 address=args.moon_clock,
                 size=size,
@@ -685,6 +692,9 @@ def main(args):
             )
 
             image = Image.open(image_file)
+
+        if image is None:
+            raise RuntimeError("Image could not be created.")
 
         set_inky_image(
             img=image,
