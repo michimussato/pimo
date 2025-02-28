@@ -674,6 +674,7 @@ def main(args):
     if any(sc == args.sub_command for sc in ["set", "s"]):
 
         if args.timezone:
+            _logger.info("Setting System Timezone to %s", args.timezone)
 
             result = subprocess.run(
                 args=f"sudo timedatectl set-timezone {args.timezone}",

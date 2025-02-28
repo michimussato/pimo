@@ -200,7 +200,7 @@ pimo -v s -g -o landscape_reverse -m -e -a -p
 Set a `moon-clock`
 
 ```shell
-pimo -v s -c "Sydney" -o landscape_reverse -b 40 -bc 255 0 0 255 -bg 255 0 0
+pimo -v s -tz "Australia/Sydney" -c "Sydney" -o landscape_reverse -b 40 -bc 255 0 0 255 -bg 255 0 0
 ```
 
 ### frame-oroni
