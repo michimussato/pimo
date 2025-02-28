@@ -676,7 +676,7 @@ def main(args):
         if args.timezone:
 
             result = subprocess.run(
-                args=f"sudo timedatectl {args.timezone}",
+                args=f"sudo timedatectl set-timezone {args.timezone}",
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 universal_newlines=True,
