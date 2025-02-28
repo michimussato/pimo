@@ -6,6 +6,7 @@ or (using moon-clock) into a clock.
 """
 
 import argparse
+import subprocess
 import datetime
 import logging
 import os
@@ -463,6 +464,11 @@ def parse_args(args):
         required=True,
     )
 
+    # subparser_system_timezone = subparsers.add_parser(
+    #     "timezone",
+    #     aliases=["tz"],
+    # )
+
     subparser_set = subparsers.add_parser(
         "set",
         aliases=["s"],
@@ -568,7 +574,17 @@ def parse_args(args):
         default=127,
         type=int,
         required=False,
-        help="Black dial background or transparent. " "(0<=moon-shadow<=255).",
+        help="Black dial background or transparent. (0<=moon-shadow<=255).",
+    )
+
+    subparser_set.add_argument(
+        "--timezone",
+        "-tz",
+        dest="timezone",
+        default=None,
+        type=str,
+        required=False,
+        help="Set System Timezone to timezone",
     )
 
     subparser_set_group = subparser_set.add_mutually_exclusive_group(
@@ -656,6 +672,18 @@ def main(args):
     image = None
 
     if any(sc == args.sub_command for sc in ["set", "s"]):
+
+        if args.timezone:
+
+            result = subprocess.run(
+                args=f"sudo timedatectl {args.timezone}",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+                shell=True,
+            )
+
+            _logger.info("timedatectl %s", result)
 
         if args.from_file:
             image_file = args.from_file
