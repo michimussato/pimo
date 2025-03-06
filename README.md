@@ -23,6 +23,9 @@
 
 # pimo
 
+Todo:
+- [ ] Migrage Info from https://github.com/michimussato/moode-oroni/blob/main/README_INKY_RASPIOS.md to here
+
 ## venv
 
 ```shell
